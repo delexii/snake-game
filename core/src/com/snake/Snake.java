@@ -53,6 +53,11 @@ public class Snake extends ApplicationAdapter {
         shapeRenderer.setColor(1, 1, 0, 1);
         shapeRenderer.circle(circleX, circleY, 30);
         shapeRenderer.end();
+
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) circleX -= git * Gdx.graphics.getDeltaTime();
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) circleX += 200 * Gdx.graphics.getDeltaTime();
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) circleY -= 200 * Gdx.graphics.getDeltaTime();
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) circleY += 200 * Gdx.graphics.getDeltaTime();
 	}
 	
 	@Override
