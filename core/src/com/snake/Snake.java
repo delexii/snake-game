@@ -72,7 +72,10 @@ public class Snake extends ApplicationAdapter {
 		shapeRenderer.setColor(0, 1, 1, 1);
 		shapeRenderer.circle(circle2X, circle2Y, 30);
 		shapeRenderer.end();
+		move();
+	}
 
+	public void move() {
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			circleX -= 200 * Gdx.graphics.getDeltaTime();
 			tailMove("LEFT");
@@ -89,9 +92,11 @@ public class Snake extends ApplicationAdapter {
 			circleY += 200 * Gdx.graphics.getDeltaTime();
 			tailMove("DOWN");
 		}
+
 	}
 
-	public void tailMove(String direction) {
+
+	private void tailMove(String direction) {
 		if (direction == "LEFT")  circle2X -= 200 * Gdx.graphics.getDeltaTime();
 		if (direction == "RIGHT")  circle2X += 200 * Gdx.graphics.getDeltaTime();
 		if (direction == "UP")  circle2Y -= 200 * Gdx.graphics.getDeltaTime();
