@@ -20,16 +20,16 @@ public class Snake extends Game {
 	Texture img;
 	ShapeRenderer shapeRenderer;
 	Pixmap pixmap;
+	public SpriteBatch batch;
+	public BitmapFont font;
+
+	//Circle co-ordinates
 	float circleX = 1920 / 2;
 	float circleY = 1080 / 2;
 	float circle2X = 1920 / 2;
 	float circle2Y = 1080 / 2 - 60;
-//	float width = 20;
-//	float height = 20;
-
-
-public SpriteBatch batch;
-public BitmapFont font;
+	float circle3X = 1920 / 2;
+	float circle3Y = 1080 / 2 - 120;
 
 	// Snake movement controls
 	private static final int RIGHT = 0;
@@ -61,27 +61,32 @@ public BitmapFont font;
 	@Override
 
 	public void render() {
-//		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-//		pixmap.setColor(Color.BLACK);
-//		pixmap.fillCircle(x, y, r);
-//		Texture texture = new Texture(pixmap);
+		//		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+		//		pixmap.setColor(Color.BLACK);
+		//		pixmap.fillCircle(x, y, r);
+		//		Texture texture = new Texture(pixmap);
 
-			ScreenUtils.clear(0, 0, 0, 1);
-			batch.begin();
-//		batch.draw(img, 190, 120);
-			batch.end();
+		ScreenUtils.clear(0, 0, 0, 1);
+		batch.begin();
+		//batch.draw(img, 190, 120);
+		batch.end();
 
-
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-			shapeRenderer.setColor(1, 1, 0, 1);
-			shapeRenderer.circle(circleX, circleY, 30);
-			shapeRenderer.end();
-
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-			shapeRenderer.setColor(0, 1, 1, 1);
-			shapeRenderer.circle(circle2X, circle2Y, 30);
-			shapeRenderer.end();
-			userInput();
+		// Head Circle
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.setColor(1, 1, 0, 1);
+		shapeRenderer.circle(circleX, circleY, 30);
+		shapeRenderer.end();
+		// Tail Segment 1 Circle
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.setColor(0, 1, 1, 1);
+		shapeRenderer.circle(circle2X, circle2Y, 30);
+		shapeRenderer.end();
+		// Tail Segment 2 Circle
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.setColor(0, 1, 1, 1);
+		shapeRenderer.circle(circle3X, circle3Y, 30);
+		shapeRenderer.end();
+		userInput();
 		}
 
 	// get user input
@@ -100,7 +105,6 @@ public BitmapFont font;
 
 	// Move the snake left, right, up or down
 	private void moveSnake() {
-
 
 		// Let the snake move by 8 frames on 1 second
 		if (timer <= 0) {
@@ -148,7 +152,7 @@ public BitmapFont font;
 
 
 // advanced tail move
-  private void tailMove(String snakeDirection) {
+	private void tailMove(String snakeDirection) {
 		if (snakeDirection == "LEFT")  {
 			if (circleY > circle2Y) circle2Y += SNAKE_MOVEMENT;
 			if (circleY < circle2Y) circle2Y -= SNAKE_MOVEMENT;
@@ -168,6 +172,30 @@ public BitmapFont font;
 			if (circleX > circle2X) circle2X += SNAKE_MOVEMENT;
 			if (circleX < circle2X) circle2X -= SNAKE_MOVEMENT;
 			if (circle2Y - circleY > 60) circle2Y -= SNAKE_MOVEMENT;
+		}
+		tailMove1(snakeDirection);
+	}
+
+	private void tailMove1(String snakeDirection) {
+		if (snakeDirection == "LEFT")  {
+			if (circle2Y > circle3Y) circle3Y += SNAKE_MOVEMENT;
+			if (circle2Y < circle3Y) circle3Y -= SNAKE_MOVEMENT;
+			if (circle3X - circle2X > 60) circle3X -= SNAKE_MOVEMENT;
+		}
+		if (snakeDirection == "RIGHT") {
+			if (circle2Y > circle3Y) circle3Y += SNAKE_MOVEMENT;
+			if (circle2Y < circle3Y) circle3Y -= SNAKE_MOVEMENT;
+			if (circle2X - circle3X > 60) circle3X += SNAKE_MOVEMENT;
+		}
+		if (snakeDirection == "UP") {
+			if (circle2X > circle3X) circle3X += SNAKE_MOVEMENT;
+			if (circle2X < circle3X) circle3X -= SNAKE_MOVEMENT;
+			if (circle2Y - circle3Y > 60) circle3Y += SNAKE_MOVEMENT;
+		}
+		if (snakeDirection == "DOWN") {
+			if (circle2X > circle3X) circle3X += SNAKE_MOVEMENT;
+			if (circle2X < circle3X) circle3X -= SNAKE_MOVEMENT;
+			if (circle3Y - circle2Y > 60) circle3Y -= SNAKE_MOVEMENT;
 		}
 
 	}
