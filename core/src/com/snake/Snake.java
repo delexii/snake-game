@@ -82,30 +82,8 @@ public class Snake extends ApplicationAdapter {
 			shapeRenderer.setColor(0, 1, 1, 1);
 			shapeRenderer.circle(circle2X, circle2Y, 30);
 			shapeRenderer.end();
-			move();
 			userInput();
 		}
-
-		public void move() {
-			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-				circleX -= 200 * Gdx.graphics.getDeltaTime();
-				tailMove("LEFT");
-			}
-			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-				circleX += 200 * Gdx.graphics.getDeltaTime();
-				tailMove("RIGHT");
-			}
-			if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-				circleY -= 200 * Gdx.graphics.getDeltaTime();
-				tailMove("UP");
-			}
-			if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-				circleY += 200 * Gdx.graphics.getDeltaTime();
-				tailMove("DOWN");
-			}
-
-		}
-
 
 	// get user input
 	private void userInput() {
@@ -149,12 +127,28 @@ public class Snake extends ApplicationAdapter {
 			}
 		}
 
-	private void tailMove(String snakeDirection) {
-		if (snakeDirection == "LEFT")  circle2X -= 200 * Gdx.graphics.getDeltaTime();
-		if (snakeDirection == "RIGHT")  circle2X += 200 * Gdx.graphics.getDeltaTime();
-		if (snakeDirection == "UP")  circle2Y -= 200 * Gdx.graphics.getDeltaTime();
-		if (snakeDirection == "DOWN")  circle2Y += 200 * Gdx.graphics.getDeltaTime();
-
+// advanced tail move
+  private void tailMove(String direction) {
+		if (direction == "LEFT")  {
+			if (circleY > circle2Y) circle2Y += 115 * Gdx.graphics.getDeltaTime();
+			if (circleY < circle2Y) circle2Y -= 115 * Gdx.graphics.getDeltaTime();
+			if (circle2X - circleX > 60) circle2X -= 200 * Gdx.graphics.getDeltaTime();
+		}
+		if (direction == "RIGHT") {
+			if (circleY > circle2Y) circle2Y += 115 * Gdx.graphics.getDeltaTime();
+			if (circleY < circle2Y) circle2Y -= 115 * Gdx.graphics.getDeltaTime();
+			if (circleX - circle2X > 60) circle2X += 200 * Gdx.graphics.getDeltaTime();
+		}
+		if (direction == "UP") {
+			if (circleX > circle2X) circle2X += 115 * Gdx.graphics.getDeltaTime();
+			if (circleX < circle2X) circle2X -= 115 * Gdx.graphics.getDeltaTime();
+			if (circleY - circle2Y > 60) circle2Y += 200 * Gdx.graphics.getDeltaTime();
+		}
+		if (direction == "DOWN") {
+			if (circleX > circle2X) circle2X += 115 * Gdx.graphics.getDeltaTime();
+			if (circleX < circle2X) circle2X -= 115 * Gdx.graphics.getDeltaTime();
+			if (circle2Y - circleY > 60) circle2Y -= 200 * Gdx.graphics.getDeltaTime();
+		}
 	}
 	
 	@Override
