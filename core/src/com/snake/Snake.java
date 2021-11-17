@@ -153,51 +153,36 @@ public class Snake extends Game {
 
 // advanced tail move
 	private void tailMove(String snakeDirection) {
-		if (snakeDirection == "LEFT")  {
+		if (snakeDirection == "LEFT" || snakeDirection =="RIGHT")  {
 			if (circleY > circle2Y) circle2Y += SNAKE_MOVEMENT;
 			if (circleY < circle2Y) circle2Y -= SNAKE_MOVEMENT;
 			if (circle2X - circleX > 60) circle2X -= SNAKE_MOVEMENT;
-		}
-		if (snakeDirection == "RIGHT") {
-			if (circleY > circle2Y) circle2Y += SNAKE_MOVEMENT;
-			if (circleY < circle2Y) circle2Y -= SNAKE_MOVEMENT;
 			if (circleX - circle2X > 60) circle2X += SNAKE_MOVEMENT;
 		}
-		if (snakeDirection == "UP") {
+
+		if (snakeDirection == "UP" || snakeDirection == "DOWN") {
 			if (circleX > circle2X) circle2X += SNAKE_MOVEMENT;
 			if (circleX < circle2X) circle2X -= SNAKE_MOVEMENT;
 			if (circleY - circle2Y > 60) circle2Y += SNAKE_MOVEMENT;
-		}
-		if (snakeDirection == "DOWN") {
-			if (circleX > circle2X) circle2X += SNAKE_MOVEMENT;
-			if (circleX < circle2X) circle2X -= SNAKE_MOVEMENT;
 			if (circle2Y - circleY > 60) circle2Y -= SNAKE_MOVEMENT;
 		}
 		tailMove1(snakeDirection);
 	}
 
 	private void tailMove1(String snakeDirection) {
-		if (snakeDirection == "LEFT")  {
+		if (snakeDirection == "LEFT" || snakeDirection == "RIGHT") {
 			if (circle2Y > circle3Y) circle3Y += SNAKE_MOVEMENT;
 			if (circle2Y < circle3Y) circle3Y -= SNAKE_MOVEMENT;
 			if (circle3X - circle2X > 60) circle3X -= SNAKE_MOVEMENT;
-		}
-		if (snakeDirection == "RIGHT") {
-			if (circle2Y > circle3Y) circle3Y += SNAKE_MOVEMENT;
-			if (circle2Y < circle3Y) circle3Y -= SNAKE_MOVEMENT;
 			if (circle2X - circle3X > 60) circle3X += SNAKE_MOVEMENT;
 		}
-		if (snakeDirection == "UP") {
+
+		if (snakeDirection == "UP" || snakeDirection == "DOWN") {
 			if (circle2X > circle3X) circle3X += SNAKE_MOVEMENT;
 			if (circle2X < circle3X) circle3X -= SNAKE_MOVEMENT;
 			if (circle2Y - circle3Y > 60) circle3Y += SNAKE_MOVEMENT;
-		}
-		if (snakeDirection == "DOWN") {
-			if (circle2X > circle3X) circle3X += SNAKE_MOVEMENT;
-			if (circle2X < circle3X) circle3X -= SNAKE_MOVEMENT;
 			if (circle3Y - circle2Y > 60) circle3Y -= SNAKE_MOVEMENT;
 		}
-
 	}
 	
 	@Override
