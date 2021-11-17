@@ -65,6 +65,12 @@ public class Snake extends ApplicationAdapter {
 		if (circleX > 1920 - 30) circleX = 1920 - 30;
 		if (circleY < 30) circleY = 30;
 		if (circleY > 1080 - 30) circleY = 1080 - 30;
+
+		//Break the app if touch the wall
+		if (circleX == 30) Gdx.app.exit();
+		if (circleX == 1920 - 30) Gdx.app.exit();
+		if (circleY == 30) Gdx.app.exit();
+		if (circleY == 1080 - 30) Gdx.app.exit();
 	}
 	
 	@Override
