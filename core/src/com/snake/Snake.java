@@ -98,23 +98,23 @@ public class Snake extends ApplicationAdapter {
 
 	private void tailMove(String direction) {
 		if (direction == "LEFT")  {
-			if (circleY > circle2Y) circle2Y += 150 * Gdx.graphics.getDeltaTime();
-			if (circleY < circle2Y) circle2Y -= 150 * Gdx.graphics.getDeltaTime();
+			if (circleY > circle2Y) circle2Y += 115 * Gdx.graphics.getDeltaTime();
+			if (circleY < circle2Y) circle2Y -= 115 * Gdx.graphics.getDeltaTime();
 			if (circle2X - circleX > 60) circle2X -= 200 * Gdx.graphics.getDeltaTime();
 		}
 		if (direction == "RIGHT") {
-			if (circleY > circle2Y) circle2Y += 150 * Gdx.graphics.getDeltaTime();
-			if (circleY < circle2Y) circle2Y -= 150 * Gdx.graphics.getDeltaTime();
+			if (circleY > circle2Y) circle2Y += 115 * Gdx.graphics.getDeltaTime();
+			if (circleY < circle2Y) circle2Y -= 115 * Gdx.graphics.getDeltaTime();
 			if (circleX - circle2X > 60) circle2X += 200 * Gdx.graphics.getDeltaTime();
 		}
 		if (direction == "UP") {
-			if (circleX > circle2X) circle2X += 150 * Gdx.graphics.getDeltaTime();
-			if (circleX < circle2X) circle2X -= 150 * Gdx.graphics.getDeltaTime();
+			if (circleX > circle2X) circle2X += 115 * Gdx.graphics.getDeltaTime();
+			if (circleX < circle2X) circle2X -= 115 * Gdx.graphics.getDeltaTime();
 			if (circleY - circle2Y > 60) circle2Y += 200 * Gdx.graphics.getDeltaTime();
 		}
 		if (direction == "DOWN") {
-			if (circleX > circle2X) circle2X += 150 * Gdx.graphics.getDeltaTime();
-			if (circleX < circle2X) circle2X -= 150 * Gdx.graphics.getDeltaTime();
+			if (circleX > circle2X) circle2X += 115 * Gdx.graphics.getDeltaTime();
+			if (circleX < circle2X) circle2X -= 115 * Gdx.graphics.getDeltaTime();
 			if (circle2Y - circleY > 60) circle2Y -= 200 * Gdx.graphics.getDeltaTime();
 		}
 	}
