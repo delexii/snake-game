@@ -107,32 +107,31 @@ public BitmapFont font;
 			timer = MOVE_TIME;
 			circleX += SNAKE_MOVEMENT;
 		}
-			switch (snakeDirection) {
-				case RIGHT:
-					circleX += SNAKE_MOVEMENT;
-					tailMove("RIGHT");
-					break;
+		switch (snakeDirection) {
+			case RIGHT:
+				circleX += SNAKE_MOVEMENT;
+				tailMove("RIGHT");
+				break;
 
-				case LEFT:
-					circleX -= SNAKE_MOVEMENT;
-					tailMove("LEFT");
-					break;
+			case LEFT:
+				circleX -= SNAKE_MOVEMENT;
+				tailMove("LEFT");
+				break;
 
-				case UP:
-					circleY += SNAKE_MOVEMENT;
-					tailMove("UP");
-					break;
+			case UP:
+				circleY += SNAKE_MOVEMENT;
+				tailMove("UP");
+				break;
 
-				case DOWN:
-					circleY -= SNAKE_MOVEMENT;
-					tailMove("DOWN");
-					break;
-			}
+			case DOWN:
+				circleY -= SNAKE_MOVEMENT;
+				tailMove("DOWN");
+				break;
 		}
+		checkEdges();
+	}
 
-
-
-
+	public  void checkEdges(){
 		// keep the circle in the screen
 		if (circleX < 30) circleX = 30;
 		if (circleX > 1920 - 30) circleX = 1920 - 30;
@@ -144,6 +143,9 @@ public BitmapFont font;
 		if (circleX == 1920 - 30) setScreen(new EndGameScreen(this));
 		if (circleY == 30) setScreen(new EndGameScreen(this));
 		if (circleY == 1080 - 30) setScreen(new EndGameScreen(this));
+
+	}
+
 
 // advanced tail move
   private void tailMove(String snakeDirection) {
