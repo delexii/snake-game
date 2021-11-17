@@ -1,5 +1,7 @@
 package com.snake;
 
+
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -8,22 +10,13 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
-
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.ScreenUtils;
 
-public class Snake extends ApplicationAdapter {
-	SpriteBatch batch;
+
+public class Snake extends Game {
 	Texture img;
 	ShapeRenderer shapeRenderer;
 	Pixmap pixmap;
@@ -33,6 +26,10 @@ public class Snake extends ApplicationAdapter {
 	float circle2Y = 1080 / 2 - 60;
 //	float width = 20;
 //	float height = 20;
+
+
+public SpriteBatch batch;
+public BitmapFont font;
 
 	// Snake movement controls
 	private static final int RIGHT = 0;
@@ -47,20 +44,22 @@ public class Snake extends ApplicationAdapter {
 	private static final int SNAKE_MOVEMENT = 7;
 
 
-//	public Snake () {
-//
-//	}
+
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
+		font = new BitmapFont();
 		img = new Texture("badlogic.jpg");
 		shapeRenderer = new ShapeRenderer();
-//		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+
+		setScreen(new EndGameScreen(this));
+
 
 	}
 
 	@Override
+
 	public void render() {
 //		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 //		pixmap.setColor(Color.BLACK);
@@ -131,6 +130,21 @@ public class Snake extends ApplicationAdapter {
 			}
 		}
 
+
+
+
+		// keep the circle in the screen
+		if (circleX < 30) circleX = 30;
+		if (circleX > 1920 - 30) circleX = 1920 - 30;
+		if (circleY < 30) circleY = 30;
+		if (circleY > 1080 - 30) circleY = 1080 - 30;
+
+		//EndGameScreen when the snake touch the wall
+		if (circleX == 30) setScreen(new EndGameScreen(this));
+		if (circleX == 1920 - 30) setScreen(new EndGameScreen(this));
+		if (circleY == 30) setScreen(new EndGameScreen(this));
+		if (circleY == 1080 - 30) setScreen(new EndGameScreen(this));
+
 // advanced tail move
   private void tailMove(String snakeDirection) {
 		if (snakeDirection == "LEFT")  {
@@ -153,6 +167,7 @@ public class Snake extends ApplicationAdapter {
 			if (circleX < circle2X) circle2X -= SNAKE_MOVEMENT;
 			if (circle2Y - circleY > 60) circle2Y -= SNAKE_MOVEMENT;
 		}
+
 	}
 	
 	@Override
