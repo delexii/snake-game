@@ -28,14 +28,17 @@ public class EndGameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-//        Gdx.input.setInputProcessor(new InputAdapter()) {
-//            @Override
-//            public boolean KeyPress(int keyCode) {
-//                if(keyCode == Input.Keys.SPACE) {
-//                    g
-//                }
-//            }
-//        };
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keyCode) {
+                if(keyCode == Input.Keys.SPACE) {
+                    game.setScreen(new GameScreen(game));
+                } else if(keyCode == Input.Keys.ESCAPE){
+                    Gdx.app.exit();
+                }
+                return true;
+            }
+       });
     }
 
 
