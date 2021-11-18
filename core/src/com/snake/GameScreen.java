@@ -5,18 +5,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.snake.Snake;
 
 public class GameScreen extends ScreenAdapter {
 
     final Snake game;
-
+    // rectangle and image for snakehead
+    Rectangle snakehead;
+    private Texture img;
+    // circle co-ordinates from original snake method
     float circleX = 1920 / 2;
     float circleY = 1080 / 2;
     float circle2X = 1920 / 2;
     float circle2Y = 1080 / 2 - 60;
-//	float width = 20;
-//	float height = 20;
+
+
+
+
 
 
 //    public SpriteBatch batch;
@@ -33,33 +40,39 @@ public class GameScreen extends ScreenAdapter {
     private static float MOVE_TIME = 1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 7;
+    int snakeX = 0;
+    int snakeY = 0;
 
     public GameScreen(Snake  game) {
         this.game = game;
+        //snakehead rectangle size 60p x 60 p assumes 1080p x 1920p  grid 18 x 32
+        snakehead = new Rectangle();
+        snakehead.width = 60;
+        snakehead.height = 60;
+        // Image for snakehead
+        img = new Texture(Gdx.files.internal("badlogic.jpg"));
     }
 
     @Override
 
     public void render(float delta) {
-//		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-//		pixmap.setColor(Color.BLACK);
-//		pixmap.fillCircle(x, y, r);
-//		Texture texture = new Texture(pixmap);
 
         ScreenUtils.clear(0, 0, 0, 1);
+
         game.batch.begin();
-//		batch.draw(img, 190, 120);
+        // draw snakehead
+        game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
         game.batch.end();
 
-        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        game.shapeRenderer.setColor(1, 1, 0, 1);
-        game.shapeRenderer.circle(circleX, circleY, 30);
-        game.shapeRenderer.end();
-
-        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        game.shapeRenderer.setColor(0, 1, 1, 1);
-        game.shapeRenderer.circle(circle2X, circle2Y, 30);
-        game.shapeRenderer.end();
+//        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        game.shapeRenderer.setColor(1, 1, 0, 1);
+//        game.shapeRenderer.circle(circleX, circleY, 30);
+//        game.shapeRenderer.end();
+//
+//        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        game.shapeRenderer.setColor(0, 1, 1, 1);
+//        game.shapeRenderer.circle(circle2X, circle2Y, 30);
+//        game.shapeRenderer.end();
         userInput();
 
         //EndGameScreen when the snake touch the wall
@@ -96,22 +109,22 @@ public class GameScreen extends ScreenAdapter {
         }
         switch (snakeDirection) {
             case RIGHT:
-                circleX += SNAKE_MOVEMENT;
+                snakeX += SNAKE_MOVEMENT;
                 tailMove("RIGHT");
                 break;
 
             case LEFT:
-                circleX -= SNAKE_MOVEMENT;
+                snakeX -= SNAKE_MOVEMENT;
                 tailMove("LEFT");
                 break;
 
             case UP:
-                circleY += SNAKE_MOVEMENT;
+                snakeY += SNAKE_MOVEMENT;
                 tailMove("UP");
                 break;
 
             case DOWN:
-                circleY -= SNAKE_MOVEMENT;
+                snakeY -= SNAKE_MOVEMENT;
                 tailMove("DOWN");
                 break;
         }
