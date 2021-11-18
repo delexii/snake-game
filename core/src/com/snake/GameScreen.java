@@ -34,11 +34,23 @@ public class GameScreen extends ScreenAdapter {
     private static float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
-    int snakeX = 1920/2 - 60;
-    int snakeY = 1080/2 - 60;
+
+    public int getSnakeX() {
+        return snakeX;
+    }
+
+    int snakeX = 1920 / 2 - 60;
+
+    public int getSnakeY() {
+        return snakeY;
+    }
+
+    int snakeY = 1080 / 2 - 60;
 
 
-    public GameScreen(Snake  game) {
+
+
+    public GameScreen(Snake game) {
         this.game = game;
         //snakehead rectangle size 60p x 60 p assumes 1080p x 1920p  grid 18 x 32
         snakehead = new Rectangle();
@@ -48,6 +60,10 @@ public class GameScreen extends ScreenAdapter {
         img = new Texture("snakeheadplaceholder.jpg");
         // image for body
         snakeBody = new Texture("badlogic.jpg");
+        // Temporary bodypart adder
+        BodyPart bodyPart = new BodyPart(snakeBody);
+        bodyPart.updateBodyPosition(snakeX, snakeY);
+        bodyParts.insert(0,bodyPart);
     }
 
     @Override
@@ -65,88 +81,85 @@ public class GameScreen extends ScreenAdapter {
         game.batch.begin();
         // draw snakehead
         game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
+        game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
+        for (BodyPart bodyPart : bodyParts) {
+            if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
+            bodyPart.draw(game.batch);}
         game.batch.end();
 
         userInput();
 
+
         //EndGameScreen when the snake touch the wall
-        if (snakeX == 30) game.setScreen(new EndGameScreen(game));
-        if (snakeX == 1920 - 30) game.setScreen(new EndGameScreen(game));
-        if (snakeY == 30) game.setScreen(new EndGameScreen(game));
-        if (snakeY == 1080 - 30) game.setScreen(new EndGameScreen(game));
+        if (snakeX == 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeX == 1920 - 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeY == 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeY == 1080 - 30) game.setScreen(new
+
+                EndGameScreen(game));
     }
 
-        // get user input
-        private void userInput() {
-            boolean lPressed = Gdx.input.isKeyPressed(Input.Keys.LEFT);
-            boolean rPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
-            boolean uPressed = Gdx.input.isKeyPressed(Input.Keys.UP);
-            boolean dPressed = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+    // get user input
+    private void userInput() {
+        boolean lPressed = Gdx.input.isKeyPressed(Input.Keys.LEFT);
+        boolean rPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+        boolean uPressed = Gdx.input.isKeyPressed(Input.Keys.UP);
+        boolean dPressed = Gdx.input.isKeyPressed(Input.Keys.DOWN);
 
-            if (lPressed) snakeDirection = LEFT;
-            if (rPressed) snakeDirection = RIGHT;
-            if (uPressed) snakeDirection = UP;
-            if (dPressed) snakeDirection = DOWN;
+        if (lPressed) snakeDirection = LEFT;
+        if (rPressed) snakeDirection = RIGHT;
+        if (uPressed) snakeDirection = UP;
+        if (dPressed) snakeDirection = DOWN;
+    }
+
+
+    // Move the snake left, right, up or down
+    private void moveSnake() {
+
+        switch (snakeDirection) {
+            case RIGHT:
+                snakeX += SNAKE_MOVEMENT;
+                break;
+
+            case LEFT:
+                snakeX -= SNAKE_MOVEMENT;
+                break;
+
+            case UP:
+                snakeY += SNAKE_MOVEMENT;
+                break;
+
+            case DOWN:
+                snakeY -= SNAKE_MOVEMENT;
+                break;
         }
 
-
-        // Move the snake left, right, up or down
-        private void moveSnake() {
-
-                switch (snakeDirection) {
-                    case RIGHT:
-                        snakeX += SNAKE_MOVEMENT;
-                        break;
-
-                    case LEFT:
-                        snakeX -= SNAKE_MOVEMENT;
-                        break;
-
-                    case UP:
-                        snakeY += SNAKE_MOVEMENT;
-                        break;
-
-                    case DOWN:
-                        snakeY -= SNAKE_MOVEMENT;
-                        break;
-                }
-
-            checkEdges();
-        }
-
-        public void checkEdges() {
-            // keep the circle in the screen
-            if (snakeX < 30) snakeX = 30;
-            if (snakeX > 1920 - 30) snakeX = 1920 - 30;
-            if (snakeY < 30) snakeY = 30;
-            if (snakeY > 1080 - 30) snakeY = 1080 - 30;
+        checkEdges();
     }
 
 
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-private class BodyPart {
-
-    private int x, y;
-    private Texture texture;
-
-    public BodyPart(Texture texture) {
-        this.texture = texture;
-    }
-
-    public void updateBodyPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void draw(Batch batch) {
-        if (!(x == snakeX && y == snakeY)) batch.draw(texture, x, y);
+    public void checkEdges() {
+        // keep the circle in the screen
+        if (snakeX < 30) snakeX = 30;
+        if (snakeX > 1920 - 30) snakeX = 1920 - 30;
+        if (snakeY < 30) snakeY = 30;
+        if (snakeY > 1080 - 30) snakeY = 1080 - 30;
     }
 }
 
 
-}
+//    @Override
+//    public void resize(int width, int height) {
+//
+//    }
+
+
+
+
+
