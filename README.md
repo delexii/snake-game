@@ -1,4 +1,4 @@
-# Snake Game
+# Tiger Cubed Games
 
 Makers Final Group Project by:
 - Leo Brown 
