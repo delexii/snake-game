@@ -1,9 +1,9 @@
 package com.snake;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class EndGameScreen implements Screen {
+public class EndGameScreen extends ScreenAdapter {
 
     final  Snake game;
 
@@ -15,33 +15,29 @@ public class EndGameScreen implements Screen {
 
 
     @Override
-    public void render(float delta) {}
-
-    @Override
-    public void show() {
+    public void render(float delta) {
         ScreenUtils.clear(1, 0, 0, 1);
 
         game.batch.begin();
         game.font.draw(game.batch, "Game Over !!", 480, 560);
         game.font.draw(game.batch, "Do you want to play again ??", 480, 500);
+        game.font.draw(game.batch, "Press Space if Yes or ESC for Quit", 480, 440);
         game.batch.end();
 
     }
 
     @Override
-    public void resize(int width, int height) {
-
+    public void show() {
+//        Gdx.input.setInputProcessor(new InputAdapter()) {
+//            @Override
+//            public boolean KeyPress(int keyCode) {
+//                if(keyCode == Input.Keys.SPACE) {
+//                    g
+//                }
+//            }
+//        };
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
 
     @Override
     public void hide() {
