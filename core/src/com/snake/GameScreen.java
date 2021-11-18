@@ -2,10 +2,12 @@ package com.snake;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.snake.Snake;
 
@@ -15,16 +17,8 @@ public class GameScreen extends ScreenAdapter {
     // rectangle and image for snakehead
     Rectangle snakehead;
     private Texture img;
-    // circle co-ordinates from original snake method
-    float circleX = 1920 / 2;
-    float circleY = 1080 / 2;
-    float circle2X = 1920 / 2;
-    float circle2Y = 1080 / 2 - 60;
-
-
-
-
-
+    private Texture snakeBody;
+    private Array<BodyPart> bodyParts = new Array<BodyPart>();
 
 //    public SpriteBatch batch;
 //    public BitmapFont font;
@@ -40,9 +34,9 @@ public class GameScreen extends ScreenAdapter {
     private static float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
-    int snakeX = 60;
-    int snakeY = 60;
-//    float delta = Math.min(delta, 1);
+    int snakeX = 1920/2 - 60;
+    int snakeY = 1080/2 - 60;
+
 
     public GameScreen(Snake  game) {
         this.game = game;
@@ -51,8 +45,9 @@ public class GameScreen extends ScreenAdapter {
         snakehead.width = 60;
         snakehead.height = 60;
 //         Image for snakehead
-//        img = new Texture(Gdx.files.internal("badlogic.jpg"));
         img = new Texture("snakeheadplaceholder.jpg");
+        // image for body
+        snakeBody = new Texture("badlogic.jpg");
     }
 
     @Override
@@ -64,7 +59,6 @@ public class GameScreen extends ScreenAdapter {
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
-
         }
         ScreenUtils.clear(0, 0, 0, 1);
 
@@ -73,15 +67,6 @@ public class GameScreen extends ScreenAdapter {
         game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
         game.batch.end();
 
-//        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        game.shapeRenderer.setColor(1, 1, 0, 1);
-//        game.shapeRenderer.circle(circleX, circleY, 30);
-//        game.shapeRenderer.end();
-//
-//        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        game.shapeRenderer.setColor(0, 1, 1, 1);
-//        game.shapeRenderer.circle(circle2X, circle2Y, 30);
-//        game.shapeRenderer.end();
         userInput();
 
         //EndGameScreen when the snake touch the wall
@@ -91,92 +76,77 @@ public class GameScreen extends ScreenAdapter {
         if (snakeY == 1080 - 30) game.setScreen(new EndGameScreen(game));
     }
 
-    // get user input
-    private void userInput() {
-        boolean lPressed = Gdx.input.isKeyPressed(Input.Keys.LEFT);
-        boolean rPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
-        boolean uPressed = Gdx.input.isKeyPressed(Input.Keys.UP);
-        boolean dPressed = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+        // get user input
+        private void userInput() {
+            boolean lPressed = Gdx.input.isKeyPressed(Input.Keys.LEFT);
+            boolean rPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+            boolean uPressed = Gdx.input.isKeyPressed(Input.Keys.UP);
+            boolean dPressed = Gdx.input.isKeyPressed(Input.Keys.DOWN);
 
-        if (lPressed) snakeDirection = LEFT;
-        if (rPressed) snakeDirection = RIGHT;
-        if (uPressed) snakeDirection = UP;
-        if (dPressed) snakeDirection = DOWN;
-//        moveSnake();
-    }
-
-
-
-    // Move the snake left, right, up or down
-    private void moveSnake() {
-
-
-            switch (snakeDirection) {
-                case RIGHT:
-                    snakeX += SNAKE_MOVEMENT;
-                    tailMove("RIGHT");
-                    break;
-
-                case LEFT:
-                    snakeX -= SNAKE_MOVEMENT;
-                    tailMove("LEFT");
-                    break;
-
-                case UP:
-                    snakeY += SNAKE_MOVEMENT;
-                    tailMove("UP");
-                    break;
-
-                case DOWN:
-                    snakeY -= SNAKE_MOVEMENT;
-                    tailMove("DOWN");
-                    break;
-            }
-
-        checkEdges();
-    }
-
-    public void checkEdges() {
-        // keep the circle in the screen
-        if (snakeX < 30) snakeX = 30;
-        if (snakeX > 1920 - 30) snakeX = 1920 - 30;
-        if (snakeY < 30) snakeY = 30;
-        if (snakeY > 1080 - 30) snakeY = 1080 - 30;
-
-
-    }
-
-
-    // advanced tail move
-    private void tailMove(String snakeDirection) {
-        if (snakeDirection == "LEFT") {
-            if (circleY > circle2Y) circle2Y += SNAKE_MOVEMENT;
-            if (circleY < circle2Y) circle2Y -= SNAKE_MOVEMENT;
-            if (circle2X - circleX > 60) circle2X -= SNAKE_MOVEMENT;
-        }
-        if (snakeDirection == "RIGHT") {
-            if (circleY > circle2Y) circle2Y += SNAKE_MOVEMENT;
-            if (circleY < circle2Y) circle2Y -= SNAKE_MOVEMENT;
-            if (circleX - circle2X > 60) circle2X += SNAKE_MOVEMENT;
-        }
-        if (snakeDirection == "UP") {
-            if (circleX > circle2X) circle2X += SNAKE_MOVEMENT;
-            if (circleX < circle2X) circle2X -= SNAKE_MOVEMENT;
-            if (circleY - circle2Y > 60) circle2Y += SNAKE_MOVEMENT;
-        }
-        if (snakeDirection == "DOWN") {
-            if (circleX > circle2X) circle2X += SNAKE_MOVEMENT;
-            if (circleX < circle2X) circle2X -= SNAKE_MOVEMENT;
-            if (circle2Y - circleY > 60) circle2Y -= SNAKE_MOVEMENT;
+            if (lPressed) snakeDirection = LEFT;
+            if (rPressed) snakeDirection = RIGHT;
+            if (uPressed) snakeDirection = UP;
+            if (dPressed) snakeDirection = DOWN;
         }
 
+
+        // Move the snake left, right, up or down
+        private void moveSnake() {
+
+                switch (snakeDirection) {
+                    case RIGHT:
+                        snakeX += SNAKE_MOVEMENT;
+                        break;
+
+                    case LEFT:
+                        snakeX -= SNAKE_MOVEMENT;
+                        break;
+
+                    case UP:
+                        snakeY += SNAKE_MOVEMENT;
+                        break;
+
+                    case DOWN:
+                        snakeY -= SNAKE_MOVEMENT;
+                        break;
+                }
+
+            checkEdges();
+        }
+
+        public void checkEdges() {
+            // keep the circle in the screen
+            if (snakeX < 30) snakeX = 30;
+            if (snakeX > 1920 - 30) snakeX = 1920 - 30;
+            if (snakeY < 30) snakeY = 30;
+            if (snakeY > 1080 - 30) snakeY = 1080 - 30;
     }
+
 
 
     @Override
     public void resize(int width, int height) {
 
     }
+
+private class BodyPart {
+
+    private int x, y;
+    private Texture texture;
+
+    public BodyPart(Texture texture) {
+        this.texture = texture;
+    }
+
+    public void updateBodyPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void draw(Batch batch) {
+        if (!(x == snakeX && y == snakeY)) batch.draw(texture, x, y);
+    }
+}
 
 
 }
