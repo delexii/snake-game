@@ -37,11 +37,12 @@ public class GameScreen extends ScreenAdapter {
     private int snakeDirection = -1;
 
     // Snake movement time handling
-    private static float MOVE_TIME = 1F;
+    private static float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
-    private static final int SNAKE_MOVEMENT = 7;
+    private static final int SNAKE_MOVEMENT = 60;
     int snakeX = 0;
     int snakeY = 0;
+//    float delta = Math.min(delta, 1);
 
     public GameScreen(Snake  game) {
         this.game = game;
@@ -57,6 +58,13 @@ public class GameScreen extends ScreenAdapter {
 
     public void render(float delta) {
 
+//         timer function to control render speed
+        timer -= delta;
+        if (timer <= 0) {
+            timer = MOVE_TIME;
+            moveSnake();
+
+        }
         ScreenUtils.clear(0, 0, 0, 1);
 
         game.batch.begin();
@@ -93,7 +101,7 @@ public class GameScreen extends ScreenAdapter {
         if (rPressed) snakeDirection = RIGHT;
         if (uPressed) snakeDirection = UP;
         if (dPressed) snakeDirection = DOWN;
-        moveSnake();
+//        moveSnake();
     }
 
 
@@ -102,32 +110,28 @@ public class GameScreen extends ScreenAdapter {
     private void moveSnake() {
 
 
-        // Let the snake move by 8 frames on 1 second
-        if (timer <= 0) {
-            timer = MOVE_TIME;
-            circleX += SNAKE_MOVEMENT;
-        }
-        switch (snakeDirection) {
-            case RIGHT:
-                snakeX += SNAKE_MOVEMENT;
-                tailMove("RIGHT");
-                break;
+            switch (snakeDirection) {
+                case RIGHT:
+                    snakeX += SNAKE_MOVEMENT;
+                    tailMove("RIGHT");
+                    break;
 
-            case LEFT:
-                snakeX -= SNAKE_MOVEMENT;
-                tailMove("LEFT");
-                break;
+                case LEFT:
+                    snakeX -= SNAKE_MOVEMENT;
+                    tailMove("LEFT");
+                    break;
 
-            case UP:
-                snakeY += SNAKE_MOVEMENT;
-                tailMove("UP");
-                break;
+                case UP:
+                    snakeY += SNAKE_MOVEMENT;
+                    tailMove("UP");
+                    break;
 
-            case DOWN:
-                snakeY -= SNAKE_MOVEMENT;
-                tailMove("DOWN");
-                break;
-        }
+                case DOWN:
+                    snakeY -= SNAKE_MOVEMENT;
+                    tailMove("DOWN");
+                    break;
+            }
+
         checkEdges();
     }
 
