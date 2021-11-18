@@ -40,8 +40,8 @@ public class GameScreen extends ScreenAdapter {
     private static float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
-    int snakeX = 0;
-    int snakeY = 0;
+    int snakeX = 60;
+    int snakeY = 60;
 //    float delta = Math.min(delta, 1);
 
     public GameScreen(Snake  game) {
@@ -50,7 +50,7 @@ public class GameScreen extends ScreenAdapter {
         snakehead = new Rectangle();
         snakehead.width = 60;
         snakehead.height = 60;
-        // Image for snakehead
+//         Image for snakehead
         img = new Texture(Gdx.files.internal("badlogic.jpg"));
     }
 
@@ -84,10 +84,10 @@ public class GameScreen extends ScreenAdapter {
         userInput();
 
         //EndGameScreen when the snake touch the wall
-        if (circleX == 30) game.setScreen(new EndGameScreen(game));
-        if (circleX == 1920 - 30) game.setScreen(new EndGameScreen(game));
-        if (circleY == 30) game.setScreen(new EndGameScreen(game));
-        if (circleY == 1080 - 30) game.setScreen(new EndGameScreen(game));
+        if (snakeX == 30) game.setScreen(new EndGameScreen(game));
+        if (snakeX == 1920 - 30) game.setScreen(new EndGameScreen(game));
+        if (snakeY == 30) game.setScreen(new EndGameScreen(game));
+        if (snakeY == 1080 - 30) game.setScreen(new EndGameScreen(game));
     }
 
     // get user input
@@ -137,10 +137,10 @@ public class GameScreen extends ScreenAdapter {
 
     public void checkEdges() {
         // keep the circle in the screen
-        if (circleX < 30) circleX = 30;
-        if (circleX > 1920 - 30) circleX = 1920 - 30;
-        if (circleY < 30) circleY = 30;
-        if (circleY > 1080 - 30) circleY = 1080 - 30;
+        if (snakeX < 30) snakeX = 30;
+        if (snakeX > 1920 - 30) snakeX = 1920 - 30;
+        if (snakeY < 30) snakeY = 30;
+        if (snakeY > 1080 - 30) snakeY = 1080 - 30;
 
 
     }
