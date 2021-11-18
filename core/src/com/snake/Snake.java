@@ -29,7 +29,7 @@ public class Snake extends Game {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 
-		setScreen(new GameScreen(this));
+		setScreen(new WelcomeScreen(this));
 	}
 
 	@Override
