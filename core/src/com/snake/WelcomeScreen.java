@@ -1,27 +1,32 @@
 package com.snake;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class EndGameScreen extends ScreenAdapter {
+public class WelcomeScreen extends ScreenAdapter {
 
     final  Snake game;
 
 
 
-    public EndGameScreen(Snake game) {
+    public WelcomeScreen (Snake game) {
         this.game = game;
     }
 
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0.83f, 0.13f, 0.18f, 1);
+        ScreenUtils.clear(0.53f,0.81f,0.92f,1 );
 
         game.batch.begin();
-        game.font.draw(game.batch, "Game Over !!", 950, 860);
-        game.font.draw(game.batch, "Do you want to play again ??", 900, 720);
-        game.font.draw(game.batch, "Press Space if Yes or ESC for Quit", 880, 550);
+        game.font.draw(game.batch, "WELCOME", 920, 800);
+        game.font.draw(game.batch, "to", 950, 760);
+        game.font.draw(game.batch, "HUNGRY SNAKE !!", 900, 720);
+        game.font.draw(game.batch, "Press Space to Start the game", 880, 600);
+        game.font.draw(game.batch, "Press Esc to Quit the game", 880, 570);
         game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 20);
         game.batch.end();
 
@@ -39,7 +44,7 @@ public class EndGameScreen extends ScreenAdapter {
                 }
                 return true;
             }
-       });
+        });
     }
 
 
