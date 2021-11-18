@@ -2,14 +2,9 @@ package com.snake;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.snake.Snake;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -35,15 +30,8 @@ public class GameScreen extends ScreenAdapter {
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
 
-    public int getSnakeX() {
-        return snakeX;
-    }
 
     int snakeX = 1920 / 2 - 60;
-
-    public int getSnakeY() {
-        return snakeY;
-    }
 
     int snakeY = 1080 / 2 - 60;
 
@@ -58,10 +46,8 @@ public class GameScreen extends ScreenAdapter {
         snakehead.height = 60;
 //         Image for snakehead
         img = new Texture("snakeheadplaceholder.jpg");
-        // image for body
-        snakeBody = new Texture("badlogic.jpg");
         // Temporary bodypart adder
-        BodyPart bodyPart = new BodyPart(snakeBody);
+        BodyPart bodyPart = new BodyPart(game);
         bodyPart.updateBodyPosition(snakeX, snakeY);
         bodyParts.insert(0,bodyPart);
     }
@@ -84,7 +70,7 @@ public class GameScreen extends ScreenAdapter {
         game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
         for (BodyPart bodyPart : bodyParts) {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
-            bodyPart.draw(game.batch);}
+            bodyPart.draw();}
         game.batch.end();
 
         userInput();

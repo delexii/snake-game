@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class BodyPart {
 
+    final Snake game;
+
     private int x;
 
     public int getX() {
@@ -18,8 +20,9 @@ public class BodyPart {
     private int y;
     private Texture texture;
 
-    public BodyPart(Texture texture) {
-        this.texture = texture;
+    public BodyPart(Snake game) {
+        this.game = game;
+        this.texture = new Texture("badlogic.jpg");
     }
 
     public void updateBodyPosition(int x, int y) {
@@ -27,8 +30,8 @@ public class BodyPart {
         this.y = y;
     }
 
-    public void draw(Batch batch) {
-            batch.draw(texture, x, y, 60, 60);
+    public void draw() {
+            game.batch.draw(texture, x, y, 60, 60);
     }
 
 }
