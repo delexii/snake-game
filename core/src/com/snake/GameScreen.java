@@ -51,7 +51,8 @@ public class GameScreen extends ScreenAdapter {
         snakehead.width = 60;
         snakehead.height = 60;
 //         Image for snakehead
-        img = new Texture(Gdx.files.internal("badlogic.jpg"));
+//        img = new Texture(Gdx.files.internal("badlogic.jpg"));
+        img = new Texture("snakeheadplaceholder.jpg");
     }
 
     @Override
