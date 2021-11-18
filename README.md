@@ -70,6 +70,7 @@ Core MVP
 - [x] A user can see an object on the screen
 - [x] A user can move the object by pressing `up`, `down`, `left` or `right`
 - [x] A user can end the game by directing the object towards the edges of the screen
+- [x] [MVP Demo](https://github.com/delexii/snake-game/blob/5f91c9a7e953d3cf1fcdc2eda962336d40780458/core/assets/MVP%20Demo.mov)
 
 Extended MVP
 - [x] A user can see an endgame screen once the main object touches the edges of the screen
