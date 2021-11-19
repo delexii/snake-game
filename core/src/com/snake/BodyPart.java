@@ -21,7 +21,7 @@ public class BodyPart {
 
     public BodyPart(Snake game) {
         this.game = game;
-        this.texture = new Texture("badlogic.jpg");
+        this.texture = new Texture("SnakeBody.jpg");
     }
 
     public void updateBodyPosition(int x, int y) {
