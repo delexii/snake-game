@@ -38,7 +38,10 @@ public class GameScreen extends ScreenAdapter {
     int snakeX = 1920 / 2 - 60;
     int snakeY = 1080 / 2 - 60;
     public boolean appleIsOnScreen = false;
+    public boolean rottenAppleIsOnScreen = false;
     private Apple apple1;
+    private Apple apple2;
+
 
     public GameScreen(Snake game) {
         this.game = game;
@@ -80,6 +83,7 @@ public class GameScreen extends ScreenAdapter {
 
         drawSnake();
         addApple();
+        addRottenApple();
         game.batch.end();
         userInput();
 
@@ -231,16 +235,22 @@ public class GameScreen extends ScreenAdapter {
         bodyParts.insert(0, bodyPart);
     }
 
+    public void deleteBodyPart() {
+//        BodyPart bodyPart = new BodyPart(game);
+//        bodyPart.updateBodyPosition(snakeX, snakeY);
+        bodyParts.pop();
+    }
 
     public void addApple() {
         Apple apple = new Apple(game);
         if (appleIsOnScreen == false) {
             randomApple(apple);
         }
-        apple1.draw();
+        apple1.drawApple();
         appleIsOnScreen = true;
         if (snakeX == apple1.getX() && snakeY == apple1.getY()){
             appleIsOnScreen = false;
+            addBodyPart();
         }
     }
 
@@ -249,9 +259,31 @@ public class GameScreen extends ScreenAdapter {
         apple.setY(SNAKE_MOVEMENT);
         Apple apple1 = apple;
         this.apple1 =  apple1;
+    }
+
+
+    public void addRottenApple() {
+        Apple rottenApple = new Apple(game);
+        if (rottenAppleIsOnScreen == false) {
+            randomRottenApple(rottenApple);
+        }
+        apple2.drawRottenApple();
+        rottenAppleIsOnScreen = true;
+        if (snakeX == apple2.getX() && snakeY == apple2.getY()){
+            rottenAppleIsOnScreen = false;
+            deleteBodyPart();
+        }
+    }
+
+    public void randomRottenApple(Apple rottenApple){
+        rottenApple.setX(SNAKE_MOVEMENT);
+        rottenApple.setY(SNAKE_MOVEMENT);
+        Apple apple2 = rottenApple;
+        this.apple2 =  apple2;
         }
 
-    }
+
+}
 
 
 
