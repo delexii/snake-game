@@ -5,15 +5,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class WelcomeScreen extends ScreenAdapter {
 
     final  Snake game;
 
+    // sound
+    Music welcomeMusic;
 
 
     public WelcomeScreen (Snake game) {
         this.game = game;
+        welcomeMusic = Gdx.audio.newMusic(Gdx.files.internal("welcome.wav"));
+        welcomeMusic.setLooping(true);
     }
 
 
@@ -38,13 +44,16 @@ public class WelcomeScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if(keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new GameScreen(game)); {
+                        welcomeMusic.stop();
+                    }
                 } else if(keyCode == Input.Keys.ESCAPE){
                     Gdx.app.exit();
                 }
                 return true;
             }
         });
+        welcomeMusic.play();
     }
 
 
@@ -55,6 +64,7 @@ public class WelcomeScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-
+        welcomeMusic.dispose();
     }
+
 }

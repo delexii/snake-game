@@ -1,6 +1,8 @@
 package com.snake;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,7 +18,9 @@ public class GameScreen extends ScreenAdapter {
     private Texture imgDown;
     private Texture imgLeft;
     private Texture imgRight;
-    private Array<BodyPart> bodyParts = new Array<BodyPart>();
+    public Array<BodyPart> bodyParts = new Array<BodyPart>();
+    // sounds
+    Music gameMusic;
 
     // Snake movement controls
     private static final int RIGHT = 0;
@@ -36,8 +40,6 @@ public class GameScreen extends ScreenAdapter {
     public boolean appleIsOnScreen = false;
     private Apple apple1;
 
-
-
     public GameScreen(Snake game) {
         this.game = game;
         //snakehead rectangle size 60p x 60 p assumes 1080p x 1920p  grid 18 x 32
@@ -50,7 +52,14 @@ public class GameScreen extends ScreenAdapter {
         imgLeft = new Texture("SnakeHeadLeft.jpg");
         imgRight = new Texture("SnakeHeadRight.jpg");
         // Temporary bodypart adder
-        addBodyPart();
+
+        BodyPart bodyPart = new BodyPart(game);
+        bodyPart.updateBodyPosition(snakeX, snakeY);
+        bodyParts.insert(0, bodyPart);
+        // Sound for game
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
+        gameMusic.setLooping(true);
+
         addBodyPart();
         addBodyPart();
         addBodyPart();
@@ -68,14 +77,39 @@ public class GameScreen extends ScreenAdapter {
 
 
         game.batch.begin();
+
         drawSnake();
         addApple();
         game.batch.end();
         userInput();
 
-        //EndGameScreen when the snake touch the wall
-        renderEndGameScreen();
 
+        //EndGameScreen when the snake touch the wall
+        if (snakeX == 30) {
+            game.setScreen(new
+
+                    EndGameScreen(game));
+            gameMusic.stop();
+        }
+
+        if (snakeX == 1920 - 30) {
+            game.setScreen(new
+
+                    EndGameScreen(game));
+            gameMusic.stop();
+        }
+        if (snakeY == 30) {
+            game.setScreen(new
+
+                    EndGameScreen(game));
+            gameMusic.stop();
+        }
+        if (snakeY == 1080 - 30) {
+            game.setScreen(new
+
+                    EndGameScreen(game));
+            gameMusic.stop();
+        }
     }
 
     // get user input
@@ -94,8 +128,8 @@ public class GameScreen extends ScreenAdapter {
 
     // Move the snake left, right, up or down
     private void moveSnake() {
-    snakeXBeforeUpdate = snakeX;
-    snakeYBeforeUpdate = snakeY;
+        snakeXBeforeUpdate = snakeX;
+        snakeYBeforeUpdate = snakeY;
         switch (snakeDirection) {
             case RIGHT:
                 snakeX += SNAKE_MOVEMENT;
@@ -128,15 +162,26 @@ public class GameScreen extends ScreenAdapter {
     }
 
 
-    public void updateBodyParts(){
-        if (bodyParts.size >0) {
-        BodyPart bodyPart = bodyParts.removeIndex(0);
-        bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
-        bodyParts.add(bodyPart);
+    @Override
+    public void show() {
+        gameMusic.play();
+    }
+
+    @Override
+    public void dispose() {
+        gameMusic.dispose();
+    }
+
+
+    public void updateBodyParts() {
+        if (bodyParts.size > 0) {
+            BodyPart bodyPart = bodyParts.removeIndex(0);
+            bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
+            bodyParts.add(bodyPart);
         }
     }
 
-    private void drawSnake(){
+    private void drawSnake() {
         // draw snakehead in correct orientation
         switch (snakeDirection) {
             case RIGHT:
@@ -161,10 +206,11 @@ public class GameScreen extends ScreenAdapter {
         }
         for (BodyPart bodyPart : bodyParts) {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
-                bodyPart.draw();}
+                bodyPart.draw();
+        }
     }
 
-    public void renderEndGameScreen(){
+    public void renderEndGameScreen() {
         if (snakeX == 30) game.setScreen(new
 
                 EndGameScreen(game));
@@ -179,11 +225,12 @@ public class GameScreen extends ScreenAdapter {
                 EndGameScreen(game));
     }
 
-    public void addBodyPart(){
+    public void addBodyPart() {
         BodyPart bodyPart = new BodyPart(game);
         bodyPart.updateBodyPosition(snakeX, snakeY);
-        bodyParts.insert(0,bodyPart);
+        bodyParts.insert(0, bodyPart);
     }
+
 
     public void addApple() {
         Apple apple = new Apple(game);
@@ -205,6 +252,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
     }
+
 
 
 
