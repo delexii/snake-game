@@ -19,7 +19,7 @@ public class Apple {
 
     public Apple(Snake game){
         this.game = game;
-        this.texture = new Texture("badlogic.jpg");
+        this.texture = new Texture("Apple.jpg");
     }
 
     public void draw() {game.batch.draw(texture, appleX, appleY, 60, 60); }
