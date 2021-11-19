@@ -33,7 +33,8 @@ public class GameScreen extends ScreenAdapter {
 
     int snakeX = 1920 / 2 - 60;
     int snakeY = 1080 / 2 - 60;
-
+    public boolean appleIsOnScreen = false;
+    private Apple apple1;
 
 
 
@@ -186,18 +187,25 @@ public class GameScreen extends ScreenAdapter {
 
     public void addApple() {
         Apple apple = new Apple(game);
-        if (!apple.isAvailable) apple.draw();
-        if (apple.isAvailable) {
-            do {
-                apple.getX(SNAKE_MOVEMENT);
-                apple.getY(SNAKE_MOVEMENT);
-                apple.isAvailable = true;
-            } while (apple.getX(SNAKE_MOVEMENT) == snakeX && apple.getY(SNAKE_MOVEMENT) == snakeY);
+        if (appleIsOnScreen == false) {
+            randomApple(apple);
+        }
+        apple1.draw();
+        appleIsOnScreen = true;
+        if (snakeX == apple1.getX() && snakeY == apple1.getY()){
+            appleIsOnScreen = false;
+        }
+    }
 
+    public void randomApple(Apple apple){
+        apple.setX(SNAKE_MOVEMENT);
+        apple.setY(SNAKE_MOVEMENT);
+        Apple apple1 = apple;
+        this.apple1 =  apple1;
         }
 
     }
-}
+
 
 
 

@@ -7,8 +7,15 @@ import com.badlogic.gdx.math.MathUtils;
 public class Apple {
     private Texture texture;
     private Snake game;
-    public boolean isAvailable = false;
-    public int appleX, appleY;
+    private int appleX;
+    private int appleY;
+
+    public int getX() {
+        return appleX;
+    }
+    public int getY() {
+        return appleY;
+    }
 
     public Apple(Snake game){
         this.game = game;
@@ -17,15 +24,14 @@ public class Apple {
 
     public void draw() {game.batch.draw(texture, appleX, appleY, 60, 60); }
 
-    public Integer getX(int SNAKE_MOVEMENT){
-        appleX = MathUtils.random(Gdx.graphics.getWidth() / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-        return appleX;
+    public void setX(int SNAKE_MOVEMENT){
+        this.appleX = MathUtils.random(Gdx.graphics.getWidth() / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
     }
 
-    public Integer getY(int SNAKE_MOVEMENT){
-        appleY = MathUtils.random(Gdx.graphics.getHeight() / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-        return appleY;
-
+    public void setY(int SNAKE_MOVEMENT){
+        this.appleY = MathUtils.random(Gdx.graphics.getHeight() / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
     }
+
+
 }
 
