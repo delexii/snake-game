@@ -241,6 +241,7 @@ public class GameScreen extends ScreenAdapter {
         appleIsOnScreen = true;
         if (snakeX == apple1.getX() && snakeY == apple1.getY()){
             appleIsOnScreen = false;
+            addBodyPart();
         }
     }
 
