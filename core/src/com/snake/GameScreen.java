@@ -17,6 +17,17 @@ public class GameScreen extends ScreenAdapter {
     private Texture imgDown;
     private Texture imgLeft;
     private Texture imgRight;
+    // rectangle and images for tail
+    private Texture tailUp;
+    private Texture tailDown;
+    private Texture tailLeft;
+    private Texture tailRight;
+
+
+    public Array<BodyPart> getBodyParts() {
+        return bodyParts;
+    }
+
     public Array<BodyPart> bodyParts = new Array<BodyPart>();
     // sounds
     Music gameMusic;
@@ -50,6 +61,8 @@ public class GameScreen extends ScreenAdapter {
         imgDown = new Texture("SnakeHeadDown.jpg");
         imgLeft = new Texture("SnakeHeadLeft.jpg");
         imgRight = new Texture("SnakeHeadRight.jpg");
+        //  Images for tail
+        tailUp = new Texture("Tail.jpg");
         // Temporary bodypart adder
 
         BodyPart bodyPart = new BodyPart(game);
@@ -209,10 +222,14 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
         for (BodyPart bodyPart : bodyParts) {
+//            if (bodyParts.get(bodyParts.size -1).getX() == bodyPart.getX() && bodyParts.get(bodyParts.size -1).getY() == bodyPart.getY() )
+//                bodyParts.get(bodyParts.size -1).setTexture(tailUp);
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
                 bodyPart.draw();
         }
     }
+
+
 
     public void renderEndGameScreen() {
         if (snakeX == 30) game.setScreen(new

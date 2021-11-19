@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 public class BodyPart {
 
     final Snake game;
+    boolean lastbodypart = false;
 
     private int x, y ;
 
@@ -17,11 +18,14 @@ public class BodyPart {
         return y;
     }
 
-    private Texture texture;
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
+
+    public Texture texture;
 
     public BodyPart(Snake game) {
         this.game = game;
-//        if (GameScreen.bodyParts)
         this.texture = new Texture("SnakeBody.jpg");
     }
 
@@ -31,7 +35,12 @@ public class BodyPart {
     }
 
     public void draw() {
-            game.batch.draw(texture, x, y, 60, 60);
+        GameScreen.getBodyParts();
+        if (game.bodyParts.get(bodyParts.size -1).getX() == bodyPart.getX() && bodyParts.get(bodyParts.size -1).getY() == bodyPart.getY() )
+            bodyParts.get(bodyParts.size -1).setTexture(tailUp);
+
+
+        game.batch.draw(texture, x, y, 60, 60);
     }
 
 }
