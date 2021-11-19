@@ -111,9 +111,6 @@ public class GameScreen extends ScreenAdapter {
                     EndGameScreen(game));
             gameMusic.stop();
         }
-
-        //EndGameScreen when the snake touch the wall
-        renderEndGameScreen();
     }
 
     // get user input
@@ -212,21 +209,6 @@ public class GameScreen extends ScreenAdapter {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
                 bodyPart.draw();
         }
-    }
-
-    public void renderEndGameScreen() {
-        if (snakeX == 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeX == 1920 - 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeY == 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeY == 1080 - 30) game.setScreen(new
-
-                EndGameScreen(game));
     }
 
     public void addBodyPart() {
