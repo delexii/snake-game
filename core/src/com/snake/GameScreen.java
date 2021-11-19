@@ -84,6 +84,9 @@ public class GameScreen extends ScreenAdapter {
         game.batch.end();
         userInput();
 
+        // STOP SOUND WHILE TESTING
+        gameMusic.stop();
+
 
         //EndGameScreen when the snake touch the wall
         if (snakeX == 30) {
