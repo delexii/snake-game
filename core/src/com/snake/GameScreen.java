@@ -1,6 +1,8 @@
 package com.snake;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -14,6 +16,8 @@ public class GameScreen extends ScreenAdapter {
     private Texture img;
     private Texture snakeBody;
     private Array<BodyPart> bodyParts = new Array<BodyPart>();
+    // sounds
+    Music gameMusic;
 
 //    public SpriteBatch batch;
 //    public BitmapFont font;
@@ -50,6 +54,9 @@ public class GameScreen extends ScreenAdapter {
         BodyPart bodyPart = new BodyPart(game);
         bodyPart.updateBodyPosition(snakeX, snakeY);
         bodyParts.insert(0,bodyPart);
+        // Sound for game
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
+        gameMusic.setLooping(true);
     }
 
     @Override
@@ -70,25 +77,32 @@ public class GameScreen extends ScreenAdapter {
         game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
         for (BodyPart bodyPart : bodyParts) {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
-            bodyPart.draw();}
+                bodyPart.draw();
+        }
         game.batch.end();
 
         userInput();
 
 
+
         //EndGameScreen when the snake touch the wall
-        if (snakeX == 30) game.setScreen(new
+        if (snakeX == 30) {game.setScreen(new
 
                 EndGameScreen(game));
-        if (snakeX == 1920 - 30) game.setScreen(new
+            gameMusic.stop();}
+
+        if (snakeX == 1920 - 30) {game.setScreen(new
 
                 EndGameScreen(game));
-        if (snakeY == 30) game.setScreen(new
+            gameMusic.stop();}
+        if (snakeY == 30) {game.setScreen(new
 
                 EndGameScreen(game));
-        if (snakeY == 1080 - 30) game.setScreen(new
+            gameMusic.stop();}
+        if (snakeY == 1080 - 30) {game.setScreen(new
 
                 EndGameScreen(game));
+            gameMusic.stop();}
     }
 
     // get user input
@@ -136,6 +150,16 @@ public class GameScreen extends ScreenAdapter {
         if (snakeX > 1920 - 30) snakeX = 1920 - 30;
         if (snakeY < 30) snakeY = 30;
         if (snakeY > 1080 - 30) snakeY = 1080 - 30;
+    }
+
+    @Override
+    public void show () {
+        gameMusic.play();
+    }
+
+    @Override
+    public void dispose() {
+        gameMusic.dispose();
     }
 }
 
