@@ -9,10 +9,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameScreen extends ScreenAdapter {
 
     final Snake game;
-    // rectangle and image for snakehead
+    // rectangle and images for snakehead
     Rectangle snakehead;
-    private Texture img;
-    private Texture snakeBody;
+    private Texture imgUp;
+    private Texture imgDown;
+    private Texture imgLeft;
+    private Texture imgRight;
     private Array<BodyPart> bodyParts = new Array<BodyPart>();
 
 //    public SpriteBatch batch;
@@ -44,8 +46,11 @@ public class GameScreen extends ScreenAdapter {
         snakehead = new Rectangle();
         snakehead.width = 60;
         snakehead.height = 60;
-//         Image for snakehead
-        img = new Texture("snakeheadplaceholder.jpg");
+//         Images for snakehead
+        imgUp = new Texture("SnakeHeadUp.jpg");
+        imgDown = new Texture("SnakeHeadDown.jpg");
+        imgLeft = new Texture("SnakeHeadLeft.jpg");
+        imgRight = new Texture("SnakeHeadRight.jpg");
         // Temporary bodypart adder
         BodyPart bodyPart = new BodyPart(game);
         bodyPart.updateBodyPosition(snakeX, snakeY);
@@ -65,9 +70,28 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
 
         game.batch.begin();
-        // draw snakehead
-        game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
-        game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
+        // draw snakehead in correct orientation
+        switch (snakeDirection) {
+            case RIGHT:
+                game.batch.draw(imgRight, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+
+            case LEFT:
+                game.batch.draw(imgLeft, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+
+            case UP:
+                game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+
+            case DOWN:
+                game.batch.draw(imgDown, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+
+            case -1:
+                game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+        }
         for (BodyPart bodyPart : bodyParts) {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
             bodyPart.draw();}
