@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -32,12 +33,12 @@ public class GameScreen extends ScreenAdapter {
     private static float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
-
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
 
     int snakeX = 1920 / 2 - 60;
     int snakeY = 1080 / 2 - 60;
-
+    public boolean appleIsOnScreen = false;
+    private Apple apple1;
 
     public GameScreen(Snake game) {
         this.game = game;
@@ -62,25 +63,23 @@ public class GameScreen extends ScreenAdapter {
         addBodyPart();
         addBodyPart();
         addBodyPart();
-
     }
 
     @Override
     public void render(float delta) {
-
         // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
         }
-
         ScreenUtils.clear(0, 0, 0, 1);
+
 
         game.batch.begin();
 
         drawSnake();
-
+        addApple();
         game.batch.end();
         userInput();
 
@@ -111,9 +110,6 @@ public class GameScreen extends ScreenAdapter {
                     EndGameScreen(game));
             gameMusic.stop();
         }
-
-        //EndGameScreen when the snake touch the wall
-        renderEndGameScreen();
     }
 
     // get user input
@@ -235,7 +231,28 @@ public class GameScreen extends ScreenAdapter {
         bodyParts.insert(0, bodyPart);
     }
 
-}
+
+    public void addApple() {
+        Apple apple = new Apple(game);
+        if (appleIsOnScreen == false) {
+            randomApple(apple);
+        }
+        apple1.draw();
+        appleIsOnScreen = true;
+        if (snakeX == apple1.getX() && snakeY == apple1.getY()){
+            appleIsOnScreen = false;
+        }
+    }
+
+    public void randomApple(Apple apple){
+        apple.setX(SNAKE_MOVEMENT);
+        apple.setY(SNAKE_MOVEMENT);
+        Apple apple1 = apple;
+        this.apple1 =  apple1;
+        }
+
+    }
+
 
 
 
