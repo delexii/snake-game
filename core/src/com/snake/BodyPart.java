@@ -21,6 +21,7 @@ public class BodyPart {
 
     public BodyPart(Snake game) {
         this.game = game;
+//        if (GameScreen.bodyParts)
         this.texture = new Texture("SnakeBody.jpg");
     }
 
