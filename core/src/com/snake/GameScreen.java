@@ -11,16 +11,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameScreen extends ScreenAdapter {
 
     final Snake game;
-    // rectangle and image for snakehead
+    // rectangle and images for snakehead
     Rectangle snakehead;
-    private Texture img;
-    private Texture snakeBody;
+    private Texture imgUp;
+    private Texture imgDown;
+    private Texture imgLeft;
+    private Texture imgRight;
     private Array<BodyPart> bodyParts = new Array<BodyPart>();
     // sounds
     Music gameMusic;
-
-//    public SpriteBatch batch;
-//    public BitmapFont font;
 
     // Snake movement controls
     private static final int RIGHT = 0;
@@ -34,9 +33,9 @@ public class GameScreen extends ScreenAdapter {
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
 
+    private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
 
     int snakeX = 1920 / 2 - 60;
-
     int snakeY = 1080 / 2 - 60;
 
 
@@ -48,40 +47,45 @@ public class GameScreen extends ScreenAdapter {
         snakehead = new Rectangle();
         snakehead.width = 60;
         snakehead.height = 60;
-//         Image for snakehead
-        img = new Texture("snakeheadplaceholder.jpg");
+//         Images for snakehead
+        imgUp = new Texture("SnakeHeadUp.jpg");
+        imgDown = new Texture("SnakeHeadDown.jpg");
+        imgLeft = new Texture("SnakeHeadLeft.jpg");
+        imgRight = new Texture("SnakeHeadRight.jpg");
         // Temporary bodypart adder
+
         BodyPart bodyPart = new BodyPart(game);
         bodyPart.updateBodyPosition(snakeX, snakeY);
         bodyParts.insert(0,bodyPart);
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
+
+        addBodyPart();
+        addBodyPart();
+        addBodyPart();
+
     }
 
     @Override
-
     public void render(float delta) {
 
-//         timer function to control render speed
+        // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
         }
+
         ScreenUtils.clear(0, 0, 0, 1);
 
         game.batch.begin();
-        // draw snakehead
-        game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
-        game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
-        for (BodyPart bodyPart : bodyParts) {
-            if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
-                bodyPart.draw();
-        }
-        game.batch.end();
 
+        drawSnake();
+
+        game.batch.end();
         userInput();
+
 
 
 
@@ -103,6 +107,9 @@ public class GameScreen extends ScreenAdapter {
 
                 EndGameScreen(game));
             gameMusic.stop();}
+
+        //EndGameScreen when the snake touch the wall
+        renderEndGameScreen();
     }
 
     // get user input
@@ -121,7 +128,8 @@ public class GameScreen extends ScreenAdapter {
 
     // Move the snake left, right, up or down
     private void moveSnake() {
-
+    snakeXBeforeUpdate = snakeX;
+    snakeYBeforeUpdate = snakeY;
         switch (snakeDirection) {
             case RIGHT:
                 snakeX += SNAKE_MOVEMENT;
@@ -141,6 +149,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         checkEdges();
+        updateBodyParts();
     }
 
 
@@ -151,6 +160,7 @@ public class GameScreen extends ScreenAdapter {
         if (snakeY < 30) snakeY = 30;
         if (snakeY > 1080 - 30) snakeY = 1080 - 30;
     }
+
 
     @Override
     public void show () {
@@ -164,10 +174,65 @@ public class GameScreen extends ScreenAdapter {
 }
 
 
-//    @Override
-//    public void resize(int width, int height) {
-//
-//    }
+
+    public void updateBodyParts(){
+        if (bodyParts.size >0) {
+        BodyPart bodyPart = bodyParts.removeIndex(0);
+        bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
+        bodyParts.add(bodyPart);
+        }
+    }
+
+    private void drawSnake(){
+        // draw snakehead in correct orientation
+        switch (snakeDirection) {
+            case RIGHT:
+                game.batch.draw(imgRight, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+
+            case LEFT:
+                game.batch.draw(imgLeft, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+
+            case UP:
+                game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+
+            case DOWN:
+                game.batch.draw(imgDown, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+
+            case -1:
+                game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
+                break;
+        }
+        for (BodyPart bodyPart : bodyParts) {
+            if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
+                bodyPart.draw();}
+    }
+
+    public void renderEndGameScreen(){
+        if (snakeX == 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeX == 1920 - 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeY == 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeY == 1080 - 30) game.setScreen(new
+
+                EndGameScreen(game));
+    }
+
+    public void addBodyPart(){
+        BodyPart bodyPart = new BodyPart(game);
+        bodyPart.updateBodyPosition(snakeX, snakeY);
+        bodyParts.insert(0,bodyPart);
+    }
+}
+
 
 
 

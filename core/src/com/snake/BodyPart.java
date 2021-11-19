@@ -7,7 +7,7 @@ public class BodyPart {
 
     final Snake game;
 
-    private int x;
+    private int x, y ;
 
     public int getX() {
         return x;
@@ -17,12 +17,11 @@ public class BodyPart {
         return y;
     }
 
-    private int y;
     private Texture texture;
 
     public BodyPart(Snake game) {
         this.game = game;
-        this.texture = new Texture("badlogic.jpg");
+        this.texture = new Texture("SnakeBody.jpg");
     }
 
     public void updateBodyPosition(int x, int y) {
