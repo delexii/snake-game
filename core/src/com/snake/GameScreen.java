@@ -2,6 +2,7 @@ package com.snake;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -28,7 +29,6 @@ public class GameScreen extends ScreenAdapter {
     private static float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
-
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
 
     int snakeX = 1920 / 2 - 60;
@@ -52,26 +52,29 @@ public class GameScreen extends ScreenAdapter {
         addBodyPart();
         addBodyPart();
         addBodyPart();
+        addBodyPart();
     }
 
     @Override
     public void render(float delta) {
-
         // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
         }
-
         ScreenUtils.clear(0, 0, 0, 1);
+
 
         game.batch.begin();
         drawSnake();
+        addApple();
         game.batch.end();
         userInput();
+
         //EndGameScreen when the snake touch the wall
         renderEndGameScreen();
+
     }
 
     // get user input
@@ -179,6 +182,20 @@ public class GameScreen extends ScreenAdapter {
         BodyPart bodyPart = new BodyPart(game);
         bodyPart.updateBodyPosition(snakeX, snakeY);
         bodyParts.insert(0,bodyPart);
+    }
+
+    public void addApple() {
+        Apple apple = new Apple(game);
+        if (!apple.isAvailable) apple.draw();
+        if (apple.isAvailable) {
+            do {
+                apple.getX(SNAKE_MOVEMENT);
+                apple.getY(SNAKE_MOVEMENT);
+                apple.isAvailable = true;
+            } while (apple.getX(SNAKE_MOVEMENT) == snakeX && apple.getY(SNAKE_MOVEMENT) == snakeY);
+
+        }
+
     }
 }
 
