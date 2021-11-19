@@ -15,9 +15,6 @@ public class GameScreen extends ScreenAdapter {
     private Texture snakeBody;
     private Array<BodyPart> bodyParts = new Array<BodyPart>();
 
-    //    public SpriteBatch batch;
-    //    public BitmapFont font;
-
     // Snake movement controls
     private static final int RIGHT = 0;
     private static final int LEFT = 1;
@@ -33,7 +30,6 @@ public class GameScreen extends ScreenAdapter {
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
 
     int snakeX = 1920 / 2 - 60;
-
     int snakeY = 1080 / 2 - 60;
 
 
@@ -48,43 +44,30 @@ public class GameScreen extends ScreenAdapter {
         // Image for snakehead
         img = new Texture("snakeheadplaceholder.jpg");
         // Temporary bodypart adder
-        BodyPart bodyPart = new BodyPart(game);
-        bodyPart.updateBodyPosition(snakeX, snakeY);
-        bodyParts.insert(0,bodyPart);
+        addBodyPart();
+        addBodyPart();
+        addBodyPart();
     }
 
     @Override
-
     public void render(float delta) {
 
-    // timer function to control render speed
+        // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
         }
+
         ScreenUtils.clear(0, 0, 0, 1);
 
         game.batch.begin();
         drawSnake();
         game.batch.end();
-
         userInput();
 
-
         //EndGameScreen when the snake touch the wall
-        if (snakeX == 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeX == 1920 - 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeY == 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeY == 1080 - 30) game.setScreen(new
-
-                EndGameScreen(game));
+        renderEndGameScreen();
     }
 
     // get user input
@@ -146,19 +129,36 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void drawSnake(){
+        // draw snake head and body parts
         game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
         game.batch.draw(img, snakeX, snakeY, snakehead.width, snakehead.height);
         for (BodyPart bodyPart : bodyParts) {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
                 bodyPart.draw();}
     }
+
+    public void renderEndGameScreen(){
+        if (snakeX == 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeX == 1920 - 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeY == 30) game.setScreen(new
+
+                EndGameScreen(game));
+        if (snakeY == 1080 - 30) game.setScreen(new
+
+                EndGameScreen(game));
+    }
+
+    public void addBodyPart(){
+        BodyPart bodyPart = new BodyPart(game);
+        bodyPart.updateBodyPosition(snakeX, snakeY);
+        bodyParts.insert(0,bodyPart);
+    }
 }
 
-
-        //    @Override
-        //    public void resize(int width, int height) {
-        //
-        //    }
 
 
 
