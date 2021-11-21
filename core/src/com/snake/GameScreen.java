@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -43,11 +44,14 @@ public class GameScreen extends ScreenAdapter {
     private static float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
-
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
 
     int snakeX = 1920 / 2 - 60;
     int snakeY = 1080 / 2 - 60;
+    public boolean appleIsOnScreen = false;
+    public boolean rottenAppleIsOnScreen = false;
+    private Apple apple1;
+    private Apple apple2;
 
 
     public GameScreen(Snake game) {
@@ -75,20 +79,18 @@ public class GameScreen extends ScreenAdapter {
         addBodyPart();
         addBodyPart();
         addBodyPart();
-
     }
 
     @Override
     public void render(float delta) {
-
         // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
         }
-
         ScreenUtils.clear(0, 0, 0, 1);
+
 
         game.batch.begin();
         //Draw snake before movement
@@ -103,7 +105,8 @@ public class GameScreen extends ScreenAdapter {
         bodyParts.get(3).draw();}
 
         drawSnake();
-
+        addApple();
+        addRottenApple();
         game.batch.end();
         userInput();
 
@@ -134,9 +137,6 @@ public class GameScreen extends ScreenAdapter {
                     EndGameScreen(game));
             gameMusic.stop();
         }
-
-        //EndGameScreen when the snake touch the wall
-        renderEndGameScreen();
     }
 
     // get user input
@@ -273,7 +273,56 @@ public class GameScreen extends ScreenAdapter {
         bodyParts.insert(0, bodyPart);
     }
 
+    public void deleteBodyPart() {
+//        BodyPart bodyPart = new BodyPart(game);
+//        bodyPart.updateBodyPosition(snakeX, snakeY);
+        bodyParts.pop();
+    }
+
+    public void addApple() {
+        Apple apple = new Apple(game);
+        if (appleIsOnScreen == false) {
+            randomApple(apple);
+        }
+        apple1.drawApple();
+        appleIsOnScreen = true;
+        if (snakeX == apple1.getX() && snakeY == apple1.getY()){
+            appleIsOnScreen = false;
+            addBodyPart();
+        }
+    }
+
+    public void randomApple(Apple apple){
+        apple.setX(SNAKE_MOVEMENT);
+        apple.setY(SNAKE_MOVEMENT);
+        Apple apple1 = apple;
+        this.apple1 =  apple1;
+    }
+
+
+    public void addRottenApple() {
+        Apple rottenApple = new Apple(game);
+        if (rottenAppleIsOnScreen == false) {
+            randomRottenApple(rottenApple);
+        }
+        apple2.drawRottenApple();
+        rottenAppleIsOnScreen = true;
+        if (snakeX == apple2.getX() && snakeY == apple2.getY()){
+            rottenAppleIsOnScreen = false;
+            deleteBodyPart();
+        }
+    }
+
+    public void randomRottenApple(Apple rottenApple){
+        rottenApple.setX(SNAKE_MOVEMENT);
+        rottenApple.setY(SNAKE_MOVEMENT);
+        Apple apple2 = rottenApple;
+        this.apple2 =  apple2;
+        }
+
+
 }
+
 
 
 
