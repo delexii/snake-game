@@ -225,7 +225,9 @@ public class GameScreen extends ScreenAdapter {
         for (BodyPart bodyPart : bodyParts) {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
                 if (counter == 0) {
-                    bodyPart.drawTail();
+                    int directionX = bodyParts.get(1).getX();
+                    int directionY = bodyParts.get(1).getY();
+                    bodyPart.drawTail(directionX, directionY);
                 }
                 else
                     bodyPart.draw();
