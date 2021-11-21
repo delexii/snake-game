@@ -276,7 +276,7 @@ public class GameScreen extends ScreenAdapter {
     public void deleteBodyPart() {
 //        BodyPart bodyPart = new BodyPart(game);
 //        bodyPart.updateBodyPosition(snakeX, snakeY);
-        bodyParts.pop();
+        bodyParts.removeIndex(0);
     }
 
     public void addApple() {
