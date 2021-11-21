@@ -91,7 +91,7 @@ public class GameScreen extends ScreenAdapter {
         }
         ScreenUtils.clear(0, 0, 0, 1);
 
-
+        userInput();
         game.batch.begin();
         //Draw snake before movement
         if (snakeDirection == -1) {
@@ -102,13 +102,14 @@ public class GameScreen extends ScreenAdapter {
         bodyParts.get(2).updateBodyPosition(1920/2 -60, 1080/2 -180);
         bodyParts.get(2).draw();
         bodyParts.get(3).updateBodyPosition(1920/2 -60, 1080/2 -120);
-        bodyParts.get(3).draw();}
+        bodyParts.get(3).draw();
+        }
 
         drawSnake();
         addApple();
         addRottenApple();
         game.batch.end();
-        userInput();
+
 
 
         //EndGameScreen when the snake touch the wall
