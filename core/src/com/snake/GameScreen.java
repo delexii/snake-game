@@ -222,10 +222,12 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
         for (BodyPart bodyPart : bodyParts) {
-//            if (bodyParts.get(bodyParts.size -1).getX() == bodyPart.getX() && bodyParts.get(bodyParts.size -1).getY() == bodyPart.getY() )
-//                bodyParts.get(bodyParts.size -1).setTexture(tailUp);
-            if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
-                bodyPart.draw();
+            if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
+                if (bodyPart.getX() == bodyParts.get(bodyParts.size -1).getX() && bodyPart.getY() == bodyParts.get(bodyParts.size -1).getY());
+                    bodyPart.drawTail();
+                if (bodyPart.getX() == bodyParts.get(bodyParts.size -1).getX() && bodyPart.getY() != bodyParts.get(bodyParts.size -1).getY());
+                    bodyPart.draw();
+            }
         }
     }
 

@@ -2,11 +2,11 @@ package com.snake;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.utils.Array;
 
 public class BodyPart {
 
     final Snake game;
-    boolean lastbodypart = false;
 
     private int x, y ;
 
@@ -23,10 +23,13 @@ public class BodyPart {
     }
 
     public Texture texture;
+    public Texture tailUp;
 
     public BodyPart(Snake game) {
         this.game = game;
         this.texture = new Texture("SnakeBody.jpg");
+        this.tailUp = new Texture("Tail.jpg");
+
     }
 
     public void updateBodyPosition(int x, int y) {
@@ -35,12 +38,14 @@ public class BodyPart {
     }
 
     public void draw() {
-        GameScreen.getBodyParts();
-        if (game.bodyParts.get(bodyParts.size -1).getX() == bodyPart.getX() && bodyParts.get(bodyParts.size -1).getY() == bodyPart.getY() )
-            bodyParts.get(bodyParts.size -1).setTexture(tailUp);
-
 
         game.batch.draw(texture, x, y, 60, 60);
+    }
+
+    public void drawTail() {
+
+        game.batch.draw(tailUp, x, y, 60, 60);
+
     }
 
 }
