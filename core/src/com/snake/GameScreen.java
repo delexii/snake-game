@@ -221,12 +221,15 @@ public class GameScreen extends ScreenAdapter {
                 game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
                 break;
         }
+        int counter = 0;
         for (BodyPart bodyPart : bodyParts) {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
-                if (bodyPart.getX() == bodyParts.get(bodyParts.size -1).getX() && bodyPart.getY() == bodyParts.get(bodyParts.size -1).getY());
+                if (counter == 0) {
                     bodyPart.drawTail();
-                if (bodyPart.getX() == bodyParts.get(bodyParts.size -1).getX() && bodyPart.getY() != bodyParts.get(bodyParts.size -1).getY());
+                }
+                else
                     bodyPart.draw();
+                    counter += 1;
             }
         }
     }
