@@ -19,10 +19,10 @@ public class BodyPart {
     }
 
     public void setTexture(Texture texture) {
-        this.texture = texture;
+        this.snakeBody = texture;
     }
 
-    public Texture texture;
+    public Texture snakeBody;
     public Texture tailUp;
     public Texture tailDown;
     public Texture tailLeft;
@@ -30,7 +30,7 @@ public class BodyPart {
 
     public BodyPart(Snake game) {
         this.game = game;
-        this.texture = new Texture("SnakeBody.jpg");
+        this.snakeBody = new Texture("SnakeBody.jpg");
         this.tailUp = new Texture("tailUp.jpg");
         this.tailDown = new Texture("tailDown.jpg");
         this.tailLeft = new Texture("tailLeft.jpg");
@@ -45,13 +45,11 @@ public class BodyPart {
 
     public void draw() {
 
-        game.batch.draw(texture, x, y, 60, 60);
+        game.batch.draw(snakeBody, x, y, 60, 60);
     }
 
     public void drawTail(int directionX, int directionY) {
-
-
-
+        // draws tail in correct orientation using coordinates of bodypart before it
         if (this.y < directionY) game.batch.draw(tailUp, x, y, 60, 60);
         if (this.y > directionY) game.batch.draw(tailDown, x, y, 60, 60);
         if (this.x > directionX) game.batch.draw(tailLeft, x, y, 60, 60);

@@ -71,7 +71,7 @@ public class GameScreen extends ScreenAdapter {
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
-
+//bodyparts at start (plus one loaded under head)
         addBodyPart();
         addBodyPart();
         addBodyPart();
@@ -91,6 +91,16 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
 
         game.batch.begin();
+        //Draw snake before movement
+        if (snakeDirection == -1) {
+        bodyParts.get(0).updateBodyPosition(1920/2 -60, 1080/2 -300);
+        bodyParts.get(0).drawTail(1920/2 -60, 1080);
+        bodyParts.get(1).updateBodyPosition(1920/2 -60, 1080/2 -240);
+        bodyParts.get(1).draw();
+        bodyParts.get(2).updateBodyPosition(1920/2 -60, 1080/2 -180);
+        bodyParts.get(2).draw();
+        bodyParts.get(3).updateBodyPosition(1920/2 -60, 1080/2 -120);
+        bodyParts.get(3).draw();}
 
         drawSnake();
 
@@ -193,8 +203,10 @@ public class GameScreen extends ScreenAdapter {
     public void updateBodyParts() {
         if (bodyParts.size > 0) {
             BodyPart bodyPart = bodyParts.removeIndex(0);
-            bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
-            bodyParts.add(bodyPart);
+            if (snakeDirection != -1)
+                bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
+                bodyParts.add(bodyPart);
+
         }
     }
 
@@ -221,17 +233,19 @@ public class GameScreen extends ScreenAdapter {
                 game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
                 break;
         }
-        int counter = 0;
-        for (BodyPart bodyPart : bodyParts) {
-            if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
-                if (counter == 0) {
-                    int directionX = bodyParts.get(1).getX();
-                    int directionY = bodyParts.get(1).getY();
-                    bodyPart.drawTail(directionX, directionY);
-                }
-                else
-                    bodyPart.draw();
+        //Bodypart drawing using bodypart and tail draw methods
+        if (snakeDirection != -1) {
+            int counter = 0;
+            for (BodyPart bodyPart : bodyParts) {
+                if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
+                    if (counter == 0) {
+                        int directionX = bodyParts.get(1).getX();
+                        int directionY = bodyParts.get(1).getY();
+                        bodyPart.drawTail(directionX, directionY);
+                    } else
+                        bodyPart.draw();
                     counter += 1;
+                }
             }
         }
     }
