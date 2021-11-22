@@ -49,8 +49,8 @@ public class GameScreen extends ScreenAdapter {
     private static final int SNAKE_MOVEMENT = 60;
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
 
-    int snakeX = 1920 / 2 - 60;
-    int snakeY = 1080 / 2 - 60;
+    public int snakeX = 1920 / 2 - 60;
+    public int snakeY = 1080 / 2 - 60;
     public boolean appleIsOnScreen = false;
     public boolean rottenAppleIsOnScreen = false;
     private Apple apple1;
@@ -104,7 +104,7 @@ public class GameScreen extends ScreenAdapter {
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
-        // gameMusic.stop();
+         gameMusic.stop();
 
         //EndGameScreen when the snake touch the wall or too small
         if (snakeX == 30) {
