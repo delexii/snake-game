@@ -95,9 +95,6 @@ public class GameScreen extends ScreenAdapter {
             timer = MOVE_TIME;
             moveSnake();
 
-            // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
-            checkSnakeIntersection();
-
         }
 
         // kill snake if it goes off edge
@@ -137,8 +134,12 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
+
         // update bodyparts so snake 'moves'
         updateBodyParts();
+
+        // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
+        checkSnakeIntersection();
     }
 
     private void deathAtEdge() {
