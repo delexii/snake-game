@@ -90,18 +90,7 @@ public class GameScreen extends ScreenAdapter {
 
         userInput();
         game.batch.begin();
-        //Draw snake before movement
-        if (snakeDirection == -1) {
-        bodyParts.get(0).updateBodyPosition(1920/2 -60, 1080/2 -300);
-        bodyParts.get(0).drawTail(1920/2 -60, 1080);
-        bodyParts.get(1).updateBodyPosition(1920/2 -60, 1080/2 -240);
-        bodyParts.get(1).draw();
-        bodyParts.get(2).updateBodyPosition(1920/2 -60, 1080/2 -180);
-        bodyParts.get(2).draw();
-        bodyParts.get(3).updateBodyPosition(1920/2 -60, 1080/2 -120);
-        bodyParts.get(3).draw();
-        }
-
+        drawStartSnake();
         drawSnake();
         addApple();
         addRottenApple();
@@ -248,7 +237,19 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-
+    private void drawStartSnake() {
+        //Draw snake before movement
+        if (snakeDirection == -1) {
+            bodyParts.get(0).updateBodyPosition(1920/2 -60, 1080/2 -300);
+            bodyParts.get(0).drawTail(1920/2 -60, 1080);
+            bodyParts.get(1).updateBodyPosition(1920/2 -60, 1080/2 -240);
+            bodyParts.get(1).draw();
+            bodyParts.get(2).updateBodyPosition(1920/2 -60, 1080/2 -180);
+            bodyParts.get(2).draw();
+            bodyParts.get(3).updateBodyPosition(1920/2 -60, 1080/2 -120);
+            bodyParts.get(3).draw();
+        }
+    }
 
     public void renderEndGameScreen() {
         if (snakeX == 30) game.setScreen(new
