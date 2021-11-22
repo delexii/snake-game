@@ -99,25 +99,8 @@ public class GameScreen extends ScreenAdapter {
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
-        // gameMusic.stop();
+         gameMusic.stop();
 
-        //EndGameScreen when the snake touch the wall or too small
-        if (snakeX == 30) {
-            gameOver();
-        }
-
-        if (snakeX == 1920 - 30) {
-            gameOver();
-        }
-        if (snakeY == 30) {
-            gameOver();
-        }
-        if (snakeY == 1080 - 30) {
-            gameOver();
-        }
-        if (bodyParts.size < 2) {
-            gameOver();
-        }
     }
 
     // get user input
@@ -156,18 +139,32 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
-        checkEdges();
+        // kill snake if it goes off edge
+        deathAtEdge();
+        // update bodyparts so snake 'moves'
         updateBodyParts();
     }
 
-
-    public void checkEdges() {
-        // keep the circle in the screen
-        if (snakeX < 30) snakeX = 30;
-        if (snakeX > 1920 - 30) snakeX = 1920 - 30;
-        if (snakeY < 30) snakeY = 30;
-        if (snakeY > 1080 - 30) snakeY = 1080 - 30;
+private void deathAtEdge() {
+//EndGameScreen when the snake touch the wall or too small
+    if (snakeX < 30) {
+        gameOver();
     }
+
+    if (snakeX > 1920 - 30) {
+        gameOver();
+    }
+    if (snakeY < 30) {
+        gameOver();
+    }
+    if (snakeY < 1080 -30) {
+        gameOver();
+    }
+    if (bodyParts.size < 2) {
+        gameOver();
+    }
+}
+
 
 
     @Override
