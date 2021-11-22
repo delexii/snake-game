@@ -96,7 +96,7 @@ public class GameScreen extends ScreenAdapter {
         addRottenApple();
         game.batch.end();
 
-        // FOR MUSIC TO STOP WHILE TESTING COMMENT THE BELOW LINE OUT
+        // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
         // gameMusic.stop();
 
         //EndGameScreen when the snake touch the wall
