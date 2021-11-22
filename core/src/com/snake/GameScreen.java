@@ -67,15 +67,12 @@ public class GameScreen extends ScreenAdapter {
         imgRight = new Texture("SnakeHeadRight.jpg");
         //  Images for tail
         tailUp = new Texture("Tail.jpg");
-        // Temporary bodypart adder
 
-        BodyPart bodyPart = new BodyPart(game);
-        bodyPart.updateBodyPosition(snakeX, snakeY);
-        bodyParts.insert(0, bodyPart);
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
-//bodyparts at start (plus one loaded under head)
+        //bodyparts at start
+        addBodyPart();
         addBodyPart();
         addBodyPart();
         addBodyPart();
