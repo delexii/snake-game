@@ -12,25 +12,23 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameScreen extends ScreenAdapter {
 
     final Snake game;
+
+    //instance of userinput class to take user inputs
     UserInput userInput = new UserInput();
+
     // rectangle and images for snakehead
     Rectangle snakehead;
     private Texture imgUp;
     private Texture imgDown;
     private Texture imgLeft;
     private Texture imgRight;
-    // rectangle and images for tail
-    private Texture tailUp;
-    private Texture tailDown;
-    private Texture tailLeft;
-    private Texture tailRight;
 
-
+    //bodyParts array and setter
+    public Array<BodyPart> bodyParts = new Array<BodyPart>();
     public Array<BodyPart> getBodyParts() {
         return bodyParts;
     }
 
-    public Array<BodyPart> bodyParts = new Array<BodyPart>();
     // sounds
     Music gameMusic;
     Sound growSound;
@@ -67,38 +65,45 @@ public class GameScreen extends ScreenAdapter {
         snakehead = new Rectangle();
         snakehead.width = 60;
         snakehead.height = 60;
+
 //         Images for snakehead
         imgUp = new Texture("SnakeHeadUp.jpg");
         imgDown = new Texture("SnakeHeadDown.jpg");
         imgLeft = new Texture("SnakeHeadLeft.jpg");
         imgRight = new Texture("SnakeHeadRight.jpg");
-        //  Images for tail
-        tailUp = new Texture("Tail.jpg");
 
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
         growSound = Gdx.audio.newSound(Gdx.files.internal("grow.wav"));
         shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
-        //bodyparts at start
+
+        //bodyparts of snake at start of game
         addBodyPart();
         addBodyPart();
     }
 
     @Override
     public void render(float delta) {
+        //Get User input
+        userInput.userInput();
+        snakeDirection = userInput.snakeDirection;
+
         // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
         }
+
+        // kill snake if it goes off edge
+        deathAtEdge();
+
+        // check if snake bites itself and die/remove tail
+//        checkSnakeIntersection();
+
         // Set Background Colour
         ScreenUtils.clear(0, 0, 0, 1);
-
-        //Get User input
-        userInput.userInput();
-        snakeDirection = userInput.snakeDirection;
 
         //Batch draw methods
         game.batch.begin();
@@ -132,8 +137,6 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
-        // kill snake if it goes off edge
-        deathAtEdge();
         // update bodyparts so snake 'moves'
         updateBodyParts();
     }
