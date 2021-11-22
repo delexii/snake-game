@@ -107,22 +107,16 @@ public class GameScreen extends ScreenAdapter {
          gameMusic.stop();
 
         //EndGameScreen when the snake touch the wall or too small
-        if (snakeX == 30) {
+        if (snakeX == 30)
             gameOver();
-        }
-
-        if (snakeX == 1920 - 30) {
+        if (snakeX == 1920 - 30)
             gameOver();
-        }
-        if (snakeY == 30) {
+        if (snakeY == 30)
             gameOver();
-        }
-        if (snakeY == 1080 - 30) {
+        if (snakeY == 1080 - 30)
             gameOver();
-        }
-        if (bodyParts.size < 2) {
+        if (bodyParts.size < 2)
             gameOver();
-        }
     }
 
     // Move the snake left, right, up or down
@@ -133,15 +127,12 @@ public class GameScreen extends ScreenAdapter {
             case RIGHT:
                 snakeX += SNAKE_MOVEMENT;
                 break;
-
             case LEFT:
                 snakeX -= SNAKE_MOVEMENT;
                 break;
-
             case UP:
                 snakeY += SNAKE_MOVEMENT;
                 break;
-
             case DOWN:
                 snakeY -= SNAKE_MOVEMENT;
                 break;
@@ -161,6 +152,10 @@ public class GameScreen extends ScreenAdapter {
         if (snakeY > 1080 - 30) snakeY = 1080 - 30;
     }
 
+    private void gameOver() {
+        game.setScreen(new EndGameScreen(game));
+        gameMusic.stop();
+    }
 
     @Override
     public void show() {
@@ -181,7 +176,6 @@ public class GameScreen extends ScreenAdapter {
             if (snakeDirection != -1)
                 bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
                 bodyParts.add(bodyPart);
-
         }
     }
 
@@ -191,23 +185,20 @@ public class GameScreen extends ScreenAdapter {
             case RIGHT:
                 game.batch.draw(imgRight, snakeX, snakeY, snakehead.width, snakehead.height);
                 break;
-
             case LEFT:
                 game.batch.draw(imgLeft, snakeX, snakeY, snakehead.width, snakehead.height);
                 break;
-
             case UP:
                 game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
                 break;
-
             case DOWN:
                 game.batch.draw(imgDown, snakeX, snakeY, snakehead.width, snakehead.height);
                 break;
-
             case -1:
                 game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
                 break;
         }
+
         //Bodypart drawing using bodypart and tail draw methods
         if (snakeDirection != -1) {
             int counter = 0;
@@ -244,8 +235,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void deleteBodyPart() {
-//        BodyPart bodyPart = new BodyPart(game);
-//        bodyPart.updateBodyPosition(snakeX, snakeY);
         bodyParts.removeIndex(0);
     }
 
@@ -307,10 +296,6 @@ public class GameScreen extends ScreenAdapter {
             counter ++;
         }
 
-    private void gameOver() {
-        game.setScreen(new EndGameScreen(game));
-        gameMusic.stop();
-    }
 
 }
 
