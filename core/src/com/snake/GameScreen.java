@@ -74,8 +74,6 @@ public class GameScreen extends ScreenAdapter {
         //bodyparts at start
         addBodyPart();
         addBodyPart();
-        addBodyPart();
-        addBodyPart();
     }
 
     @Override
@@ -101,31 +99,22 @@ public class GameScreen extends ScreenAdapter {
         gameMusic.stop();
 
 
-        //EndGameScreen when the snake touch the wall
+        //EndGameScreen when the snake touch the wall or too small
         if (snakeX == 30) {
-            game.setScreen(new
-
-                    EndGameScreen(game));
-            gameMusic.stop();
+            gameOver();
         }
 
         if (snakeX == 1920 - 30) {
-            game.setScreen(new
-
-                    EndGameScreen(game));
-            gameMusic.stop();
+            gameOver();
         }
         if (snakeY == 30) {
-            game.setScreen(new
-
-                    EndGameScreen(game));
-            gameMusic.stop();
+            gameOver();
         }
         if (snakeY == 1080 - 30) {
-            game.setScreen(new
-
-                    EndGameScreen(game));
-            gameMusic.stop();
+            gameOver();
+        }
+        if (bodyParts.size < 2) {
+            gameOver();
         }
     }
 
@@ -229,9 +218,11 @@ public class GameScreen extends ScreenAdapter {
             for (BodyPart bodyPart : bodyParts) {
                 if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
                     if (counter == 0) {
-                        int directionX = bodyParts.get(1).getX();
-                        int directionY = bodyParts.get(1).getY();
-                        bodyPart.drawTail(directionX, directionY);
+                        if (bodyParts.size > 1) {
+                            int directionX = bodyParts.get(1).getX();
+                            int directionY = bodyParts.get(1).getY();
+                            bodyPart.drawTail(directionX, directionY);
+                        }
                     } else
                         bodyPart.draw();
                     counter += 1;
@@ -243,14 +234,10 @@ public class GameScreen extends ScreenAdapter {
     private void drawStartSnake() {
         //Draw snake before movement
         if (snakeDirection == -1) {
-            bodyParts.get(0).updateBodyPosition(1920/2 -60, 1080/2 -300);
+            bodyParts.get(0).updateBodyPosition(1920/2 -60, 1080/2 -180);
             bodyParts.get(0).drawTail(1920/2 -60, 1080);
-            bodyParts.get(1).updateBodyPosition(1920/2 -60, 1080/2 -240);
+            bodyParts.get(1).updateBodyPosition(1920/2 -60, 1080/2 -120);
             bodyParts.get(1).draw();
-            bodyParts.get(2).updateBodyPosition(1920/2 -60, 1080/2 -180);
-            bodyParts.get(2).draw();
-            bodyParts.get(3).updateBodyPosition(1920/2 -60, 1080/2 -120);
-            bodyParts.get(3).draw();
         }
     }
 
@@ -307,6 +294,10 @@ public class GameScreen extends ScreenAdapter {
         this.apple2 =  apple2;
         }
 
+    private void gameOver() {
+        game.setScreen(new EndGameScreen(game));
+        gameMusic.stop();
+    }
 
 }
 
