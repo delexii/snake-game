@@ -48,7 +48,6 @@ public class EndGameScreen extends ScreenAdapter {
         gameOver.height = 314;
 
         // STOP SOUND WHILE TESTING
-        gameOverMusic.stop();
 
     }
 
@@ -78,6 +77,7 @@ public class EndGameScreen extends ScreenAdapter {
 
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new GameScreen(game));
+                gameOverMusic.stop();
             }
         });
 
@@ -105,8 +105,8 @@ public class EndGameScreen extends ScreenAdapter {
     game.batch.end();
 
 
-     
-        gameOverMusic.play();
+        // TO STOP SOUND WHILE TESTING COMMENT OUT BELOW LINE
+         gameOverMusic.play();
 
     }
 
