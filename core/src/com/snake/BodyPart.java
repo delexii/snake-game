@@ -1,8 +1,11 @@
 package com.snake;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class BodyPart {
 
@@ -35,7 +38,6 @@ public class BodyPart {
         this.tailDown = new Texture("tailDown.jpg");
         this.tailLeft = new Texture("tailLeft.jpg");
         this.tailRight = new Texture("tailRight.jpg");
-
     }
 
     public void updateBodyPosition(int x, int y) {

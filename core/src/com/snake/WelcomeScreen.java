@@ -48,9 +48,6 @@ public class WelcomeScreen extends ScreenAdapter {
 
         TextButton newGame = new TextButton("New Game", skin);
         TextButton exit = new TextButton("Exit", skin);
-
-        // STOP SOUND WHILE TESTING
-        welcomeMusic.stop();
     
 
         //Add buttons to the table
@@ -74,6 +71,7 @@ public class WelcomeScreen extends ScreenAdapter {
                 Gdx.app.exit();
             }
         });
+        // TO STOP SOUND WHILE TESTING COMMENT OUT BELOW SOUND
         welcomeMusic.play();
     }
 
