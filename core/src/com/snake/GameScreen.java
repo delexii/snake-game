@@ -293,10 +293,10 @@ public class GameScreen extends ScreenAdapter {
     int counter = 0;
         for (BodyPart bodyPart : bodyParts) {
             if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()){
-                bodyParts.removeRange(0,counter);
+                bodyParts.removeRange(0, counter);
             }
+            counter ++;
         }
-        counter ++;
     }
 
 
