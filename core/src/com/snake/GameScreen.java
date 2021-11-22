@@ -94,13 +94,13 @@ public class GameScreen extends ScreenAdapter {
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
+
+            // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
+        checkSnakeIntersection();
         }
 
         // kill snake if it goes off edge
         deathAtEdge();
-
-        // check if snake bites itself and die/remove tail
-//        checkSnakeIntersection();
 
         // Set Background Colour
         ScreenUtils.clear(0, 0, 0, 1);
@@ -115,7 +115,6 @@ public class GameScreen extends ScreenAdapter {
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
          gameMusic.stop();
-
     }
 
     // Move the snake left, right, up or down
@@ -172,8 +171,7 @@ public class GameScreen extends ScreenAdapter {
         shrinkSound.dispose();
     }
 
-
-    public void updateBodyParts() {
+    private void updateBodyParts() {
         if (bodyParts.size > 0) {
             BodyPart bodyPart = bodyParts.removeIndex(0);
             if (snakeDirection != -1)
@@ -289,15 +287,15 @@ public class GameScreen extends ScreenAdapter {
         }
 
 
-        public void checkSnakeIntersection(){
-        int counter = 0;
-            for (BodyPart bodyPart : bodyParts) {
-                if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()){
-                    bodyParts.removeRange(0,counter);
-                }
+    public void checkSnakeIntersection(){
+    int counter = 0;
+        for (BodyPart bodyPart : bodyParts) {
+            if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()){
+                bodyParts.removeRange(0,counter);
             }
-            counter ++;
         }
+        counter ++;
+    }
 
 
 }
