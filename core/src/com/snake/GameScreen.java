@@ -93,9 +93,14 @@ public class GameScreen extends ScreenAdapter {
             timer = MOVE_TIME;
             moveSnake();
         }
+        // Set Background Colour
         ScreenUtils.clear(0, 0, 0, 1);
+
+        //Get User input
         userInput.userInput();
         snakeDirection = userInput.snakeDirection;
+
+        //Batch draw methods
         game.batch.begin();
         drawStartSnake();
         drawSnake();
@@ -106,17 +111,6 @@ public class GameScreen extends ScreenAdapter {
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
          gameMusic.stop();
 
-        //EndGameScreen when the snake touch the wall or too small
-        if (snakeX == 30)
-            gameOver();
-        if (snakeX == 1920 - 30)
-            gameOver();
-        if (snakeY == 30)
-            gameOver();
-        if (snakeY == 1080 - 30)
-            gameOver();
-        if (bodyParts.size < 2)
-            gameOver();
     }
 
     // Move the snake left, right, up or down
@@ -138,18 +132,24 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
-        checkEdges();
+        // kill snake if it goes off edge
+        deathAtEdge();
+        // update bodyparts so snake 'moves'
         updateBodyParts();
-        checkSnakeIntersection();
     }
 
-
-    public void checkEdges() {
-        // keep the circle in the screen
-        if (snakeX < 30) snakeX = 30;
-        if (snakeX > 1920 - 30) snakeX = 1920 - 30;
-        if (snakeY < 30) snakeY = 30;
-        if (snakeY > 1080 - 30) snakeY = 1080 - 30;
+    private void deathAtEdge() {
+        //EndGameScreen when the snake touch the wall or too small
+        if (snakeX == -60)
+            gameOver();
+        if (snakeX == 1920 - 120)
+            gameOver();
+        if (snakeY == -60)
+            gameOver();
+        if (snakeY == 1080)
+            gameOver();
+        if (bodyParts.size < 2)
+            gameOver();
     }
 
     private void gameOver() {
