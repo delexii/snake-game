@@ -78,6 +78,7 @@ public class EndGameScreen extends ScreenAdapter {
 
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new GameScreen(game));
+                gameOverMusic.stop();
             }
         });
 
