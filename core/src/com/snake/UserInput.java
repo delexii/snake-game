@@ -16,7 +16,7 @@ public class UserInput {
     public int snakeDirection = -1;
 
     // get user input
-    public int userInput() {
+    public void userInput(int previoussnakeDirection) {
         boolean lPressed = Gdx.input.isKeyPressed(Input.Keys.LEFT);
         boolean rPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
         boolean uPressed = Gdx.input.isKeyPressed(Input.Keys.UP);
@@ -27,9 +27,12 @@ public class UserInput {
         if (uPressed) snakeDirection = UP;
         if (dPressed) snakeDirection = DOWN;
 
-        return snakeDirection;
+        //prevents reverse commands
+        if ((previoussnakeDirection == RIGHT && this.snakeDirection == LEFT)
+                || (previoussnakeDirection == DOWN && this.snakeDirection == UP)
+                || (previoussnakeDirection == LEFT && this.snakeDirection == RIGHT)
+                || (previoussnakeDirection == UP && this.snakeDirection == DOWN)){
+        this.snakeDirection = previoussnakeDirection;}
+
     }
-
-
-
 }

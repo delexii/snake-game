@@ -86,8 +86,13 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         //Get User input
-        userInput.userInput();
-        snakeDirection = userInput.snakeDirection;
+        userInput.userInput(snakeDirection);
+//        if (!(snakeDirection == RIGHT && userInput.snakeDirection == LEFT)
+//                && !(snakeDirection == DOWN && userInput.snakeDirection == UP)
+//                && !(snakeDirection == LEFT && userInput.snakeDirection == RIGHT) &&
+//                !(snakeDirection == UP && userInput.snakeDirection == DOWN)) {
+            snakeDirection = userInput.snakeDirection;
+
 
         // timer function to control render speed
         timer -= delta;
