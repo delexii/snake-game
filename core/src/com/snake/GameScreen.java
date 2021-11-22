@@ -79,7 +79,20 @@ public class GameScreen extends ScreenAdapter {
         addBodyPart();
         addBodyPart();
     }
+    // Show Method
+    @Override
+    public void show() {
+        gameMusic.play();
+    }
+    //Dispose Method
+    @Override
+    public void dispose() {
+        gameMusic.dispose();
+        growSound.dispose();
+        shrinkSound.dispose();
+    }
 
+    // GameScreen Render Method
     @Override
     public void render(float delta) {
         // timer function to control render speed
@@ -99,25 +112,8 @@ public class GameScreen extends ScreenAdapter {
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
-        // gameMusic.stop();
+         gameMusic.stop();
 
-        //EndGameScreen when the snake touch the wall or too small
-        if (snakeX == 30) {
-            gameOver();
-        }
-
-        if (snakeX == 1920 - 30) {
-            gameOver();
-        }
-        if (snakeY == 30) {
-            gameOver();
-        }
-        if (snakeY == 1080 - 30) {
-            gameOver();
-        }
-        if (bodyParts.size < 2) {
-            gameOver();
-        }
     }
 
     // get user input
@@ -156,31 +152,31 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
-        checkEdges();
+        // kill snake if it goes off edge
+        deathAtEdge();
+        // update bodyparts so snake 'moves'
         updateBodyParts();
     }
 
-
-    public void checkEdges() {
-        // keep the circle in the screen
-        if (snakeX < 30) snakeX = 30;
-        if (snakeX > 1920 - 30) snakeX = 1920 - 30;
-        if (snakeY < 30) snakeY = 30;
-        if (snakeY > 1080 - 30) snakeY = 1080 - 30;
+    private void deathAtEdge() {
+    //EndGameScreen when the snake touch the wall or too small
+        if (snakeX == -60)
+            gameOver();
+        if (snakeX == 1920 - 120)
+            gameOver();
+        if (snakeY == -60)
+            gameOver();
+        if (snakeY == 1080)
+            gameOver();
+        if (bodyParts.size < 2)
+            gameOver();
     }
 
-
-    @Override
-    public void show() {
-        gameMusic.play();
+    private void gameOver() {
+        game.setScreen(new EndGameScreen(game));
+        gameMusic.stop();
     }
 
-    @Override
-    public void dispose() {
-        gameMusic.dispose();
-        growSound.dispose();
-        shrinkSound.dispose();
-    }
 
 
     public void updateBodyParts() {
@@ -252,11 +248,11 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void deleteBodyPart() {
-//        BodyPart bodyPart = new BodyPart(game);
-//        bodyPart.updateBodyPosition(snakeX, snakeY);
         bodyParts.removeIndex(0);
     }
 
+
+    // Apple and Rotten Apple Methods
     public void addApple() {
         Apple apple = new Apple(game);
         if (appleIsOnScreen == false) {
@@ -277,7 +273,6 @@ public class GameScreen extends ScreenAdapter {
         Apple apple1 = apple;
         this.apple1 =  apple1;
     }
-
 
     public void addRottenApple() {
         Apple rottenApple = new Apple(game);
@@ -300,10 +295,6 @@ public class GameScreen extends ScreenAdapter {
         this.apple2 =  apple2;
         }
 
-    private void gameOver() {
-        game.setScreen(new EndGameScreen(game));
-        gameMusic.stop();
-    }
 
 }
 
