@@ -298,15 +298,13 @@ public class GameScreen extends ScreenAdapter {
 
 
         public void checkSnakeIntersection(){
+        int counter = 0;
             for (BodyPart bodyPart : bodyParts) {
                 if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()){
-                    game.setScreen(new
-
-                            EndGameScreen(game));
-                    gameMusic.stop();
+                    bodyParts.removeRange(0,counter);
                 }
-
             }
+            counter ++;
         }
 
     private void gameOver() {
