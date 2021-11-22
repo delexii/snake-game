@@ -55,6 +55,9 @@ public class GameScreen extends ScreenAdapter {
     private Apple apple1;
     private Apple apple2;
 
+    // add scores
+    int score = 0;
+
 
     public GameScreen(Snake game) {
         this.game = game;
@@ -264,6 +267,8 @@ public class GameScreen extends ScreenAdapter {
             appleIsOnScreen = false;
             growSound.play();
             addBodyPart();
+            score ++;
+            System.out.println(score);
         }
     }
 
@@ -285,6 +290,8 @@ public class GameScreen extends ScreenAdapter {
             rottenAppleIsOnScreen = false;
             shrinkSound.play();
             deleteBodyPart();
+            score --;
+            System.out.println(score);
         }
     }
 
