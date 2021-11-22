@@ -96,7 +96,8 @@ public class GameScreen extends ScreenAdapter {
             moveSnake();
 
             // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
-        checkSnakeIntersection();
+            checkSnakeIntersection();
+
         }
 
         // kill snake if it goes off edge
@@ -291,10 +292,10 @@ public class GameScreen extends ScreenAdapter {
     int counter = 0;
         for (BodyPart bodyPart : bodyParts) {
             if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()){
-                bodyParts.removeRange(0,counter);
+                bodyParts.removeRange(0, counter);
             }
+            counter ++;
         }
-        counter ++;
     }
 
 
