@@ -134,10 +134,14 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
+
         // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
         checkSnakeIntersection();
+
         // update bodyparts so snake 'moves'
         updateBodyParts();
+
+  
     }
 
     private void deathAtEdge() {
