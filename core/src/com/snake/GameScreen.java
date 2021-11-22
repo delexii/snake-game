@@ -75,7 +75,7 @@ public class GameScreen extends ScreenAdapter {
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
-        growSound = Gdx.audio.newSound(Gdx.files.internal("grow.wav"));
+        growSound = Gdx.audio.newSound(Gdx.files.internal("applecrunchwav.wav"));
         shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
 
         //bodyparts of snake at start of game
