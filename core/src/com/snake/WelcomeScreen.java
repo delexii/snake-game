@@ -36,6 +36,8 @@ public class WelcomeScreen extends ScreenAdapter {
         game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 20);
         game.batch.end();
 
+        // STOP SOUND WHILE TESTING
+        welcomeMusic.stop();
     }
 
     @Override
