@@ -18,6 +18,17 @@ public class GameScreen extends ScreenAdapter {
     private Texture imgDown;
     private Texture imgLeft;
     private Texture imgRight;
+    // rectangle and images for tail
+    private Texture tailUp;
+    private Texture tailDown;
+    private Texture tailLeft;
+    private Texture tailRight;
+
+
+    public Array<BodyPart> getBodyParts() {
+        return bodyParts;
+    }
+
     public Array<BodyPart> bodyParts = new Array<BodyPart>();
     // sounds
     Music gameMusic;
@@ -54,15 +65,14 @@ public class GameScreen extends ScreenAdapter {
         imgDown = new Texture("SnakeHeadDown.jpg");
         imgLeft = new Texture("SnakeHeadLeft.jpg");
         imgRight = new Texture("SnakeHeadRight.jpg");
-        // Temporary bodypart adder
+        //  Images for tail
+        tailUp = new Texture("Tail.jpg");
 
-        BodyPart bodyPart = new BodyPart(game);
-        bodyPart.updateBodyPosition(snakeX, snakeY);
-        bodyParts.insert(0, bodyPart);
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
-
+        //bodyparts at start
+        addBodyPart();
         addBodyPart();
         addBodyPart();
         addBodyPart();
@@ -78,14 +88,14 @@ public class GameScreen extends ScreenAdapter {
         }
         ScreenUtils.clear(0, 0, 0, 1);
 
-
+        userInput();
         game.batch.begin();
-
+        drawStartSnake();
         drawSnake();
         addApple();
         addRottenApple();
         game.batch.end();
-        userInput();
+
 
         // STOP SOUND WHILE TESTING
         gameMusic.stop();
@@ -183,8 +193,10 @@ public class GameScreen extends ScreenAdapter {
     public void updateBodyParts() {
         if (bodyParts.size > 0) {
             BodyPart bodyPart = bodyParts.removeIndex(0);
-            bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
-            bodyParts.add(bodyPart);
+            if (snakeDirection != -1)
+                bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
+                bodyParts.add(bodyPart);
+
         }
     }
 
@@ -211,9 +223,34 @@ public class GameScreen extends ScreenAdapter {
                 game.batch.draw(imgUp, snakeX, snakeY, snakehead.width, snakehead.height);
                 break;
         }
-        for (BodyPart bodyPart : bodyParts) {
-            if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
-                bodyPart.draw();
+        //Bodypart drawing using bodypart and tail draw methods
+        if (snakeDirection != -1) {
+            int counter = 0;
+            for (BodyPart bodyPart : bodyParts) {
+                if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
+                    if (counter == 0) {
+                        int directionX = bodyParts.get(1).getX();
+                        int directionY = bodyParts.get(1).getY();
+                        bodyPart.drawTail(directionX, directionY);
+                    } else
+                        bodyPart.draw();
+                    counter += 1;
+                }
+            }
+        }
+    }
+
+    private void drawStartSnake() {
+        //Draw snake before movement
+        if (snakeDirection == -1) {
+            bodyParts.get(0).updateBodyPosition(1920/2 -60, 1080/2 -300);
+            bodyParts.get(0).drawTail(1920/2 -60, 1080);
+            bodyParts.get(1).updateBodyPosition(1920/2 -60, 1080/2 -240);
+            bodyParts.get(1).draw();
+            bodyParts.get(2).updateBodyPosition(1920/2 -60, 1080/2 -180);
+            bodyParts.get(2).draw();
+            bodyParts.get(3).updateBodyPosition(1920/2 -60, 1080/2 -120);
+            bodyParts.get(3).draw();
         }
     }
 
@@ -226,7 +263,7 @@ public class GameScreen extends ScreenAdapter {
     public void deleteBodyPart() {
 //        BodyPart bodyPart = new BodyPart(game);
 //        bodyPart.updateBodyPosition(snakeX, snakeY);
-        bodyParts.pop();
+        bodyParts.removeIndex(0);
     }
 
     public void addApple() {

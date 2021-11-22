@@ -29,11 +29,11 @@ public class Apple {
     public void drawRottenApple() {game.batch.draw(rottenApple, appleX, appleY, 60, 60); }
 
     public void setX(int SNAKE_MOVEMENT){
-        this.appleX = MathUtils.random(Gdx.graphics.getWidth() / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
+        this.appleX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
     }
 
     public void setY(int SNAKE_MOVEMENT){
-        this.appleY = MathUtils.random(Gdx.graphics.getHeight() / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
+        this.appleY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
     }
 
 
