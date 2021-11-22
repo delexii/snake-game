@@ -41,8 +41,12 @@ public class Apple {
     public void setY(int SNAKE_MOVEMENT){
         this.appleY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
         //shrinkSound.play();
+        growSound.play();
     }
 
+    public void dispose() {
+        growSound.dispose();
+    }
 
 }
 
