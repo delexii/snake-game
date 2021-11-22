@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameScreen extends ScreenAdapter {
 
     final Snake game;
+    UserInput userInput = new UserInput();
     // rectangle and images for snakehead
     Rectangle snakehead;
     private Texture imgUp;
@@ -58,6 +59,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(Snake game) {
         this.game = game;
+
         //snakehead rectangle size 60p x 60 p assumes 1080p x 1920p  grid 18 x 32
         snakehead = new Rectangle();
         snakehead.width = 60;
@@ -79,20 +81,7 @@ public class GameScreen extends ScreenAdapter {
         addBodyPart();
         addBodyPart();
     }
-    // Show Method
-    @Override
-    public void show() {
-        gameMusic.play();
-    }
-    //Dispose Method
-    @Override
-    public void dispose() {
-        gameMusic.dispose();
-        growSound.dispose();
-        shrinkSound.dispose();
-    }
 
-    // GameScreen Render Method
     @Override
     public void render(float delta) {
         // timer function to control render speed
@@ -102,8 +91,8 @@ public class GameScreen extends ScreenAdapter {
             moveSnake();
         }
         ScreenUtils.clear(0, 0, 0, 1);
-
-        userInput();
+        userInput.userInput();
+        snakeDirection = userInput.snakeDirection;
         game.batch.begin();
         drawStartSnake();
         drawSnake();
@@ -112,23 +101,26 @@ public class GameScreen extends ScreenAdapter {
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
-         gameMusic.stop();
+        // gameMusic.stop();
 
+        //EndGameScreen when the snake touch the wall or too small
+        if (snakeX == 30) {
+            gameOver();
+        }
+
+        if (snakeX == 1920 - 30) {
+            gameOver();
+        }
+        if (snakeY == 30) {
+            gameOver();
+        }
+        if (snakeY == 1080 - 30) {
+            gameOver();
+        }
+        if (bodyParts.size < 2) {
+            gameOver();
+        }
     }
-
-    // get user input
-    private void userInput() {
-        boolean lPressed = Gdx.input.isKeyPressed(Input.Keys.LEFT);
-        boolean rPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
-        boolean uPressed = Gdx.input.isKeyPressed(Input.Keys.UP);
-        boolean dPressed = Gdx.input.isKeyPressed(Input.Keys.DOWN);
-
-        if (lPressed) snakeDirection = LEFT;
-        if (rPressed) snakeDirection = RIGHT;
-        if (uPressed) snakeDirection = UP;
-        if (dPressed) snakeDirection = DOWN;
-    }
-
 
     // Move the snake left, right, up or down
     private void moveSnake() {
@@ -152,31 +144,31 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
-        // kill snake if it goes off edge
-        deathAtEdge();
-        // update bodyparts so snake 'moves'
+        checkEdges();
         updateBodyParts();
     }
 
-    private void deathAtEdge() {
-    //EndGameScreen when the snake touch the wall or too small
-        if (snakeX == -60)
-            gameOver();
-        if (snakeX == 1920 - 120)
-            gameOver();
-        if (snakeY == -60)
-            gameOver();
-        if (snakeY == 1080)
-            gameOver();
-        if (bodyParts.size < 2)
-            gameOver();
+
+    public void checkEdges() {
+        // keep the circle in the screen
+        if (snakeX < 30) snakeX = 30;
+        if (snakeX > 1920 - 30) snakeX = 1920 - 30;
+        if (snakeY < 30) snakeY = 30;
+        if (snakeY > 1080 - 30) snakeY = 1080 - 30;
     }
 
-    private void gameOver() {
-        game.setScreen(new EndGameScreen(game));
-        gameMusic.stop();
+
+    @Override
+    public void show() {
+        gameMusic.play();
     }
 
+    @Override
+    public void dispose() {
+        gameMusic.dispose();
+        growSound.dispose();
+        shrinkSound.dispose();
+    }
 
 
     public void updateBodyParts() {
@@ -248,11 +240,11 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void deleteBodyPart() {
+//        BodyPart bodyPart = new BodyPart(game);
+//        bodyPart.updateBodyPosition(snakeX, snakeY);
         bodyParts.removeIndex(0);
     }
 
-
-    // Apple and Rotten Apple Methods
     public void addApple() {
         Apple apple = new Apple(game);
         if (appleIsOnScreen == false) {
@@ -273,6 +265,7 @@ public class GameScreen extends ScreenAdapter {
         Apple apple1 = apple;
         this.apple1 =  apple1;
     }
+
 
     public void addRottenApple() {
         Apple rottenApple = new Apple(game);
@@ -295,6 +288,10 @@ public class GameScreen extends ScreenAdapter {
         this.apple2 =  apple2;
         }
 
+    private void gameOver() {
+        game.setScreen(new EndGameScreen(game));
+        gameMusic.stop();
+    }
 
 }
 
