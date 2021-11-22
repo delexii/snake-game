@@ -10,13 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class WelcomeScreen extends ScreenAdapter {
 
     final  Snake game;
-
     private Stage stage;
-
+    // sound
+    Music welcomeMusic;
 
 
     public WelcomeScreen (Snake game) {
@@ -25,6 +28,9 @@ public class WelcomeScreen extends ScreenAdapter {
         // create a stage and set up as an inputprocessor
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        welcomeMusic = Gdx.audio.newMusic(Gdx.files.internal("welcome.wav"));
+        welcomeMusic.setLooping(true);
     }
 
 
@@ -39,8 +45,13 @@ public class WelcomeScreen extends ScreenAdapter {
         // Button skins
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
+
         TextButton newGame = new TextButton("New Game", skin);
         TextButton exit = new TextButton("Exit", skin);
+
+        // STOP SOUND WHILE TESTING
+        welcomeMusic.stop();
+    
 
         //Add buttons to the table
         table.add(newGame).prefHeight(100).prefWidth(300);
@@ -52,15 +63,18 @@ public class WelcomeScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new GameScreen(game));
+              welcomeMusic.stop();
             }
         });
 
         exit.addListener(new ChangeListener() {
             @Override
+
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
             }
         });
+        welcomeMusic.play();
     }
 
 
@@ -87,11 +101,14 @@ public class WelcomeScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+
         stage.dispose();
+      welcomeMusic.dispose();
 
     }
     @Override
     public void resize(int width, int height) {
       stage.getViewport().update(width, height, true);
     }
+
 }

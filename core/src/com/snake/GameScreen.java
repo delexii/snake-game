@@ -1,7 +1,10 @@
 package com.snake;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -15,7 +18,9 @@ public class GameScreen extends ScreenAdapter {
     private Texture imgDown;
     private Texture imgLeft;
     private Texture imgRight;
-    private Array<BodyPart> bodyParts = new Array<BodyPart>();
+    public Array<BodyPart> bodyParts = new Array<BodyPart>();
+    // sounds
+    Music gameMusic;
 
     // Snake movement controls
     private static final int RIGHT = 0;
@@ -28,13 +33,14 @@ public class GameScreen extends ScreenAdapter {
     private static float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
-
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
 
     int snakeX = 1920 / 2 - 60;
     int snakeY = 1080 / 2 - 60;
-
-
+    public boolean appleIsOnScreen = false;
+    public boolean rottenAppleIsOnScreen = false;
+    private Apple apple1;
+    private Apple apple2;
 
 
     public GameScreen(Snake game) {
@@ -49,6 +55,14 @@ public class GameScreen extends ScreenAdapter {
         imgLeft = new Texture("SnakeHeadLeft.jpg");
         imgRight = new Texture("SnakeHeadRight.jpg");
         // Temporary bodypart adder
+
+        BodyPart bodyPart = new BodyPart(game);
+        bodyPart.updateBodyPosition(snakeX, snakeY);
+        bodyParts.insert(0, bodyPart);
+        // Sound for game
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
+        gameMusic.setLooping(true);
+
         addBodyPart();
         addBodyPart();
         addBodyPart();
@@ -56,22 +70,53 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-
         // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
         }
-
         ScreenUtils.clear(0, 0, 0, 1);
 
+
         game.batch.begin();
+
         drawSnake();
+        addApple();
+        addRottenApple();
         game.batch.end();
         userInput();
+
+        // STOP SOUND WHILE TESTING
+        gameMusic.stop();
+
+
         //EndGameScreen when the snake touch the wall
-        renderEndGameScreen();
+        if (snakeX == 30) {
+            game.setScreen(new
+
+                    EndGameScreen(game));
+            gameMusic.stop();
+        }
+
+        if (snakeX == 1920 - 30) {
+            game.setScreen(new
+
+                    EndGameScreen(game));
+            gameMusic.stop();
+        }
+        if (snakeY == 30) {
+            game.setScreen(new
+
+                    EndGameScreen(game));
+            gameMusic.stop();
+        }
+        if (snakeY == 1080 - 30) {
+            game.setScreen(new
+
+                    EndGameScreen(game));
+            gameMusic.stop();
+        }
     }
 
     // get user input
@@ -90,8 +135,8 @@ public class GameScreen extends ScreenAdapter {
 
     // Move the snake left, right, up or down
     private void moveSnake() {
-    snakeXBeforeUpdate = snakeX;
-    snakeYBeforeUpdate = snakeY;
+        snakeXBeforeUpdate = snakeX;
+        snakeYBeforeUpdate = snakeY;
         switch (snakeDirection) {
             case RIGHT:
                 snakeX += SNAKE_MOVEMENT;
@@ -124,15 +169,26 @@ public class GameScreen extends ScreenAdapter {
     }
 
 
-    public void updateBodyParts(){
-        if (bodyParts.size >0) {
-        BodyPart bodyPart = bodyParts.removeIndex(0);
-        bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
-        bodyParts.add(bodyPart);
+    @Override
+    public void show() {
+        gameMusic.play();
+    }
+
+    @Override
+    public void dispose() {
+        gameMusic.dispose();
+    }
+
+
+    public void updateBodyParts() {
+        if (bodyParts.size > 0) {
+            BodyPart bodyPart = bodyParts.removeIndex(0);
+            bodyPart.updateBodyPosition(snakeXBeforeUpdate, snakeYBeforeUpdate);
+            bodyParts.add(bodyPart);
         }
     }
 
-    private void drawSnake(){
+    private void drawSnake() {
         // draw snakehead in correct orientation
         switch (snakeDirection) {
             case RIGHT:
@@ -157,30 +213,67 @@ public class GameScreen extends ScreenAdapter {
         }
         for (BodyPart bodyPart : bodyParts) {
             if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY))
-                bodyPart.draw();}
+                bodyPart.draw();
+        }
     }
 
-    public void renderEndGameScreen(){
-        if (snakeX == 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeX == 1920 - 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeY == 30) game.setScreen(new
-
-                EndGameScreen(game));
-        if (snakeY == 1080 - 30) game.setScreen(new
-
-                EndGameScreen(game));
-    }
-
-    public void addBodyPart(){
+    public void addBodyPart() {
         BodyPart bodyPart = new BodyPart(game);
         bodyPart.updateBodyPosition(snakeX, snakeY);
-        bodyParts.insert(0,bodyPart);
+        bodyParts.insert(0, bodyPart);
     }
+
+    public void deleteBodyPart() {
+//        BodyPart bodyPart = new BodyPart(game);
+//        bodyPart.updateBodyPosition(snakeX, snakeY);
+        bodyParts.pop();
+    }
+
+    public void addApple() {
+        Apple apple = new Apple(game);
+        if (appleIsOnScreen == false) {
+            randomApple(apple);
+        }
+        apple1.drawApple();
+        appleIsOnScreen = true;
+        if (snakeX == apple1.getX() && snakeY == apple1.getY()){
+            appleIsOnScreen = false;
+            addBodyPart();
+        }
+    }
+
+    public void randomApple(Apple apple){
+        apple.setX(SNAKE_MOVEMENT);
+        apple.setY(SNAKE_MOVEMENT);
+        Apple apple1 = apple;
+        this.apple1 =  apple1;
+    }
+
+
+    public void addRottenApple() {
+        Apple rottenApple = new Apple(game);
+        if (rottenAppleIsOnScreen == false) {
+            randomRottenApple(rottenApple);
+        }
+        apple2.drawRottenApple();
+        rottenAppleIsOnScreen = true;
+        if (snakeX == apple2.getX() && snakeY == apple2.getY()){
+            rottenAppleIsOnScreen = false;
+            deleteBodyPart();
+        }
+    }
+
+    public void randomRottenApple(Apple rottenApple){
+        rottenApple.setX(SNAKE_MOVEMENT);
+        rottenApple.setY(SNAKE_MOVEMENT);
+        Apple apple2 = rottenApple;
+        this.apple2 =  apple2;
+        }
+
+
 }
+
+
 
 
 

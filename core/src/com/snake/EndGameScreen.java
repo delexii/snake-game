@@ -12,28 +12,44 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+
 
 public class EndGameScreen extends ScreenAdapter {
 
     final  Snake game;
+
     Rectangle gameOver;
     Texture gameOverImage;
     private Stage stage;
+
+    // sound
+    Music gameOverMusic;
 
 
 
     public EndGameScreen(Snake game) {
         this.game = game;
 
+        gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("gameOver.wav"));
+        gameOverMusic.setLooping(true);
+    
+
         gameOverImage = new Texture(Gdx.files.internal("game_over.png"));
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
 
         gameOver = new Rectangle();
         gameOver.x = 1920 / 2 - 388 / 2;
         gameOver.y = 650;
         gameOver.width = 388;
         gameOver.height = 314;
+
+        // STOP SOUND WHILE TESTING
+        gameOverMusic.stop();
+
     }
 
     @Override
@@ -59,6 +75,7 @@ public class EndGameScreen extends ScreenAdapter {
 
         tryAgain.addListener(new ChangeListener() {
             @Override
+
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new GameScreen(game));
             }
@@ -87,6 +104,10 @@ public class EndGameScreen extends ScreenAdapter {
     game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 20);
     game.batch.end();
 
+
+     
+        gameOverMusic.play();
+
     }
 
 
@@ -97,6 +118,10 @@ public class EndGameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+
     stage.dispose();
+
+        gameOverMusic.dispose();
+
     }
 }
