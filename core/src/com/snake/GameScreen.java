@@ -86,7 +86,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         //Get User input
-        userInput.userInput();
+        userInput.userInput(snakeDirection);
         snakeDirection = userInput.snakeDirection;
 
         // timer function to control render speed
@@ -135,11 +135,13 @@ public class GameScreen extends ScreenAdapter {
         }
 
 
+        // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
+        checkSnakeIntersection();
+
         // update bodyparts so snake 'moves'
         updateBodyParts();
 
-        // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
-        checkSnakeIntersection();
+  
     }
 
     private void deathAtEdge() {
