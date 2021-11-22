@@ -167,6 +167,7 @@ public class GameScreen extends ScreenAdapter {
 
         checkEdges();
         updateBodyParts();
+        checkSnakeIntersection();
     }
 
 
@@ -307,6 +308,17 @@ public class GameScreen extends ScreenAdapter {
         this.apple2 =  apple2;
         }
 
+        public void checkSnakeIntersection(){
+            for (BodyPart bodyPart : bodyParts) {
+                if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()){
+                    game.setScreen(new
+
+                            EndGameScreen(game));
+                    gameMusic.stop();
+                }
+
+            }
+        }
 
 }
 
