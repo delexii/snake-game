@@ -87,21 +87,13 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         //Get User input
         userInput.userInput(snakeDirection);
-//        if (!(snakeDirection == RIGHT && userInput.snakeDirection == LEFT)
-//                && !(snakeDirection == DOWN && userInput.snakeDirection == UP)
-//                && !(snakeDirection == LEFT && userInput.snakeDirection == RIGHT) &&
-//                !(snakeDirection == UP && userInput.snakeDirection == DOWN)) {
-            snakeDirection = userInput.snakeDirection;
-
+        snakeDirection = userInput.snakeDirection;
 
         // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
             timer = MOVE_TIME;
             moveSnake();
-
-            // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
-            checkSnakeIntersection();
 
         }
 
@@ -142,6 +134,8 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
+        // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
+        checkSnakeIntersection();
         // update bodyparts so snake 'moves'
         updateBodyParts();
     }
