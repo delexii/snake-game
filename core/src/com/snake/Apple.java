@@ -13,8 +13,8 @@ public class Apple {
     private int appleX;
     private int appleY;
     // sound for good apple
-    Sound growSound;
-    Sound shrinkSound;
+   // Sound growSound;
+   // Sound shrinkSound;
     public int getX() {
         return appleX;
     }
@@ -26,8 +26,8 @@ public class Apple {
         this.game = game;
         this.goodApple = new Texture("Apple.jpg");
         this.rottenApple = new Texture("Rotten Apple.jpg");
-        growSound = Gdx.audio.newSound(Gdx.files.internal("grow.wav"));
-        shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
+       // growSound = Gdx.audio.newSound(Gdx.files.internal("grow.wav"));
+       // shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
     }
 
     public void drawApple() {game.batch.draw(goodApple, appleX, appleY, 60, 60); }
@@ -35,18 +35,18 @@ public class Apple {
 
     public void setX(int SNAKE_MOVEMENT){
         this.appleX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-        growSound.play();
+      //  growSound.play();
     }
 
     public void setY(int SNAKE_MOVEMENT){
         this.appleY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
         //shrinkSound.play();
-        growSound.play();
+       // growSound.play();
     }
 
-    public void dispose() {
-        growSound.dispose();
-    }
+   // public void dispose() {
+      //  growSound.dispose();
+   // }
 
 }
 

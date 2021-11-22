@@ -32,6 +32,8 @@ public class GameScreen extends ScreenAdapter {
     public Array<BodyPart> bodyParts = new Array<BodyPart>();
     // sounds
     Music gameMusic;
+    Sound growSound;
+    Sound shrinkSound;
 
     // Snake movement controls
     private static final int RIGHT = 0;
@@ -71,6 +73,8 @@ public class GameScreen extends ScreenAdapter {
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
+        growSound = Gdx.audio.newSound(Gdx.files.internal("grow.wav"));
+        shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
         //bodyparts at start
         addBodyPart();
         addBodyPart();
@@ -185,6 +189,8 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         gameMusic.dispose();
+        growSound.dispose();
+        shrinkSound.dispose();
     }
 
 
@@ -273,6 +279,7 @@ public class GameScreen extends ScreenAdapter {
         appleIsOnScreen = true;
         if (snakeX == apple1.getX() && snakeY == apple1.getY()){
             appleIsOnScreen = false;
+            growSound.play();
             addBodyPart();
         }
     }
@@ -294,6 +301,7 @@ public class GameScreen extends ScreenAdapter {
         rottenAppleIsOnScreen = true;
         if (snakeX == apple2.getX() && snakeY == apple2.getY()){
             rottenAppleIsOnScreen = false;
+            shrinkSound.play();
             deleteBodyPart();
         }
     }
