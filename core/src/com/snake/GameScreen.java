@@ -98,12 +98,7 @@ public class GameScreen extends ScreenAdapter {
         // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
-
-            if (this.bananatimecounter > 0) {
-                    timer = 0.05F;
-                    bananatimecounter --;
-            }
-            else timer = MOVE_TIME;
+            bananaSpeedBoost();
             moveSnake();
         }
 
@@ -125,6 +120,17 @@ public class GameScreen extends ScreenAdapter {
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
          gameMusic.stop();
     }
+
+    //banana speed boost method
+    private void bananaSpeedBoost() {
+        if (this.bananatimecounter > 0) {
+            timer = 0.05F;
+            bananatimecounter --;
+        }
+        else timer = MOVE_TIME;
+    }
+
+
 
     // Move the snake left, right, up or down
     private void moveSnake() {
