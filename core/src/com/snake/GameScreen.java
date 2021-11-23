@@ -136,15 +136,9 @@ public class GameScreen extends ScreenAdapter {
         drawSnake();
         addApple();
         addRottenApple();
-
-
         addBanana();
-
-
-        game.font.draw(game.batch, "Your score: " + score2, 1600, 1000);
-
         addThirdApple();
-
+        game.font.draw(game.batch, "Your score: " + score2, 1600, 1000);
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
