@@ -54,7 +54,7 @@ public class WelcomeScreen extends ScreenAdapter {
         welcomeMusic.setVolume(0.2F);
 
         gameTitleImage = new Texture(Gdx.files.internal("Title.png"));
-        appleImage = new Texture(Gdx.files.internal("apple.jpg"));
+        appleImage = new Texture(Gdx.files.internal("Apple.png"));
         gameStartImage = new Texture(Gdx.files.internal("StartGame.png"));
 
         gameTitle = new Rectangle();
