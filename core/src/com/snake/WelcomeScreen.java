@@ -48,6 +48,7 @@ public class WelcomeScreen extends ScreenAdapter {
 
         welcomeMusic = Gdx.audio.newMusic(Gdx.files.internal("welcome.wav"));
         welcomeMusic.setLooping(true);
+        welcomeMusic.setVolume(0.2F);
 
         gameTitleImage = new Texture(Gdx.files.internal("SnakeGameTitle5.jpg"));
         appleImage = new Texture(Gdx.files.internal("apple.jpg"));
@@ -114,7 +115,7 @@ public class WelcomeScreen extends ScreenAdapter {
             }
         });
         // TO STOP SOUND WHILE TESTING COMMENT OUT BELOW SOUND
-//        welcomeMusic.play();
+        welcomeMusic.play();
     }
 
 
