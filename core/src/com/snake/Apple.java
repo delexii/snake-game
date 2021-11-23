@@ -30,8 +30,6 @@ public class Apple {
         this.game = game;
         this.goodApple = new Texture("Apple.jpg");
         this.rottenApple = new Texture("Rotten Apple.jpg");
-       // growSound = Gdx.audio.newSound(Gdx.files.internal("grow.wav"));
-       // shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
         this.snakeLocations = new ArrayList<>();
     }
 
@@ -45,19 +43,32 @@ public class Apple {
         int randomX = 0;
         int randomY = 0;
         int [] randomArray = {randomX, randomY};
+        boolean locationclash = false;
 
-        randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-        randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
+       randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
+       randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
 
-        for(int[] snakeLocation : snakeLocations) {
-            if(randomArray == snakeLocation) {
-                randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-                randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-            };
-        };
+        for (int[] snakeLocation : snakeLocations) {
+            if (randomArray == snakeLocation) {
+                locationclash = true;
+            }
+        }
 
-        this.appleX = randomX;
-        this.appleY = randomY;
+        while (locationclash == true) {
+            randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
+            randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
+
+            for (int[] snakeLocation : snakeLocations) {
+                if (randomArray == snakeLocation) {
+                    locationclash = true;
+                }
+                else locationclash = false;
+
+            }
+        }
+
+            this.appleX = randomX;
+            this.appleY = randomY;
 
     }
 
@@ -68,10 +79,8 @@ public class Apple {
 
     public void findSnakeCoordinates(int snakeX, int snakeY, Array<BodyPart> bodyParts) {
         snakeLocations.add(new int[] {snakeX, snakeY});
-        int position = 1;
         for(BodyPart bodyPart : bodyParts) {
             snakeLocations.add(new int[]{bodyPart.getX(),bodyPart.getY()});
-            position ++;
         }
     };
 
