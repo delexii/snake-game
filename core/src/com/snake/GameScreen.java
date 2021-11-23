@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +17,6 @@ public class GameScreen extends ScreenAdapter {
 
     //instance of userinput class to take user inputs
     UserInput userInput = new UserInput();
-
     // rectangle and images for snakehead
     Rectangle snakehead;
     private Texture imgUp;
@@ -30,6 +28,10 @@ public class GameScreen extends ScreenAdapter {
     public Array<BodyPart> bodyParts = new Array<BodyPart>();
     public Array<BodyPart> getBodyParts() {
         return bodyParts;
+    }
+    public Array<BodyPart> randomArray = new Array<BodyPart>();
+    public Array<BodyPart> getRandomArray() {
+        return randomArray;
     }
 
     // sounds
@@ -143,7 +145,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         // check if snake bites itself and die/remove tail (needs to be here to avoid crash)
-        checkSnakeIntersection();
+//        checkSnakeIntersection();
 
         // update bodyparts so snake 'moves'
         updateBodyParts();
@@ -314,12 +316,12 @@ public class GameScreen extends ScreenAdapter {
                 score++;
                 System.out.println(score);
             }
-            else
+            if (apple3.drawRandomApple() == apple3.drawRottenApple()) {
                 shrinkSound.play();
                 deleteBodyPart();
                 score--;
                 System.out.println(score);
-
+            }
         }
     }
 
@@ -329,18 +331,42 @@ public class GameScreen extends ScreenAdapter {
             this.apple3 = apple3;
         }
 
-    public void checkSnakeIntersection(){
-    int counter = 0;
+    public void checkSnakeIntersection() {
+//        int counter = 0;
+//        for (BodyPart bodyPart : bodyParts) {
+//            if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()) {
+//                bodyParts.removeRange(0, counter);
+//            }
+//            counter++;
+//        }
+        int counter = 0;
         for (BodyPart bodyPart : bodyParts) {
-            if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()){
-                bodyParts.removeRange(0, counter);
+            for (int j = 0; j <= counter; j++) {
+                if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()) {
+                    BodyPart part = bodyParts.removeIndex(j);
+                    randomArray.add(part);
+                    bodyParts.removeRange(0, counter);
+                }
+
             }
-            counter ++;
+            counter++;
+
+//        }
+
         }
     }
 
-
+//    public void tailFlash(){
+//        for (int i = 0; i < 4; i++){
+//            for (BodyPart bodypart: randomArray) {
+//                bodypart.draw();
+//            }
+//        }
+//    }
 }
+
+
+
 
 
 
