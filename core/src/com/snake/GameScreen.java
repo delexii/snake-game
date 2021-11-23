@@ -39,6 +39,7 @@ public class GameScreen extends ScreenAdapter {
     Music gameMusic;
     Sound growSound;
     Sound shrinkSound;
+    Sound boingSound;
 
     // Snake movement controls
     private static final int RIGHT = 0;
@@ -48,7 +49,7 @@ public class GameScreen extends ScreenAdapter {
     private int snakeDirection = -1;
 
     // Snake movement time handling
-    private static float MOVE_TIME = 0.1F;
+    private float MOVE_TIME = 0.1F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
@@ -57,11 +58,17 @@ public class GameScreen extends ScreenAdapter {
     public int snakeY = 1080 / 2 - 60;
     public boolean appleIsOnScreen = false;
     public boolean rottenAppleIsOnScreen = false;
-    public boolean randomAppleIsOnScreen= false;
 
+    public boolean bananaIsOnScreen = false;
+    private int bananatimecounter = 0;
     private Apple apple1;
     private Apple apple2;
+    private Apple banana1;
+
+
+    public boolean randomAppleIsOnScreen= false;
     private Apple apple3;
+
 
     // add scores
     int score = 0;
@@ -90,6 +97,7 @@ public class GameScreen extends ScreenAdapter {
         gameMusic.setLooping(true);
         growSound = Gdx.audio.newSound(Gdx.files.internal("applecrunchwav.wav"));
         shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
+        boingSound = Gdx.audio.newSound(Gdx.files.internal("applecrunchwav.wav"));
 
         //bodyparts of snake at start of game
         addBodyPart();
@@ -105,9 +113,8 @@ public class GameScreen extends ScreenAdapter {
         // timer function to control render speed
         timer -= delta;
         if (timer <= 0) {
-            timer = MOVE_TIME;
+            bananaSpeedBoost();
             moveSnake();
-
         }
 
         String score2 = Integer.toString(score);
@@ -129,6 +136,7 @@ public class GameScreen extends ScreenAdapter {
         drawSnake();
         addApple();
         addRottenApple();
+        addBanana();
         addThirdApple();
         game.font.draw(game.batch, "Your score: " + score2, 1600, 1000);
         game.batch.end();
@@ -136,6 +144,17 @@ public class GameScreen extends ScreenAdapter {
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
          gameMusic.stop();
     }
+
+    //banana speed boost method
+    private void bananaSpeedBoost() {
+        if (this.bananatimecounter > 0) {
+            timer = 0.05F;
+            bananatimecounter --;
+        }
+        else timer = MOVE_TIME;
+    }
+
+
 
     // Move the snake left, right, up or down
     private void moveSnake() {
@@ -343,6 +362,28 @@ public class GameScreen extends ScreenAdapter {
             Apple apple3 = randomApple;
             this.apple3 = apple3;
         }
+
+    public void addBanana() {
+        Apple banana = new Apple(game);
+        if (bananaIsOnScreen == false) {
+            randomBanana(banana);
+        }
+        banana1.drawBanana();
+        bananaIsOnScreen = true;
+        if (snakeX == banana1.getX() && snakeY == banana1.getY()){
+            bananaIsOnScreen = false;
+            boingSound.play();
+            this.bananatimecounter = 100;
+            score --;
+            System.out.println(score);
+        }
+    }
+
+    public void randomBanana(Apple banana){
+        banana.setXAndY(SNAKE_MOVEMENT);
+//        Apple banana1 = banana;
+        this.banana1 =  banana;
+    }
 
     public void checkSnakeIntersection(){
     int counter = 0;
