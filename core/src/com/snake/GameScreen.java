@@ -95,6 +95,7 @@ public class GameScreen extends ScreenAdapter {
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
+        gameMusic.setVolume(0.2F);
         growSound = Gdx.audio.newSound(Gdx.files.internal("applecrunchwav.wav"));
         shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
         boingSound = Gdx.audio.newSound(Gdx.files.internal("applecrunchwav.wav"));
@@ -148,7 +149,7 @@ public class GameScreen extends ScreenAdapter {
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
-         gameMusic.stop();
+//         gameMusic.stop();
     }
 
     //banana speed boost method
