@@ -30,7 +30,10 @@ public class WelcomeScreen extends ScreenAdapter {
     // sound
     Music welcomeMusic;
     Rectangle gameTitle;
+    Rectangle gameStart;
+
     Texture gameTitleImage;
+    Texture gameStartImage;
     Texture appleImage;
     Array<Rectangle> appleDrops;
     long lastDropTime;
@@ -50,8 +53,9 @@ public class WelcomeScreen extends ScreenAdapter {
         welcomeMusic.setLooping(true);
         welcomeMusic.setVolume(0.2F);
 
-        gameTitleImage = new Texture(Gdx.files.internal("SnakeGameTitle5.jpg"));
+        gameTitleImage = new Texture(Gdx.files.internal("Title.png"));
         appleImage = new Texture(Gdx.files.internal("apple.jpg"));
+        gameStartImage = new Texture(Gdx.files.internal("StartGame.png"));
 
         gameTitle = new Rectangle();
         gameTitle.x = 1920 / 2 - 1000 / 2;
@@ -59,6 +63,11 @@ public class WelcomeScreen extends ScreenAdapter {
         gameTitle.width = 1000;
         gameTitle.height = 314;
 
+        gameStart = new Rectangle();
+        gameStart.x = 1920 / 2 - 1000 / 2;
+        gameStart.y = 50;
+        gameStart.width = 1000;
+        gameStart.height = 314;
 
         appleDrops = new Array<Rectangle>();
         spawnAppleDrops();
@@ -128,10 +137,13 @@ public class WelcomeScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+
+        game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
         for (Rectangle appleDrop : appleDrops) {
             game.batch.draw(appleImage, appleDrop.x, appleDrop.y, 60 , 60);
         }
-        game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
+        game.batch.draw(gameStartImage, gameStart.x, gameStart.y, gameStart.width, gameStart.height);
+
         game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 30);
         game.batch.end();
 
