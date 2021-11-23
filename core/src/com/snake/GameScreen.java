@@ -3,6 +3,7 @@ package com.snake;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameScreen extends ScreenAdapter {
 
     final Snake game;
+
+    OrthographicCamera camera;
 
     //instance of userinput class to take user inputs
     UserInput userInput = new UserInput();
@@ -61,6 +64,10 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(Snake game) {
         this.game = game;
 
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 1920, 1080);
+
+
         //snakehead rectangle size 60p x 60 p assumes 1080p x 1920p  grid 18 x 32
         snakehead = new Rectangle();
         snakehead.width = 60;
@@ -97,18 +104,26 @@ public class GameScreen extends ScreenAdapter {
 
         }
 
+        String score2 = Integer.toString(score);
+
         // kill snake if it goes off edge
         deathAtEdge();
 
         // Set Background Colour
         ScreenUtils.clear(0, 0, 0, 1);
+        camera.update();
+
+
 
         //Batch draw methods
+//        game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+        game.batch.setProjectionMatrix(camera.combined);
         drawStartSnake();
         drawSnake();
         addApple();
         addRottenApple();
+        game.font.draw(game.batch, "Your score: " + score2, 1600, 1000);
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT

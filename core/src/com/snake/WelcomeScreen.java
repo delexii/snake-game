@@ -3,6 +3,7 @@ package com.snake;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,24 +14,33 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
+import java.util.Iterator;
+
 public class WelcomeScreen extends ScreenAdapter {
 
     final  Snake game;
     private Stage stage;
+    OrthographicCamera camera;
     // sound
     Music welcomeMusic;
     Rectangle gameTitle;
     Texture gameTitleImage;
+    Texture appleImage;
     Array<Rectangle> appleDrops;
+    long lastDropTime;
 
 
     public WelcomeScreen (Snake game) {
         this.game = game;
+
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 1920, 1080);
 
         // create a stage and set up as an inputprocessor
         stage = new Stage(new ScreenViewport());
@@ -40,6 +50,7 @@ public class WelcomeScreen extends ScreenAdapter {
         welcomeMusic.setLooping(true);
 
         gameTitleImage = new Texture(Gdx.files.internal("SnakeGameTitle5.jpg"));
+        appleImage = new Texture(Gdx.files.internal("apple.jpg"));
 
         gameTitle = new Rectangle();
         gameTitle.x = 1920 / 2 - 1000 / 2;
@@ -50,18 +61,18 @@ public class WelcomeScreen extends ScreenAdapter {
 
 //        appleDrops = new Array<Rectangle>();
 //        spawnAppleDrops();
-    }
-
-
+//    }
+//
+//
 //        private void spawnAppleDrops() {
 //            Rectangle appleDrop = new Rectangle();
 //            appleDrop.x = MathUtils.random(0, 1920 - 60);
 //            appleDrop.y = 1080;
-//            appleDrop.width = 60;
-//            appleDrop.height = 60;
+//            appleDrop.width = 64;
+//            appleDrop.height = 64;
 //            appleDrops.add(appleDrop);
-//            lastDropTime = TimeUnits.nanoTime();
-//    }
+//            lastDropTime = TimeUtils.nanoTime();
+    }
 
 
     @Override
@@ -112,14 +123,38 @@ public class WelcomeScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0f, 0f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
+
+        game.batch.begin();
+//        for (Rectangle appleDrop : appleDrops) {
+//            game.batch.draw(appleImage, appleDrop.x, appleDrop.y);
+//        }
+        game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
+        game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 30);
+        game.batch.end();
+
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f ));
         stage.draw();
 
+//
+//        game.batch.begin();
+//        game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
+//        for (Rectangle appleDrop : appleDrops) {
+//            game.batch.draw(appleImage, appleDrop.x, appleDrop.y);
+//        }
+//        game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 20);
+//        game.batch.end();
 
-        game.batch.begin();
-        game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
-        game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 20);
-        game.batch.end();
+
+//        if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnAppleDrops();
+//
+//        Iterator<Rectangle> iter = appleDrops.iterator();
+//        while(iter.hasNext()) {
+//            Rectangle appleDrop = iter.next();
+//            appleDrop.y -= 50 * Gdx.graphics.getDeltaTime();
+//            if (appleDrop.y + 60 < 0) iter.remove();
+//        }
 
     }
 
