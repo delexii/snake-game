@@ -39,7 +39,7 @@ public class WelcomeScreen extends ScreenAdapter {
         welcomeMusic = Gdx.audio.newMusic(Gdx.files.internal("welcome.wav"));
         welcomeMusic.setLooping(true);
 
-        gameTitleImage = new Texture(Gdx.files.internal("SnakeGameTitle.jpg"));
+        gameTitleImage = new Texture(Gdx.files.internal("SnakeGameTitle5.jpg"));
 
         gameTitle = new Rectangle();
         gameTitle.x = 1920 / 2 - 1000 / 2;
