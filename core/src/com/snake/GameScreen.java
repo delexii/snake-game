@@ -246,6 +246,7 @@ public class GameScreen extends ScreenAdapter {
     public void addApple() {
         Apple apple = new Apple(game);
         if (appleIsOnScreen == false) {
+            apple.findSnakeCoordinates(snakeX,snakeY, bodyParts);
             randomApple(apple);
         }
         apple1.drawApple();
@@ -260,8 +261,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void randomApple(Apple apple){
-        apple.setX(SNAKE_MOVEMENT);
-        apple.setY(SNAKE_MOVEMENT);
+        apple.setXAndY(SNAKE_MOVEMENT);
         Apple apple1 = apple;
         this.apple1 =  apple1;
     }
@@ -284,8 +284,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void randomRottenApple(Apple rottenApple){
-        rottenApple.setX(SNAKE_MOVEMENT);
-        rottenApple.setY(SNAKE_MOVEMENT);
+        rottenApple.setXAndY(SNAKE_MOVEMENT);
         Apple apple2 = rottenApple;
         this.apple2 =  apple2;
         }
