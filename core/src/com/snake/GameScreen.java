@@ -67,9 +67,6 @@ public class GameScreen extends ScreenAdapter {
 
 
     public boolean randomAppleIsOnScreen= false;
-
-    private Apple apple1;
-    private Apple apple2;
     private Apple apple3;
 
 
