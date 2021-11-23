@@ -155,8 +155,6 @@ public class GameScreen extends ScreenAdapter {
         else timer = MOVE_TIME;
     }
 
-
-
     // Move the snake left, right, up or down
     private void moveSnake() {
         snakeXBeforeUpdate = snakeX;
@@ -190,7 +188,7 @@ public class GameScreen extends ScreenAdapter {
         //EndGameScreen when the snake touch the wall or too small
         if (snakeX == -60)
             gameOver();
-        if (snakeX == 1920 - 120)
+        if (snakeX == 1920)
             gameOver();
         if (snakeY == -60)
             gameOver();

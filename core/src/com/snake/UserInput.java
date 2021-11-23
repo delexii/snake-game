@@ -35,5 +35,9 @@ public class UserInput {
                 || (previoussnakeDirection == UP && this.snakeDirection == DOWN)){
         this.snakeDirection = previoussnakeDirection;}
 
+        //prevents reverse command at start of game
+        if ((previoussnakeDirection == -1 && this.snakeDirection == DOWN))
+        this.snakeDirection = previoussnakeDirection;
+
     }
 }
