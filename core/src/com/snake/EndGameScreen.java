@@ -2,6 +2,7 @@ package com.snake;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -23,6 +24,7 @@ public class EndGameScreen extends ScreenAdapter {
     Rectangle gameOver;
     Texture gameOverImage;
     private Stage stage;
+    OrthographicCamera camera;
 
     // sound
     Music gameOverMusic;
@@ -31,6 +33,9 @@ public class EndGameScreen extends ScreenAdapter {
 
     public EndGameScreen(Snake game) {
         this.game = game;
+
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 1920, 1080);
 
         gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("gameOver.wav"));
         gameOverMusic.setLooping(true);
@@ -95,13 +100,16 @@ public class EndGameScreen extends ScreenAdapter {
     Gdx.gl.glClearColor(0f, 0f, 0f, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
+
 
     stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f ));
     stage.draw();
 
     game.batch.begin();
     game.batch.draw(gameOverImage, gameOver.x, gameOver.y, gameOver.width, gameOver.height);
-    game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 20);
+    game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 30);
     game.batch.end();
 
 
