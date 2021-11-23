@@ -45,16 +45,7 @@ public class Apple {
         int [] randomArray = {randomX, randomY};
         boolean locationclash = false;
 
-       randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-       randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-
-        for (int[] snakeLocation : snakeLocations) {
-            if (randomArray == snakeLocation) {
-                locationclash = true;
-            }
-        }
-
-        while (locationclash == true) {
+         do {
             randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
             randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
 
@@ -65,7 +56,7 @@ public class Apple {
                 else locationclash = false;
 
             }
-        }
+        } while (locationclash == true);
 
             this.appleX = randomX;
             this.appleY = randomY;
