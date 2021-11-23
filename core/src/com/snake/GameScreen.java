@@ -300,25 +300,24 @@ public class GameScreen extends ScreenAdapter {
         Apple randomApple = new Apple(game);
         if (randomAppleIsOnScreen == false) {
             randomThirdApple(randomApple);
+            apple3.random();
         }
-
-        Texture random = apple3.random();
-        apple3.drawRandomApple(random);
-        apple3.drawApple();
+        apple3.drawRandomApple();
         randomAppleIsOnScreen = true;
         if (snakeX == apple3.getX() && snakeY == apple3.getY()) {
             randomAppleIsOnScreen = false;
-            if (apple3.equals(apple1)) {
-                growSound.play();
-                addBodyPart();
-                score++;
-                System.out.println(score);
-            } else if (apple3.equals(apple2)) {
-                shrinkSound.play();
-                deleteBodyPart();
-                score--;
-                System.out.println(score);
-            }
+//            if (apple3.random() == 0)
+//                growSound.play();
+//                addBodyPart();
+//                score++;
+//                System.out.println(score);
+//            }
+//            if (apple3 == apple2) {
+//                shrinkSound.play();
+//                deleteBodyPart();
+//                score--;
+//                System.out.println(score);
+//            }
         }
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -11,8 +12,8 @@ import java.util.Random;
 public class Apple {
     private Texture goodApple;
     private Texture rottenApple;
-
     private Snake game;
+    private double random;
     private int appleX;
     private int appleY;
     // sound for good apple
@@ -35,20 +36,19 @@ public class Apple {
 
     public void drawApple() {game.batch.draw(goodApple, appleX, appleY, 60, 60); }
     public void drawRottenApple() {game.batch.draw(rottenApple, appleX, appleY, 60, 60); }
-    public void drawRandomApple(Texture randomTexture) {
-        if (randomTexture.equals(goodApple)) {
+    public void drawRandomApple() {
+        if (random == 0) {
             drawApple();
         }
-        if (randomTexture.equals(rottenApple)) {
+        if (random == 1) {
             drawRottenApple();
         }
+
     }
 
-    public Texture random(){
-        Random rand = new Random();
-        List<Texture> appleList = Arrays.asList(goodApple, rottenApple);
-        Texture randomTexture = appleList.get(rand.nextInt(appleList.size()));
-        return randomTexture;
+    public void random(){
+        double random = Math.floor(Math.random() * 2);
+        this.random = random;
     }
 
     public void setX(int SNAKE_MOVEMENT){
