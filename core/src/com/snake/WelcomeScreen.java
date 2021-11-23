@@ -59,19 +59,19 @@ public class WelcomeScreen extends ScreenAdapter {
         gameTitle.height = 314;
 
 
-//        appleDrops = new Array<Rectangle>();
-//        spawnAppleDrops();
-//    }
-//
-//
-//        private void spawnAppleDrops() {
-//            Rectangle appleDrop = new Rectangle();
-//            appleDrop.x = MathUtils.random(0, 1920 - 60);
-//            appleDrop.y = 1080;
-//            appleDrop.width = 64;
-//            appleDrop.height = 64;
-//            appleDrops.add(appleDrop);
-//            lastDropTime = TimeUtils.nanoTime();
+        appleDrops = new Array<Rectangle>();
+        spawnAppleDrops();
+    }
+
+
+        private void spawnAppleDrops() {
+            Rectangle appleDrop = new Rectangle();
+            appleDrop.x = MathUtils.random(0, 1920 - 60);
+            appleDrop.y = 1080;
+            appleDrop.width = 10;
+            appleDrop.height = 10;
+            appleDrops.add(appleDrop);
+            lastDropTime = TimeUtils.nanoTime();
     }
 
 
@@ -127,9 +127,9 @@ public class WelcomeScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-//        for (Rectangle appleDrop : appleDrops) {
-//            game.batch.draw(appleImage, appleDrop.x, appleDrop.y);
-//        }
+        for (Rectangle appleDrop : appleDrops) {
+            game.batch.draw(appleImage, appleDrop.x, appleDrop.y, 60 , 60);
+        }
         game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
         game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 30);
         game.batch.end();
@@ -137,24 +137,16 @@ public class WelcomeScreen extends ScreenAdapter {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f ));
         stage.draw();
 
-//
-//        game.batch.begin();
-//        game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
-//        for (Rectangle appleDrop : appleDrops) {
-//            game.batch.draw(appleImage, appleDrop.x, appleDrop.y);
-//        }
-//        game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 20);
-//        game.batch.end();
 
 
-//        if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnAppleDrops();
-//
-//        Iterator<Rectangle> iter = appleDrops.iterator();
-//        while(iter.hasNext()) {
-//            Rectangle appleDrop = iter.next();
-//            appleDrop.y -= 50 * Gdx.graphics.getDeltaTime();
-//            if (appleDrop.y + 60 < 0) iter.remove();
-//        }
+        if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnAppleDrops();
+
+        Iterator<Rectangle> iter = appleDrops.iterator();
+        while(iter.hasNext()) {
+            Rectangle appleDrop = iter.next();
+            appleDrop.y -= 50 * Gdx.graphics.getDeltaTime();
+            if (appleDrop.y + 60 < 0) iter.remove();
+        }
 
     }
 
