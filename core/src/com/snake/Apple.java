@@ -9,11 +9,14 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
+
 public class Apple {
     private Texture goodApple;
     private Texture rottenApple;
     private Snake game;
+    private double random;
     private int appleX;
+    private Texture texture;
     private int appleY;
     private ArrayList<int[]> snakeLocations;
     // sound for good apple
@@ -33,11 +36,25 @@ public class Apple {
         this.snakeLocations = new ArrayList<>();
     }
 
-    public void drawApple() {
-            game.batch.draw(goodApple, appleX, appleY, 60, 60);
-    };
 
-    public void drawRottenApple() {game.batch.draw(rottenApple, appleX, appleY, 60, 60); }
+    public Texture drawApple() {game.batch.draw(goodApple, appleX, appleY, 60, 60); return goodApple;}
+    public Texture drawRottenApple() {game.batch.draw(rottenApple, appleX, appleY, 60, 60); return rottenApple;}
+    public Texture drawRandomApple() {
+        if (random == 0) {
+            drawApple();
+            texture = goodApple;
+        }if (random == 1) {
+            drawRottenApple();
+            texture = rottenApple;
+        }
+        return texture;
+    }
+
+    public void random(){
+        double random = Math.floor(Math.random() * 2);
+        this.random = random;
+    }
+
 
     public void setXAndY(int SNAKE_MOVEMENT){
         int randomX = 0;
@@ -63,10 +80,10 @@ public class Apple {
 
     }
 
-    public void setY(int SNAKE_MOVEMENT){
-        this.appleY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-
-    }
+//    public void setY(int SNAKE_MOVEMENT){
+//        this.appleY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
+//
+//    }
 
     public void findSnakeCoordinates(int snakeX, int snakeY, Array<BodyPart> bodyParts) {
         snakeLocations.add(new int[] {snakeX, snakeY});
