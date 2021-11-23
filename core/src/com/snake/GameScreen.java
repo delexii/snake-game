@@ -130,15 +130,15 @@ public class GameScreen extends ScreenAdapter {
 
 
         //Batch draw methods
-//        game.batch.setProjectionMatrix(camera.combined);
+
         game.batch.begin();
         game.batch.setProjectionMatrix(camera.combined);
         drawStartSnake();
         drawSnake();
         addApple();
         addRottenApple();
-        addBanana();
         addThirdApple();
+        addBanana();
         game.font.draw(game.batch, "Your score: " + score2, 1600, 1000);
         game.batch.end();
 
