@@ -3,12 +3,15 @@ package com.snake;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class Apple {
     private Texture goodApple;
     private Texture rottenApple;
+
     private Snake game;
     private int appleX;
     private int appleY;
@@ -32,6 +35,21 @@ public class Apple {
 
     public void drawApple() {game.batch.draw(goodApple, appleX, appleY, 60, 60); }
     public void drawRottenApple() {game.batch.draw(rottenApple, appleX, appleY, 60, 60); }
+    public void drawRandomApple(Texture randomTexture) {
+        if (randomTexture.equals(goodApple)) {
+            drawApple();
+        }
+        if (randomTexture.equals(rottenApple)) {
+            drawRottenApple();
+        }
+    }
+
+    public Texture random(){
+        Random rand = new Random();
+        List<Texture> appleList = Arrays.asList(goodApple, rottenApple);
+        Texture randomTexture = appleList.get(rand.nextInt(appleList.size()));
+        return randomTexture;
+    }
 
     public void setX(int SNAKE_MOVEMENT){
         this.appleX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;

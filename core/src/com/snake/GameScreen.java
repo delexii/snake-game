@@ -4,10 +4,13 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -51,8 +54,11 @@ public class GameScreen extends ScreenAdapter {
     public int snakeY = 1080 / 2 - 60;
     public boolean appleIsOnScreen = false;
     public boolean rottenAppleIsOnScreen = false;
+    public boolean randomAppleIsOnScreen= false;
+
     private Apple apple1;
     private Apple apple2;
+    private Apple apple3;
 
     // add scores
     int score = 0;
@@ -109,6 +115,7 @@ public class GameScreen extends ScreenAdapter {
         drawSnake();
         addApple();
         addRottenApple();
+        addThirdApple();
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
@@ -246,7 +253,7 @@ public class GameScreen extends ScreenAdapter {
     public void addApple() {
         Apple apple = new Apple(game);
         if (appleIsOnScreen == false) {
-            randomApple(apple);
+            randomGoodApple(apple);
         }
         apple1.drawApple();
         appleIsOnScreen = true;
@@ -259,7 +266,7 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    public void randomApple(Apple apple){
+    public void randomGoodApple(Apple apple){
         apple.setX(SNAKE_MOVEMENT);
         apple.setY(SNAKE_MOVEMENT);
         Apple apple1 = apple;
@@ -282,14 +289,45 @@ public class GameScreen extends ScreenAdapter {
             System.out.println(score);
         }
     }
-
     public void randomRottenApple(Apple rottenApple){
         rottenApple.setX(SNAKE_MOVEMENT);
         rottenApple.setY(SNAKE_MOVEMENT);
         Apple apple2 = rottenApple;
         this.apple2 =  apple2;
+    }
+
+    public void addThirdApple() {
+        Apple randomApple = new Apple(game);
+        if (randomAppleIsOnScreen == false) {
+            randomThirdApple(randomApple);
         }
 
+        Texture random = apple3.random();
+        apple3.drawRandomApple(random);
+        apple3.drawApple();
+        randomAppleIsOnScreen = true;
+        if (snakeX == apple3.getX() && snakeY == apple3.getY()) {
+            randomAppleIsOnScreen = false;
+            if (apple3.equals(apple1)) {
+                growSound.play();
+                addBodyPart();
+                score++;
+                System.out.println(score);
+            } else if (apple3.equals(apple2)) {
+                shrinkSound.play();
+                deleteBodyPart();
+                score--;
+                System.out.println(score);
+            }
+        }
+    }
+
+        private void randomThirdApple(Apple randomApple) {
+            randomApple.setX(SNAKE_MOVEMENT);
+            randomApple.setY(SNAKE_MOVEMENT);
+            Apple apple3 = randomApple;
+            this.apple3 = apple3;
+        }
 
     public void checkSnakeIntersection(){
     int counter = 0;
@@ -303,6 +341,8 @@ public class GameScreen extends ScreenAdapter {
 
 
 }
+
+
 
 
 
