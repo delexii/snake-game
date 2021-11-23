@@ -7,13 +7,15 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+
 public class Apple {
     private Texture goodApple;
     private Texture rottenApple;
     private Snake game;
     private int appleX;
     private int appleY;
-    private int[][] snakeLocations;
+    private ArrayList<int[]> snakeLocations;
     // sound for good apple
    // Sound growSound;
    // Sound shrinkSound;
@@ -30,6 +32,7 @@ public class Apple {
         this.rottenApple = new Texture("Rotten Apple.jpg");
        // growSound = Gdx.audio.newSound(Gdx.files.internal("grow.wav"));
        // shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
+        this.snakeLocations = new ArrayList<>();
     }
 
     public void drawApple() {
@@ -46,7 +49,7 @@ public class Apple {
         randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
         randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
 
-        for(int []snakeLocation : snakeLocations) {
+        for(int[] snakeLocation : snakeLocations) {
             if(randomArray == snakeLocation) {
                 randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
                 randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
@@ -64,10 +67,10 @@ public class Apple {
     }
 
     public void findSnakeCoordinates(int snakeX, int snakeY, Array<BodyPart> bodyParts) {
-        snakeLocations[0] =new int[]{snakeX,snakeY};
+        snakeLocations.add(new int[] {snakeX, snakeY});
         int position = 1;
         for(BodyPart bodyPart : bodyParts) {
-            snakeLocations[position] =new int[]{bodyPart.getX(),bodyPart.getY()};
+            snakeLocations.add(new int[]{bodyPart.getX(),bodyPart.getY()});
             position ++;
         }
     };
