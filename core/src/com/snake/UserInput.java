@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 
 public class UserInput {
 
+
     // Snake movement controls
     private static final int RIGHT = 0;
     private static final int LEFT = 1;
