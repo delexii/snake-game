@@ -304,20 +304,21 @@ public class GameScreen extends ScreenAdapter {
         }
         apple3.drawRandomApple();
         randomAppleIsOnScreen = true;
+
         if (snakeX == apple3.getX() && snakeY == apple3.getY()) {
             randomAppleIsOnScreen = false;
-//            if (apple3.random() == 0)
-//                growSound.play();
-//                addBodyPart();
-//                score++;
-//                System.out.println(score);
-//            }
-//            if (apple3 == apple2) {
-//                shrinkSound.play();
-//                deleteBodyPart();
-//                score--;
-//                System.out.println(score);
-//            }
+            if (apple3.drawRandomApple() == apple3.drawApple()){
+                growSound.play();
+                addBodyPart();
+                score++;
+                System.out.println(score);
+            }
+            else
+                shrinkSound.play();
+                deleteBodyPart();
+                score--;
+                System.out.println(score);
+
         }
     }
 

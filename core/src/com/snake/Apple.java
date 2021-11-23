@@ -15,6 +15,7 @@ public class Apple {
     private Snake game;
     private double random;
     private int appleX;
+    private Texture texture;
     private int appleY;
     // sound for good apple
    // Sound growSound;
@@ -34,16 +35,17 @@ public class Apple {
        // shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
     }
 
-    public void drawApple() {game.batch.draw(goodApple, appleX, appleY, 60, 60); }
-    public void drawRottenApple() {game.batch.draw(rottenApple, appleX, appleY, 60, 60); }
-    public void drawRandomApple() {
+    public Texture drawApple() {game.batch.draw(goodApple, appleX, appleY, 60, 60); return goodApple;}
+    public Texture drawRottenApple() {game.batch.draw(rottenApple, appleX, appleY, 60, 60); return rottenApple;}
+    public Texture drawRandomApple() {
         if (random == 0) {
             drawApple();
-        }
-        if (random == 1) {
+            texture = goodApple;
+        }if (random == 1) {
             drawRottenApple();
+            texture = rottenApple;
         }
-
+        return texture;
     }
 
     public void random(){
