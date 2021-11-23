@@ -12,13 +12,11 @@ import java.util.ArrayList;
 public class Apple {
     private Texture goodApple;
     private Texture rottenApple;
+    private Texture banana;
     private Snake game;
     private int appleX;
     private int appleY;
     private ArrayList<int[]> snakeLocations;
-    // sound for good apple
-   // Sound growSound;
-   // Sound shrinkSound;
     public int getX() {
         return appleX;
     }
@@ -30,6 +28,7 @@ public class Apple {
         this.game = game;
         this.goodApple = new Texture("Apple.jpg");
         this.rottenApple = new Texture("Rotten Apple.jpg");
+        this.banana = new Texture("Banana.jpg");
         this.snakeLocations = new ArrayList<>();
     }
 
@@ -38,6 +37,8 @@ public class Apple {
     };
 
     public void drawRottenApple() {game.batch.draw(rottenApple, appleX, appleY, 60, 60); }
+
+    public void drawBanana() {game.batch.draw(banana, appleX, appleY, 60, 60); }
 
     public void setXAndY(int SNAKE_MOVEMENT){
         int randomX = 0;
