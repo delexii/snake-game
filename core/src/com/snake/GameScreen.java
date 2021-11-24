@@ -61,6 +61,7 @@ public class GameScreen extends ScreenAdapter {
 
     public boolean bananaIsOnScreen = false;
     private int bananatimecounter = 0;
+    private int banana_spawn_counter = 300;
     private Apple apple1;
     private Apple apple2;
     private Apple banana1;
@@ -80,13 +81,12 @@ public class GameScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
 
-
         //snakehead rectangle size 60p x 60 p assumes 1080p x 1920p  grid 18 x 32
         snakehead = new Rectangle();
         snakehead.width = 60;
         snakehead.height = 60;
 
-//         Images for snakehead
+        // Images for snakehead
         imgUp = new Texture("SnakeHeadUp.jpg");
         imgDown = new Texture("SnakeHeadDown.jpg");
         imgLeft = new Texture("SnakeHeadLeft.jpg");
@@ -116,6 +116,7 @@ public class GameScreen extends ScreenAdapter {
         if (timer <= 0) {
             bananaSpeedBoost();
             moveSnake();
+            banana_spawn_counter--;
         }
 
         String score2 = Integer.toString(score);
@@ -127,10 +128,7 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
 
-
-
         //Batch draw methods
-
         game.batch.begin();
         game.batch.setProjectionMatrix(camera.combined);
         drawStartSnake();
@@ -366,15 +364,19 @@ public class GameScreen extends ScreenAdapter {
         Apple banana = new Apple(game);
         if (bananaIsOnScreen == false) {
             randomBanana(banana);
+
         }
-        banana1.drawBanana();
-        bananaIsOnScreen = true;
-        if (snakeX == banana1.getX() && snakeY == banana1.getY()){
-            bananaIsOnScreen = false;
-            boingSound.play();
-            this.bananatimecounter = 100;
-            score --;
-            System.out.println(score);
+        if (banana_spawn_counter <100) {
+            banana1.drawBanana();
+            bananaIsOnScreen = true;
+            if (snakeX == banana1.getX() && snakeY == banana1.getY()) {
+                bananaIsOnScreen = false;
+                boingSound.play();
+                this.bananatimecounter = 100;
+                score--;
+                banana_spawn_counter = generateBananaSpawnTime(150, 500);
+                System.out.println(score);
+            }
         }
     }
 
@@ -393,7 +395,9 @@ public class GameScreen extends ScreenAdapter {
             counter ++;
         }
     }
-
+    public int generateBananaSpawnTime(int min, int max) {
+            return (int) ((Math.random() * (max - min)) + min);
+    }
 
 }
 
