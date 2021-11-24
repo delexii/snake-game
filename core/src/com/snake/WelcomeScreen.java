@@ -16,9 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 
 import java.util.Iterator;
 
@@ -32,7 +30,12 @@ public class WelcomeScreen extends ScreenAdapter {
     Rectangle gameTitle;
     Texture gameTitleImage;
     Texture appleImage;
-    Array<Rectangle> appleDrops;
+    Texture rottenAppleImage;
+    Texture bananaImage;
+    Texture randomImage;
+    Array<Rectangle> fruitDrops;
+public Texture fruitImages;
+    int random;
     long lastDropTime;
 
 
@@ -51,7 +54,14 @@ public class WelcomeScreen extends ScreenAdapter {
         welcomeMusic.setVolume(0.2F);
 
         gameTitleImage = new Texture(Gdx.files.internal("SnakeGameTitle5.jpg"));
-        appleImage = new Texture(Gdx.files.internal("apple.jpg"));
+        appleImage = new Texture(Gdx.files.internal("Apple.png"));
+        rottenAppleImage = new Texture(Gdx.files.internal("Rotten Apple.jpg"));
+        bananaImage = new Texture(Gdx.files.internal("Banana.jpg"));
+
+
+//        randomiser();
+//        System.out.println(randomImage);
+
 
         gameTitle = new Rectangle();
         gameTitle.x = 1920 / 2 - 1000 / 2;
@@ -60,18 +70,20 @@ public class WelcomeScreen extends ScreenAdapter {
         gameTitle.height = 314;
 
 
-        appleDrops = new Array<Rectangle>();
-        spawnAppleDrops();
+        fruitDrops = new Array<Rectangle>();
+        spawnFruitDrops();
     }
 
 
-        private void spawnAppleDrops() {
-            Rectangle appleDrop = new Rectangle();
-            appleDrop.x = MathUtils.random(0, 1920 - 60);
-            appleDrop.y = 1080;
-            appleDrop.width = 10;
-            appleDrop.height = 10;
-            appleDrops.add(appleDrop);
+        private void spawnFruitDrops() {
+            Rectangle fruitDrop = new Rectangle();
+            fruitDrop.x = MathUtils.random(0, 1920 - 60);
+            fruitDrop.y = 1080;
+            fruitDrop.width = 60;
+            fruitDrop.height = 60;
+//            randomiser();
+//            System.out.println(randomImage);
+            fruitDrops.add(fruitDrop);
             lastDropTime = TimeUtils.nanoTime();
     }
 
@@ -115,7 +127,8 @@ public class WelcomeScreen extends ScreenAdapter {
             }
         });
         // TO STOP SOUND WHILE TESTING COMMENT OUT BELOW SOUND
-        welcomeMusic.play();
+//        welcomeMusic.play();
+
     }
 
 
@@ -127,11 +140,14 @@ public class WelcomeScreen extends ScreenAdapter {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
+
         game.batch.begin();
-        for (Rectangle appleDrop : appleDrops) {
-            game.batch.draw(appleImage, appleDrop.x, appleDrop.y, 60 , 60);
-        }
         game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
+        for (Rectangle fruitDrop : fruitDrops) {
+            game.batch.draw(appleImage, fruitDrop.x, fruitDrop.y, 60 , 60);
+            game.batch.draw(rottenAppleImage, fruitDrop.x, fruitDrop.y, 60 , 60);
+            game.batch.draw(bananaImage, fruitDrop.x, fruitDrop.y, 60 , 60);
+        }
         game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 30);
         game.batch.end();
 
@@ -140,16 +156,25 @@ public class WelcomeScreen extends ScreenAdapter {
 
 
 
-        if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnAppleDrops();
+        if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnFruitDrops();
 
-        Iterator<Rectangle> iter = appleDrops.iterator();
+        Iterator<Rectangle> iter = fruitDrops.iterator();
         while(iter.hasNext()) {
-            Rectangle appleDrop = iter.next();
-            appleDrop.y -= 50 * Gdx.graphics.getDeltaTime();
-            if (appleDrop.y + 60 < 0) iter.remove();
+            Rectangle fruitDrop = iter.next();
+            fruitDrop.y -= 50 * Gdx.graphics.getDeltaTime();
+            if (fruitDrop.y + 60 < 0) iter.remove();
         }
 
+
     }
+
+
+    public void randomiser(){
+        Texture fruitImages [] = {appleImage, rottenAppleImage, bananaImage};
+        int randomIndex = (int)(Math.random()*fruitImages.length);
+            randomImage = fruitImages[randomIndex];
+    }
+
 
 
     @Override
@@ -159,9 +184,8 @@ public class WelcomeScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-
         stage.dispose();
-      welcomeMusic.dispose();
+        welcomeMusic.dispose();
 
     }
     @Override
