@@ -373,15 +373,18 @@ public class GameScreen extends ScreenAdapter {
             randomBanana(banana);
 
         }
-        banana1.drawBanana();
-        bananaIsOnScreen = true;
-        if (snakeX == banana1.getX() && snakeY == banana1.getY()){
-            bananaIsOnScreen = false;
-            bananaSound.play();
-            this.bananatimecounter = 100;
-            score -- ;
-            System.out.println(score);
+        if (banana_spawn_counter <100) {
+            banana1.drawBanana();
+            bananaIsOnScreen = true;
+            if (snakeX == banana1.getX() && snakeY == banana1.getY()) {
+                bananaIsOnScreen = false;
+                bananaSound.play();
+                this.bananatimecounter = 100;
+                score--;
+                banana_spawn_counter = generateBananaSpawnTime(150, 500);
+                System.out.println(score);
 
+            }
         }
     }
 
