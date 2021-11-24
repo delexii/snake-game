@@ -212,7 +212,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         gameMusic.dispose();
-        groSound.dispose();
+        growSound.dispose();
         shrinkSound.dispose();
         bananaSound.dispose();
     }
