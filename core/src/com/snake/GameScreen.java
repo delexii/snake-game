@@ -404,9 +404,20 @@ public class GameScreen extends ScreenAdapter {
 
 
     public void tailFlash(){
-        if ((duration > 0 && duration < 30) || (duration > 60 && duration < 90) || (duration > 120 && duration < 150) || (duration > 180 && duration < 210) || (duration > 240 && duration < 270)){
+        if ((duration > 0 && duration < 30) || (duration > 60 && duration < 90) || (duration > 120 && duration < 150) || (duration > 180 && duration < 210) || (duration > 240 && duration < 270)) {
+            int counter = 0;
             for (BodyPart bodyPart : tailArray) {
-                bodyPart.draw();
+                if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
+                    if (counter == 0) {
+                        if (tailArray.size > 1) {
+                            int directionX = tailArray.get(1).getX();
+                            int directionY = tailArray.get(1).getY();
+                            bodyPart.drawTail(directionX, directionY);
+                        }
+                    } else
+                        bodyPart.draw();
+                    counter += 1;
+                }
             }
         }
         duration++;
