@@ -64,7 +64,7 @@ public class GameScreen extends ScreenAdapter {
 
     public boolean bananaIsOnScreen = false;
     private int bananatimecounter = 0;
-    private int banana_spawn_counter = 300;
+    private int banana_spawn_counter = 200;
     private Apple apple1;
     private Apple apple2;
     private Apple banana1;
@@ -120,6 +120,7 @@ public class GameScreen extends ScreenAdapter {
             bananaSpeedBoost();
             moveSnake();
             banana_spawn_counter--;
+            score(bodyParts.size);
         }
 
         String score2 = Integer.toString(score);
@@ -150,14 +151,22 @@ public class GameScreen extends ScreenAdapter {
 
         private void score(int score) {
             int oldScore = this.score;
-            this.score += (score) * 100000;
+            this.score += (score) * 1000;
             changeScoreColour(oldScore);
         }
 
         private void changeScoreColour(int oldScore) {
-       if (score < oldScore) { game.font.setColor(255f, 0f, 0f, 1.0f);}
-       if (score > oldScore) { game.font.setColor(255f, 255f, 255f, 1.0f);}
 
+            if (score < oldScore) {
+                game.font.setColor(255f, 0f, 0f, 1.0f);
+            }
+            if (score > oldScore) {
+                if (this.bananatimecounter > 0) {
+                    game.font.setColor(255f, 255f, 0f, 1.0f);
+                } else {
+                    game.font.setColor(255f, 255f, 255f, 1.0f);
+                }
+            }
         }
 
     //banana speed boost method
@@ -311,7 +320,7 @@ public class GameScreen extends ScreenAdapter {
             appleIsOnScreen = false;
             growSound.play();
             addBodyPart();
-            score(1);
+            score(100);
             System.out.println(score);
         }
     }
@@ -335,7 +344,7 @@ public class GameScreen extends ScreenAdapter {
             rottenAppleIsOnScreen = false;
             shrinkSound.play();
             deleteBodyPart();
-            score(-1);
+            score(-50);
             System.out.println(score);
         }
     }
@@ -360,13 +369,13 @@ public class GameScreen extends ScreenAdapter {
             if (apple3.drawRandomApple() == apple3.drawApple()){
                 growSound.play();
                 addBodyPart();
-                score(1);
+                score(100);
                 System.out.println(score);
             }
             else {
                 shrinkSound.play();
                 deleteBodyPart();
-                score(-1);
+                score(-50);
                 System.out.println(score);
             }
 
@@ -394,8 +403,8 @@ public class GameScreen extends ScreenAdapter {
               bananaIsOnScreen = false;
               bananaSound.play();
               this.bananatimecounter = 100;
-              score(3);
-              banana_spawn_counter = generateBananaSpawnTime(150, 500);
+              score(300);
+              banana_spawn_counter = generateBananaSpawnTime(150, 250);
           }
         }
     }
