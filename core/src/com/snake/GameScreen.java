@@ -34,6 +34,7 @@ public class GameScreen extends ScreenAdapter {
     public Array<BodyPart> getBodyParts() {
         return bodyParts;
     }
+    public Array<BodyPart> tailArray = new Array<BodyPart>();
 
     // sounds
     Music gameMusic;
@@ -53,6 +54,7 @@ public class GameScreen extends ScreenAdapter {
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
+    private int duration = 0;
 
     public int snakeX = 1920 / 2 - 60;
     public int snakeY = 1080 / 2 - 60;
@@ -61,6 +63,7 @@ public class GameScreen extends ScreenAdapter {
 
     public boolean bananaIsOnScreen = false;
     private int bananatimecounter = 0;
+    private int banana_spawn_counter = 300;
     private Apple apple1;
     private Apple apple2;
     private Apple banana1;
@@ -80,13 +83,12 @@ public class GameScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
 
-
         //snakehead rectangle size 60p x 60 p assumes 1080p x 1920p  grid 18 x 32
         snakehead = new Rectangle();
         snakehead.width = 60;
         snakehead.height = 60;
 
-//         Images for snakehead
+        // Images for snakehead
         imgUp = new Texture("SnakeHeadUp.jpg");
         imgDown = new Texture("SnakeHeadDown.jpg");
         imgLeft = new Texture("SnakeHeadLeft.jpg");
@@ -116,6 +118,7 @@ public class GameScreen extends ScreenAdapter {
         if (timer <= 0) {
             bananaSpeedBoost();
             moveSnake();
+            banana_spawn_counter--;
         }
 
         String score2 = Integer.toString(score);
@@ -127,10 +130,7 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
 
-
-
         //Batch draw methods
-
         game.batch.begin();
         game.batch.setProjectionMatrix(camera.combined);
         drawStartSnake();
@@ -139,6 +139,7 @@ public class GameScreen extends ScreenAdapter {
         addRottenApple();
         addThirdApple();
         addBanana();
+        tailFlash();
         game.font.draw(game.batch, "Your score: " + score2, 1600, 1000);
         game.batch.end();
 
@@ -370,6 +371,7 @@ public class GameScreen extends ScreenAdapter {
         if (bananaIsOnScreen == false) {
             banana.findSnakeCoordinates(snakeX, snakeY, bodyParts);
             randomBanana(banana);
+
         }
         banana1.drawBanana();
         bananaIsOnScreen = true;
@@ -379,6 +381,7 @@ public class GameScreen extends ScreenAdapter {
             this.bananatimecounter = 100;
             score -- ;
             System.out.println(score);
+
         }
     }
 
@@ -387,18 +390,49 @@ public class GameScreen extends ScreenAdapter {
         this.banana1 =  banana;
     }
 
-    public void checkSnakeIntersection(){
-    int counter = 0;
+    public void checkSnakeIntersection() {
+        int counter = 0;
         for (BodyPart bodyPart : bodyParts) {
-            if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()){
+            if (snakeX == bodyPart.getX() && snakeY == bodyPart.getY()) {
+                for (int j = 0; j <= counter; j++) {
+                    tailArray.add(bodyParts.get(j));
+                }
                 bodyParts.removeRange(0, counter);
+                }
+            counter++;
+        }
+        }
+
+
+    public void tailFlash(){
+        if ((duration > 0 && duration < 30) || (duration > 60 && duration < 90) || (duration > 120 && duration < 150) || (duration > 180 && duration < 210) || (duration > 240 && duration < 270)) {
+            int counter = 0;
+            for (BodyPart bodyPart : tailArray) {
+                if (!(bodyPart.getX() == snakeX && bodyPart.getY() == snakeY)) {
+                    if (counter == 0) {
+                        if (tailArray.size > 1) {
+                            int directionX = tailArray.get(1).getX();
+                            int directionY = tailArray.get(1).getY();
+                            bodyPart.drawTail(directionX, directionY);
+                        }
+                    } else
+                        bodyPart.draw();
+                    counter += 1;
+                }
             }
-            counter ++;
+        }
+        duration++;
+        if (duration == 271){
+            duration = 0;
+            tailArray.clear();
         }
     }
 
-
+    public int generateBananaSpawnTime(int min, int max) {
+            return (int) ((Math.random() * (max - min)) + min);
+    }
 }
+
 
 
 
