@@ -24,13 +24,14 @@ public class Snake extends Game {
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch;
 	BitmapFont font;
+	BitmapFont scorefont;
 
 	@Override
 	public void create() {
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		font.getData().setScale(2,2);
+		scorefont = new BitmapFont();
 
 		setScreen(new WelcomeScreen(this));
 	}

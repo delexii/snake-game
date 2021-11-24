@@ -74,7 +74,7 @@ public class EndGameScreen extends ScreenAdapter {
         TextButton exit = new TextButton("Exit", skin);
 
 
-        table.row().pad(200, 0, 10, 0);
+        table.row().pad(300, 0, 10, 0);
         table.add(tryAgain).prefHeight(100).prefWidth(300);
         table.row().pad(10, 0, 10, 0);
         table.add(exit).prefHeight(100).prefWidth(300);
@@ -111,8 +111,8 @@ public class EndGameScreen extends ScreenAdapter {
     stage.draw();
 
     game.batch.begin();
-        game.font.draw(game.batch, "Your Final Score: " + score, gameOver.x, gameOver.y - 60);
     game.batch.draw(gameOverImage, gameOver.x, gameOver.y, gameOver.width, gameOver.height);
+    game.scorefont.draw(game.batch, "Your Final Score: " + score, gameOver.x + 30, gameOver.y - 60);
     game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 30);
     game.batch.end();
 
