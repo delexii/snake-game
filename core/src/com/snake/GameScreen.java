@@ -222,7 +222,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void gameOver() {
-        game.setScreen(new EndGameScreen(game));
+        game.setScreen(new EndGameScreen(game, score));
         gameMusic.stop();
     }
 

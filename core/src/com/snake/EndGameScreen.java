@@ -25,14 +25,16 @@ public class EndGameScreen extends ScreenAdapter {
     Texture gameOverImage;
     private Stage stage;
     OrthographicCamera camera;
+    int score;
 
     // sound
     Music gameOverMusic;
 
 
 
-    public EndGameScreen(Snake game) {
+    public EndGameScreen(Snake game, int score) {
         this.game = game;
+        this.score = score;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
@@ -109,6 +111,7 @@ public class EndGameScreen extends ScreenAdapter {
     stage.draw();
 
     game.batch.begin();
+        game.font.draw(game.batch, "Your Final Score: " + score, gameOver.x, gameOver.y - 60);
     game.batch.draw(gameOverImage, gameOver.x, gameOver.y, gameOver.width, gameOver.height);
     game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 30);
     game.batch.end();
