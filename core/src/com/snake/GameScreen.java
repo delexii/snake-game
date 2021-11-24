@@ -211,8 +211,9 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         gameMusic.dispose();
-        growSound.dispose();
+        groSound.dispose();
         shrinkSound.dispose();
+        bananaSound.dispose();
     }
 
     private void updateBodyParts() {
