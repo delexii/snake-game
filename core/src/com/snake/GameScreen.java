@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import sun.text.resources.CollationData;
 
 import java.util.Arrays;
 import java.util.List;
@@ -143,6 +144,18 @@ public class GameScreen extends ScreenAdapter {
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
 //         gameMusic.stop();
     }
+
+        private void score(int score) {
+            int oldScore = this.score;
+            this.score += (score) * 100000;
+            changeScoreColour(oldScore);
+        }
+
+        private void changeScoreColour(int oldScore) {
+       if (score < oldScore) { game.font.setColor(255f, 0f, 0f, 1.0f);}
+       if (score > oldScore) { game.font.setColor(255f, 255f, 255f, 1.0f);}
+
+        }
 
     //banana speed boost method
     private void bananaSpeedBoost() {
@@ -294,11 +307,10 @@ public class GameScreen extends ScreenAdapter {
             appleIsOnScreen = false;
             growSound.play();
             addBodyPart();
-            score ++;
+            score(1);
             System.out.println(score);
         }
     }
-
 
     public void randomApple(Apple apple){
         apple.setXAndY(SNAKE_MOVEMENT);
@@ -319,7 +331,7 @@ public class GameScreen extends ScreenAdapter {
             rottenAppleIsOnScreen = false;
             shrinkSound.play();
             deleteBodyPart();
-            score --;
+            score(-1);
             System.out.println(score);
         }
     }
@@ -344,14 +356,15 @@ public class GameScreen extends ScreenAdapter {
             if (apple3.drawRandomApple() == apple3.drawApple()){
                 growSound.play();
                 addBodyPart();
-                score++;
+                score(1);
                 System.out.println(score);
             }
-            else
+            else {
                 shrinkSound.play();
                 deleteBodyPart();
-                score--;
+                score(-1);
                 System.out.println(score);
+            }
 
         }
     }
@@ -376,7 +389,7 @@ public class GameScreen extends ScreenAdapter {
                 bananaIsOnScreen = false;
                 boingSound.play();
                 this.bananatimecounter = 100;
-                score--;
+                score(3);
                 banana_spawn_counter = generateBananaSpawnTime(150, 500);
                 System.out.println(score);
             }

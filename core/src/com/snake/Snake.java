@@ -30,6 +30,7 @@ public class Snake extends Game {
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+		font.getData().setScale(2,2);
 
 		setScreen(new WelcomeScreen(this));
 	}
