@@ -41,7 +41,7 @@ public class EndGameScreen extends ScreenAdapter {
 
         gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("gameOver.wav"));
         gameOverMusic.setLooping(true);
-        gameOverMusic.setVolume(0.2F);
+        gameOverMusic.setVolume(0.1F);
     
 
         gameOverImage = new Texture(Gdx.files.internal("game_over.png"));

@@ -166,7 +166,7 @@ public class WelcomeScreen extends ScreenAdapter {
             }
         });
         // TO STOP SOUND WHILE TESTING COMMENT OUT BELOW SOUND
-//        welcomeMusic.play();
+        welcomeMusic.play();
 
     }
 

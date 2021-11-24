@@ -99,7 +99,7 @@ public class GameScreen extends ScreenAdapter {
         // Sound for game
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game.wav"));
         gameMusic.setLooping(true);
-        gameMusic.setVolume(0.12F);
+        gameMusic.setVolume(0.1F);
         growSound = Gdx.audio.newSound(Gdx.files.internal("applecrunchwav.wav"));
         shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
         bananaSound = Gdx.audio.newSound(Gdx.files.internal("banana.wav"));
