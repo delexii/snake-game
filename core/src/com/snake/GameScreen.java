@@ -50,7 +50,7 @@ public class GameScreen extends ScreenAdapter {
     private int snakeDirection = -1;
 
     // Snake movement time handling
-    private float MOVE_TIME = 0.1F;
+    private float MOVE_TIME = 0.09F;
     private float timer = MOVE_TIME;
     private static final int SNAKE_MOVEMENT = 60;
     private int snakeXBeforeUpdate = 0, snakeYBeforeUpdate = 0;
@@ -289,7 +289,7 @@ public class GameScreen extends ScreenAdapter {
     public void addApple() {
         Apple apple = new Apple(game);
         if (appleIsOnScreen == false) {
-            apple.findSnakeCoordinates(snakeX,snakeY, bodyParts);
+            apple.findSnakeCoordinates(snakeX, snakeY, bodyParts);
             randomApple(apple);
 
         }
@@ -315,6 +315,7 @@ public class GameScreen extends ScreenAdapter {
     public void addRottenApple() {
         Apple rottenApple = new Apple(game);
         if (rottenAppleIsOnScreen == false) {
+            rottenApple.findSnakeCoordinates(snakeX, snakeY, bodyParts);
             randomRottenApple(rottenApple);
         }
         apple2.drawRottenApple();
@@ -336,6 +337,7 @@ public class GameScreen extends ScreenAdapter {
     public void addThirdApple() {
         Apple randomApple = new Apple(game);
         if (randomAppleIsOnScreen == false) {
+            randomApple.findSnakeCoordinates(snakeX, snakeY, bodyParts);
             randomThirdApple(randomApple);
             apple3.random();
         }
@@ -368,6 +370,7 @@ public class GameScreen extends ScreenAdapter {
     public void addBanana() {
         Apple banana = new Apple(game);
         if (bananaIsOnScreen == false) {
+            banana.findSnakeCoordinates(snakeX, snakeY, bodyParts);
             randomBanana(banana);
         }
         banana1.drawBanana();
@@ -383,7 +386,6 @@ public class GameScreen extends ScreenAdapter {
 
     public void randomBanana(Apple banana){
         banana.setXAndY(SNAKE_MOVEMENT);
-//        Apple banana1 = banana;
         this.banana1 =  banana;
     }
 
