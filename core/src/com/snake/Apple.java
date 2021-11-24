@@ -60,36 +60,27 @@ public class Apple {
     public void setXAndY(int SNAKE_MOVEMENT){
         int randomX = 0;
         int randomY = 0;
-        int [] randomArray = {randomX, randomY};
-        boolean locationclash = false;
-
-         do {
+        boolean locationclash;
+        do {
             randomX = 60 + MathUtils.random((Gdx.graphics.getWidth() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
             randomY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-
+            locationclash = false;
             for (int[] snakeLocation : snakeLocations) {
-                if (randomArray == snakeLocation) {
+                if (randomX == snakeLocation[0] && randomY == snakeLocation[1]) {
                     locationclash = true;
                 }
-                else locationclash = false;
-
             }
         } while (locationclash == true);
 
             this.appleX = randomX;
             this.appleY = randomY;
-
     }
 
-//    public void setY(int SNAKE_MOVEMENT){
-//        this.appleY = 60 + MathUtils.random((Gdx.graphics.getHeight() - 120) / SNAKE_MOVEMENT - 1) * SNAKE_MOVEMENT;
-//
-//    }
 
     public void findSnakeCoordinates(int snakeX, int snakeY, Array<BodyPart> bodyParts) {
         snakeLocations.add(new int[] {snakeX, snakeY});
         for(BodyPart bodyPart : bodyParts) {
-            snakeLocations.add(new int[]{bodyPart.getX(),bodyPart.getY()});
+            snakeLocations.add(new int[]{bodyPart.getX(), bodyPart.getY()});
         }
     };
 
