@@ -39,7 +39,7 @@ public class GameScreen extends ScreenAdapter {
     Music gameMusic;
     Sound growSound;
     Sound shrinkSound;
-    Sound boingSound;
+    Sound bananaSound;
 
     // Snake movement controls
     private static final int RIGHT = 0;
@@ -98,7 +98,7 @@ public class GameScreen extends ScreenAdapter {
         gameMusic.setVolume(0.12F);
         growSound = Gdx.audio.newSound(Gdx.files.internal("applecrunchwav.wav"));
         shrinkSound = Gdx.audio.newSound(Gdx.files.internal("shrink.wav"));
-        boingSound = Gdx.audio.newSound(Gdx.files.internal("applecrunchwav.wav"));
+        bananaSound = Gdx.audio.newSound(Gdx.files.internal("banana.wav"));
 
         //bodyparts of snake at start of game
         addBodyPart();
@@ -374,9 +374,9 @@ public class GameScreen extends ScreenAdapter {
         bananaIsOnScreen = true;
         if (snakeX == banana1.getX() && snakeY == banana1.getY()){
             bananaIsOnScreen = false;
-            boingSound.play();
+            bananaSound.play();
             this.bananatimecounter = 100;
-            score --;
+            score -- ;
             System.out.println(score);
         }
     }
