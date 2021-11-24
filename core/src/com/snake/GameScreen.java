@@ -78,6 +78,7 @@ public class GameScreen extends ScreenAdapter {
     int score = 0;
 
 
+
     public GameScreen(Snake game) {
         this.game = game;
 
@@ -142,7 +143,8 @@ public class GameScreen extends ScreenAdapter {
         addThirdApple();
         addBanana();
         tailFlash();
-        game.font.draw(game.batch, "Your score: " + score2, 1600, 1000);
+        game.scorefont.getData().setScale(2,2);
+        game.scorefont.draw(game.batch, "Your score: " + score2, 1600, 1000);
         game.batch.end();
 
         // FOR MUSIC TO STOP WHILE TESTING UNCOMMENT THE BELOW LINE OUT
