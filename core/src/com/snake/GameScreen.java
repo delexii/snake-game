@@ -160,13 +160,13 @@ public class GameScreen extends ScreenAdapter {
         private void changeScoreColour(int oldScore) {
 
             if (score < oldScore) {
-                game.font.setColor(255f, 0f, 0f, 1.0f);
+                game.scorefont.setColor(255f, 0f, 0f, 1.0f);
             }
             if (score > oldScore) {
                 if (this.bananatimecounter > 0) {
-                    game.font.setColor(255f, 255f, 0f, 1.0f);
+                    game.scorefont.setColor(255f, 255f, 0f, 1.0f);
                 } else {
-                    game.font.setColor(255f, 255f, 255f, 1.0f);
+                    game.scorefont.setColor(255f, 255f, 255f, 1.0f);
                 }
             }
         }
