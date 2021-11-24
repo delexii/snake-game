@@ -28,15 +28,20 @@ public class WelcomeScreen extends ScreenAdapter {
     // sound
     Music welcomeMusic;
     Rectangle gameTitle;
+    Rectangle gameStart;
+
     Texture gameTitleImage;
+    Texture gameStartImage;
     Texture appleImage;
     Texture rottenAppleImage;
     Texture bananaImage;
     Texture randomImage;
-    Array<Rectangle> fruitDrops;
-public Texture fruitImages;
-    int random;
-    long lastDropTime;
+    Array<Rectangle> appleDrops;
+    Array<Rectangle> bananaDrops;
+    Array<Rectangle> rottenAppleDrops;
+    long appleDropTime;
+    long bananaDropTime;
+    long rottenAppleDropTime;
 
 
     public WelcomeScreen (Snake game) {
@@ -53,15 +58,15 @@ public Texture fruitImages;
         welcomeMusic.setLooping(true);
         welcomeMusic.setVolume(0.2F);
 
-        gameTitleImage = new Texture(Gdx.files.internal("SnakeGameTitle5.jpg"));
+        gameStartImage= new Texture(Gdx.files.internal("StartGame.png"));
+        gameTitleImage = new Texture(Gdx.files.internal("Title.png"));
         appleImage = new Texture(Gdx.files.internal("Apple.png"));
-        rottenAppleImage = new Texture(Gdx.files.internal("Rotten Apple.jpg"));
-        bananaImage = new Texture(Gdx.files.internal("Banana.jpg"));
+        rottenAppleImage = new Texture(Gdx.files.internal("RottenApple.png"));
+        bananaImage = new Texture(Gdx.files.internal("Banana.png"));
 
 
 //        randomiser();
 //        System.out.println(randomImage);
-
 
         gameTitle = new Rectangle();
         gameTitle.x = 1920 / 2 - 1000 / 2;
@@ -69,23 +74,57 @@ public Texture fruitImages;
         gameTitle.width = 1000;
         gameTitle.height = 314;
 
+        gameStart = new Rectangle();
+        gameStart.x = 1920 / 2 - 1000 / 2;
+        gameStart.y = 50;
+        gameStart.width = 1000;
+        gameStart.height = 314;
 
-        fruitDrops = new Array<Rectangle>();
-        spawnFruitDrops();
+        appleDrops = new Array<Rectangle>();
+        spawnAppleDrops();
+
+//        bananaDrops = new Array<Rectangle>();
+//        spawnBananaDrops();
+
+//        rottenAppleDrops = new Array<Rectangle>();
+//        spawnRottenAppleDrops();
+
     }
 
 
-        private void spawnFruitDrops() {
-            Rectangle fruitDrop = new Rectangle();
-            fruitDrop.x = MathUtils.random(0, 1920 - 60);
-            fruitDrop.y = 1080;
-            fruitDrop.width = 60;
-            fruitDrop.height = 60;
-//            randomiser();
+        private void spawnAppleDrops() {
+            Rectangle appleDrop = new Rectangle();
+            appleDrop.x = MathUtils.random(0, 1920 - 60);
+            appleDrop.y = 1080;
+            appleDrop.width = 60;
+            appleDrop.height = 60;
+            randomiser();
 //            System.out.println(randomImage);
-            fruitDrops.add(fruitDrop);
-            lastDropTime = TimeUtils.nanoTime();
-    }
+            appleDrops.add(appleDrop);
+            appleDropTime = TimeUtils.nanoTime();
+        }
+
+
+//        private void spawnBananaDrops() {
+//            Rectangle bananaDrop = new Rectangle();
+//            bananaDrop.x = MathUtils.random(0, 1920 - 60);
+//            bananaDrop.y = 1080;
+//            bananaDrop.width = 60;
+//            bananaDrop.height = 60;
+//            randomiser();
+//            bananaDrops.add(bananaDrop);
+//            bananaDropTime = TimeUtils.nanoTime();
+//    }
+
+//    private void spawnRottenAppleDrops() {
+//        Rectangle rottenAppleDrop = new Rectangle();
+//        rottenAppleDrop.x = MathUtils.random(0, 1920 - 60);
+//        rottenAppleDrop.y = 1080;
+//        rottenAppleDrop.width = 60;
+//        rottenAppleDrop.height = 60;
+//        rottenAppleDrops.add(rottenAppleDrop);
+//        rottenAppleDropTime = TimeUtils.nanoTime();
+//    }
 
 
     @Override
@@ -142,12 +181,17 @@ public Texture fruitImages;
 
 
         game.batch.begin();
-        game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
-        for (Rectangle fruitDrop : fruitDrops) {
-            game.batch.draw(appleImage, fruitDrop.x, fruitDrop.y, 60 , 60);
-            game.batch.draw(rottenAppleImage, fruitDrop.x, fruitDrop.y, 60 , 60);
-            game.batch.draw(bananaImage, fruitDrop.x, fruitDrop.y, 60 , 60);
+        for (Rectangle appleDrop : appleDrops) {
+            game.batch.draw(randomImage, appleDrop.x, appleDrop.y, appleDrop.width , appleDrop.height);
         }
+//        for (Rectangle bananaDrop : bananaDrops) {
+//            game.batch.draw(randomImage, bananaDrop.x, bananaDrop.y, bananaDrop.width, bananaDrop.height);
+//        }
+//        for (Rectangle rottenAppleDrop : rottenAppleDrops) {
+//            game.batch.draw(rottenAppleImage, rottenAppleDrop.x, rottenAppleDrop.y, rottenAppleDrop.width, rottenAppleDrop.height);
+//        }
+        game.batch.draw(gameTitleImage, gameTitle.x, gameTitle.y, gameTitle.width, gameTitle.height);
+        game.batch.draw(gameStartImage, gameStart.x, gameStart.y, gameStart.width, gameStart.height);
         game.font.draw(game.batch, "COPYRIGHT 2021 Tiger Cubed Games", 1600, 30);
         game.batch.end();
 
@@ -156,21 +200,36 @@ public Texture fruitImages;
 
 
 
-        if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnFruitDrops();
+        if (TimeUtils.nanoTime() - appleDropTime > 1000000000) spawnAppleDrops();
+//        if (TimeUtils.nanoTime() - bananaDropTime > 2000000000) spawnBananaDrops();
+//        if (TimeUtils.nanoTime() - rottenAppleDropTime > 2000000000) spawnRottenAppleDrops();
 
-        Iterator<Rectangle> iter = fruitDrops.iterator();
+
+
+        Iterator<Rectangle> iter = appleDrops.iterator();
         while(iter.hasNext()) {
-            Rectangle fruitDrop = iter.next();
-            fruitDrop.y -= 50 * Gdx.graphics.getDeltaTime();
-            if (fruitDrop.y + 60 < 0) iter.remove();
+            Rectangle appleDrop = iter.next();
+            appleDrop.y -= 70 * Gdx.graphics.getDeltaTime();
+            if (appleDrop.y + 60 < 0) iter.remove();
         }
-
+//        Iterator<Rectangle> iter2 = bananaDrops.iterator();
+//        while(iter2.hasNext()) {
+//            Rectangle bananaDrop = iter2.next();
+//            bananaDrop.y -= 50 * Gdx.graphics.getDeltaTime();
+//            if (bananaDrop.y + 60 < 0) iter2.remove();
+//        }
+//        Iterator<Rectangle> iter3 = rottenAppleDrops.iterator();
+//        while(iter3.hasNext()) {
+//            Rectangle rottenAppleDrop = iter3.next();
+//            rottenAppleDrop.y -= 50 * Gdx.graphics.getDeltaTime();
+//            if (rottenAppleDrop.y + 60 < 0) iter3.remove();
+//        }
 
     }
 
 
     public void randomiser(){
-        Texture fruitImages [] = {appleImage, rottenAppleImage, bananaImage};
+        Texture fruitImages [] = {appleImage, bananaImage};
         int randomIndex = (int)(Math.random()*fruitImages.length);
             randomImage = fruitImages[randomIndex];
     }
